@@ -1,0 +1,115 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Mar 12, 2023, 12:56:04 PM
+    Author     : Bach
+*/
+
+body {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #333;
+    background-color: #fff;
+}
+
+.navbar {
+    padding: 0;
+}
+
+.nav>li>a {
+    position: relative;
+    display: block;
+    padding: 15px 15px;
+}
+/* Header */
+.main-header .logo {
+    font-size: 24px;
+}
+
+
+
+/* End Header */
+
+/* Sidebar */
+.skin-yellow .sidebar-form {
+    margin: 0;
+    padding: 0;
+}
+
+.skin-yellow .sidebar-form input[type="text"], .skin-yellow .sidebar-form .btn {
+    background-color: white;
+}
+
+
+.main-sidebar .sidebar-menu a {
+    font-size: 18px;
+}
+
+.sidebar-menu .treeview-menu>li>a {
+    font-size: 16px;
+}
+/* End Sidebar */
+
+
+/* Content */
+.content-wrapper .content .table.table-bordered,
+.content-wrapper .content .table.table-bordered td,
+.content-wrapper .content .table.table-bordered th {
+    border: 2px solid black;
+}
+
+.content-header {
+    padding: 15px;
+}
+.content-header>h1 {
+    font-size: 30px;
+}
+
+.content-wrapper .content {
+    font-size: 20px;
+}
+
+.content-wrapper .content .table.table-bordered {
+    font-size: 20px;
+}
+
+.content-header>.breadcrumb {
+    font-size: 14px;
+}
+
+.content-wrapper .content .content-top {
+    margin-bottom: 15px;
+}
+
+.content-wrapper .content .thumbnail {
+    display: inline-block;
+    object-fit: cover;
+    height: 200px;
+    width: calc(400px / 3);
+}
+
+.content-wrapper .content .galery_thumbnail input[type="file"]{
+    display: none;
+}
+
+.content-wrapper .content .galery_thumbnail {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    height: 40px;
+    overflow: hidden;
+}
+
+.content-wrapper .content .search_option {
+    font-size: 14px;
+}
+
+.content-wrapper .content .search_option.label {
+    margin: 0;
+    padding: 0 5px 0 0;
+}
+/* End content */
