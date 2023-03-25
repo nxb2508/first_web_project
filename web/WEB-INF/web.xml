@@ -56,6 +56,10 @@
         <servlet-name>SearchGalery</servlet-name>
         <servlet-class>controller.admin.SearchGalery</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UserHome</servlet-name>
+        <servlet-class>controller.user.UserHome</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AdminSignIn</servlet-name>
         <url-pattern>/admin_sign_in</url-pattern>
@@ -111,6 +115,10 @@
     <servlet-mapping>
         <servlet-name>SearchGalery</servlet-name>
         <url-pattern>/search_galery</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserHome</servlet-name>
+        <url-pattern>/user_home</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
