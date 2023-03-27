@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.CategoryModel;
+import model.GaleryModel;
 import model.ProductModel;
 
 /**
@@ -48,10 +49,12 @@ public class ProductDAO extends ConnectDB {
                 ProductModel product = new ProductModel();
                 product.setId(rs.getInt("id"));
                 CategoryModel category = new CategoryDAO().getCategoryById(rs.getInt("category_id"));
+                List<GaleryModel> galeries = new GaleryDAO().getGaleriesByProductId(product);
                 product.setCategory(category);
                 product.setName(rs.getString("name"));
                 product.setDescription(rs.getString("description"));
                 product.setPrice(rs.getInt("price"));
+                product.setGaleries(galeries);
                 products.add(product);
             }
         } catch (SQLException ex) {
@@ -120,6 +123,8 @@ public class ProductDAO extends ConnectDB {
                 product.setName(rs.getString("p_name"));
                 product.setDescription(rs.getString("description"));
                 product.setPrice(rs.getInt("price"));
+                List<GaleryModel> galeries = new GaleryDAO().getGaleriesByProductId(product);
+                product.setGaleries(galeries);
                 products.add(product);
             }
         } catch (SQLException ex) {
@@ -127,21 +132,23 @@ public class ProductDAO extends ConnectDB {
         }
         return products;
     }
-    
+
     //tim kiem san pham theo id
-    public ProductModel getProductById(int id){
+    public ProductModel getProductById(int id) {
         ProductModel product = new ProductModel();
         String sql = "select * from products where id = " + id;
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet rs = statement.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 CategoryModel category = new CategoryDAO().getCategoryById(rs.getInt("category_id"));
                 product.setId(rs.getInt("id"));
                 product.setCategory(category);
                 product.setName(rs.getString("name"));
                 product.setDescription(rs.getString("description"));
                 product.setPrice(rs.getInt("price"));
+                List<GaleryModel> galeries = new GaleryDAO().getGaleriesByProductId(product);
+                product.setGaleries(galeries);
             }
         } catch (SQLException e) {
             System.out.println(e);
@@ -149,12 +156,85 @@ public class ProductDAO extends ConnectDB {
         return product;
     }
 
-    public static void main(String[] args) {
-        List<ProductModel> products = new ProductDAO().searchProducts("15");
-        System.out.println(products.size());
-        for (ProductModel product : products) {
-            System.out.println(product.getPrice());
+    //lay danh sach san pham theo category_id
+    public List<ProductModel> getProductsByCategoryId(CategoryModel category) {
+        List<ProductModel> products = new ArrayList<>();
+        String sql = "select * from products where category_id = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, category.getId());
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                ProductModel product = new ProductModel();
+                product.setId(rs.getInt("id"));
+                List<GaleryModel> galeries = new GaleryDAO().getGaleriesByProductId(product);
+                product.setCategory(category);
+                product.setName(rs.getString("name"));
+                product.setDescription(rs.getString("description"));
+                product.setPrice(rs.getInt("price"));
+                product.setGaleries(galeries);
+                products.add(product);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
         }
+        return products;
+    }
+
+    //lay danh sach san pham bang gia
+    public List<ProductModel> getProductsByPrice(int minPrice, int maxPrice) {
+        List<ProductModel> products = new ArrayList<>();
+        String sql = "select * from products where price >= ? and price <= ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, minPrice);
+            statement.setInt(2, maxPrice);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                ProductModel product = new ProductModel();
+                product.setId(rs.getInt("id"));
+                List<GaleryModel> galeries = new GaleryDAO().getGaleriesByProductId(product);
+                product.setCategory(new CategoryDAO().getCategoryById(rs.getInt("category_id")));
+                product.setName(rs.getString("name"));
+                product.setDescription(rs.getString("description"));
+                product.setPrice(rs.getInt("price"));
+                product.setGaleries(galeries);
+                products.add(product);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return products;
+    }
+
+    // lay san pham co lien quan
+    public List<ProductModel> getProductsRelatedByCategoryId(ProductModel product) {
+        List<ProductModel> products = new ArrayList<>();
+        String sql = "select * from products where category_id = ? and id != ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, product.getCategory().getId());
+            statement.setInt(2, product.getId());
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                ProductModel product_temp = new ProductModel();
+                product_temp.setId(rs.getInt("id"));
+                List<GaleryModel> galeries = new GaleryDAO().getGaleriesByProductId(product_temp);
+                product_temp.setCategory(product.getCategory());
+                product_temp.setName(rs.getString("name"));
+                product_temp.setDescription(rs.getString("description"));
+                product_temp.setPrice(rs.getInt("price"));
+                product_temp.setGaleries(galeries);
+                products.add(product_temp);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return products;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(new ProductDAO().getProductsByCategoryId(new CategoryModel(2, "", null)).size());
     }
 
 }

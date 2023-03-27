@@ -10,6 +10,7 @@ import dao.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -21,7 +22,8 @@ import model.ProductModel;
  *
  * @author Bach
  */
-public class UserHome extends HttpServlet {
+@WebServlet(name="UserProducts", urlPatterns={"/user_products"})
+public class UserProducts extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -38,10 +40,10 @@ public class UserHome extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UserHome</title>");  
+            out.println("<title>Servlet UserProducts</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet UserHome at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet UserProducts at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -60,11 +62,21 @@ public class UserHome extends HttpServlet {
     throws ServletException, IOException {
         List<CategoryModel> categories_raw = new CategoryDAO().getAllCategories();
         List<CategoryModel> categories = new CategoryDAO().getCategoriesByPage(categories_raw, 0, Math.min(10, categories_raw.size()));
-        List<ProductModel> products_raw = new ProductDAO().getAllProducts();
-        List<ProductModel> products = new ProductDAO().getProductsByPage(products_raw, 0, Math.min(20, products_raw.size()));
+        List<ProductModel> products = new ProductDAO().getAllProducts();
+        List<ProductModel> productsByPrice1 = new ProductDAO().getProductsByPrice(0, 199000);
+        List<ProductModel> productsByPrice2 = new ProductDAO().getProductsByPrice(200000, 399000);
+        List<ProductModel> productsByPrice3 = new ProductDAO().getProductsByPrice(400000, 599000);
+        List<ProductModel> productsByPrice4 = new ProductDAO().getProductsByPrice(600000, 799000);
+        List<ProductModel> productsByPrice5 = new ProductDAO().getProductsByPrice(800000, 999000);
+        request.setAttribute("productsByPrice1", productsByPrice1);
+        request.setAttribute("productsByPrice2", productsByPrice2);
+        request.setAttribute("productsByPrice3", productsByPrice3);
+        request.setAttribute("productsByPrice4", productsByPrice4);
+        request.setAttribute("productsByPrice5", productsByPrice5);
+        
         request.setAttribute("products", products);
         request.setAttribute("categories", categories);
-        request.getRequestDispatcher("views/user/home.jsp").forward(request, response);
+        request.getRequestDispatcher("views/user/products.jsp").forward(request, response);
     } 
 
     /** 

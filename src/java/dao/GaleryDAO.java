@@ -118,6 +118,27 @@ public class GaleryDAO extends ConnectDB {
         return galeries;
     }
     
+    //lay galeries theo product_id
+    public List<GaleryModel> getGaleriesByProductId (ProductModel product){
+        List<GaleryModel> galeries = new ArrayList<>();
+        String sql = "select * from galeries where product_id = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, product.getId());
+            ResultSet rs = statement.executeQuery();
+            while(rs.next()){
+                GaleryModel category = new GaleryModel();
+                category.setId(rs.getInt("id"));
+                category.setProduct(product);
+                category.setThumbnail(rs.getString("thumbnail"));
+                galeries.add(category);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return galeries;
+    }
+    
     public static void main(String[] args) {
         new GaleryDAO().searchGaleriesByProductName("ao");
     }

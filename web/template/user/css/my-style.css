@@ -18,3 +18,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 .content {
     margin-top: 175px;
 }
+
+.header .search {
+    border: none;
+    padding: 0;
+    background: none;
+}
+
+.header .search-icon {
+    padding: 10px 10px;
+}

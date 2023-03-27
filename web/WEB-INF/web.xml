@@ -60,6 +60,10 @@
         <servlet-name>UserHome</servlet-name>
         <servlet-class>controller.user.UserHome</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UserProductDetails</servlet-name>
+        <servlet-class>controller.user.UserProductDetails</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AdminSignIn</servlet-name>
         <url-pattern>/admin_sign_in</url-pattern>
@@ -120,6 +124,11 @@
         <servlet-name>UserHome</servlet-name>
         <url-pattern>/user_home</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserProductDetails</servlet-name>
+        <url-pattern>/user_product_details</url-pattern>
+    </servlet-mapping>
+    
     <session-config>
         <session-timeout>
             30

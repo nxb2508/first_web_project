@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import model.CategoryModel;
+import model.ProductModel;
 
 /**
  *
@@ -25,7 +26,12 @@ public class CategoryDAO extends ConnectDB {
             PreparedStatement stm = connection.prepareStatement(sql);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
-                categories.add(new CategoryModel(rs.getInt("id"), rs.getString("name")));
+                CategoryModel category = new CategoryModel();
+                category.setId(rs.getInt("id"));
+                category.setName(rs.getString("name"));
+                List<ProductModel> products = new ProductDAO().getProductsByCategoryId(category);
+                category.setProducts(products);
+                categories.add(category);
             }
         } catch (SQLException ex) {
             System.out.println(ex);
@@ -40,9 +46,11 @@ public class CategoryDAO extends ConnectDB {
         try {
             PreparedStatement stm = connection.prepareStatement(sql);
             ResultSet rs = stm.executeQuery();
-            while (rs.next()) {
+            if (rs.next()) {
                 category.setId(category_id);
                 category.setName(rs.getString("name"));
+                List<ProductModel> products = new ProductDAO().getProductsByCategoryId(category);
+                category.setProducts(products);
             }
         } catch (SQLException ex) {
             System.out.println(ex);
@@ -100,7 +108,12 @@ public class CategoryDAO extends ConnectDB {
             PreparedStatement stm = connection.prepareStatement(sql);
             ResultSet rs = stm.executeQuery();
             while (rs.next()) {
-                categories.add(new CategoryModel(rs.getInt("id"), rs.getString("name")));
+                CategoryModel category = new CategoryModel();
+                category.setId(rs.getInt("id"));
+                category.setName(rs.getString("name"));
+                List<ProductModel> products = new ProductDAO().getProductsByCategoryId(category);
+                category.setProducts(products);
+                categories.add(category);
             }
         } catch (SQLException ex) {
             System.out.println(ex);
@@ -116,7 +129,6 @@ public class CategoryDAO extends ConnectDB {
         }
         return result;
     }
-    
     
     public static void main(String[] args) {
     }

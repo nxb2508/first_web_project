@@ -5,6 +5,7 @@
 package controller.admin;
 
 import dao.CategoryDAO;
+import dao.GaleryDAO;
 import dao.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,6 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import model.CategoryModel;
+import model.GaleryModel;
 import model.ProductModel;
 
 /**
@@ -104,7 +106,14 @@ public class UpdateProduct extends HttpServlet {
         try {
             int price = Integer.parseInt(price_raw);
             CategoryModel category = new CategoryDAO().getCategoryById(category_id);
-            ProductModel product = new ProductModel(id, category, name, description, price);
+            ProductModel product = new ProductModel();
+            product.setId(id);
+            product.setCategory(category);
+            product.setName(name);
+            product.setDescription(description);
+            product.setPrice(price);
+            List<GaleryModel> galeries = new GaleryDAO().getGaleriesByProductId(product);
+            product.setGaleries(galeries);
             int result = new ProductDAO().updateProduct(product);
             if (result == 1) {
                 request.setAttribute("updated", "Đã Sửa Sản Phẩm");
