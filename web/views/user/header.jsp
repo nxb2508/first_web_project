@@ -17,20 +17,6 @@
                     <span class="h1 text-uppercase text-dark bg-primary px-2 ml-n1">Shop</span>
                 </a>
             </div>
-            <div class="col-lg-4 col-6 text-left">
-                <form action="">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Tìm kiếm sản phẩm">
-                        <div class="input-group-append">
-                            <button class="search">
-                                <span class="input-group-text bg-transparent text-primary search-icon">
-                                    <i class="fa fa-search"></i>
-                                </span>
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
         </div>
     </div>
     <!-- Topbar End -->

@@ -58,6 +58,20 @@
                             <span class="h1 text-uppercase text-dark bg-primary px-2 ml-n1">Shop</span>
                         </a>
                     </div>
+                    <div class="col-lg-4 col-6 text-left">
+                        <form action="">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Tìm kiếm sản phẩm">
+                                <div class="input-group-append">
+                                    <button class="search">
+                                        <span class="input-group-text bg-transparent text-primary search-icon">
+                                            <i class="fa fa-search"></i>
+                                        </span>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
             <!-- Topbar End -->
@@ -140,83 +154,45 @@
                 <div class="row px-xl-5">
                     <!-- Shop Sidebar Start -->
                     <div class="col-lg-3 col-md-4">
-                        <form action="user_search_product" method="get">
-                            <div class="bg-light mb-30">
-                                <div class="input-group">
-                                    <input type="text" name="product_description" class="form-control" placeholder="Tìm kiếm sản phẩm">
-                                    <div class="input-group-append">
-                                        <button class="search">
-                                            <span class="input-group-text bg-transparent text-primary search-icon">
-                                                <i class="fa fa-search"></i>
-                                            </span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Loại Áo</span></h5>
-                            <div class="bg-light mb-30">
-                                <div class="input-group">
-                                    <select class="form-control" name="category_id">
-                                        <option value="all_categories">Tất Cả</option>
-                                        <c:forEach var="category" items="${categories}">
-                                            <option value="${category.id}">${category.name}</option>
-                                        </c:forEach>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Lọc Theo Giá</span></h5>
-                            <div class="bg-light p-4 mb-30">
+                        <!-- Price Start -->
+                        <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Filter by price</span></h5>
+                        <div class="bg-light p-4 mb-30">
+                            <form>
                                 <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                                    <input type="checkbox" class="custom-control-input" checked id="price-all" readonly value="price-all" name="price">
+                                    <input type="checkbox" class="custom-control-input" checked id="price-all">
                                     <label class="custom-control-label" for="price-all">Mọi giá</label>
                                     <span class="badge border font-weight-normal">${fn:length(requestScope.products)}</span>
                                 </div>
                                 <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                                    <input type="checkbox" class="custom-control-input" id="price-1" value="price-100-199" name="price">
+                                    <input type="checkbox" class="custom-control-input" id="price-1">
                                     <label class="custom-control-label" for="price-1">100.000 VNĐ - 199.000 VNĐ</label>
                                     <span class="badge border font-weight-normal">${fn:length(requestScope.productsByPrice1)}</span>
                                 </div>
                                 <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                                    <input type="checkbox" class="custom-control-input" id="price-2" value="price-200-399" name="price">
+                                    <input type="checkbox" class="custom-control-input" id="price-2">
                                     <label class="custom-control-label" for="price-2">200.000 VNĐ - 399.000 VNĐ</label>
                                     <span class="badge border font-weight-normal">${fn:length(requestScope.productsByPrice2)}</span>
                                 </div>
                                 <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                                    <input type="checkbox" class="custom-control-input" id="price-3" value="price-400-599" name="price">
+                                    <input type="checkbox" class="custom-control-input" id="price-3">
                                     <label class="custom-control-label" for="price-3">400.000 VNĐ - 599.000 VNĐ</label>
                                     <span class="badge border font-weight-normal">${fn:length(requestScope.productsByPrice3)}</span>
                                 </div>
                                 <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                                    <input type="checkbox" class="custom-control-input" id="price-4" value="price-600-799" name="price">
+                                    <input type="checkbox" class="custom-control-input" id="price-4">
                                     <label class="custom-control-label" for="price-4">600.000 VNĐ - 799.000 VNĐ</label>
                                     <span class="badge border font-weight-normal">${fn:length(requestScope.productsByPrice4)}</span>
                                 </div>
                                 <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between">
-                                    <input type="checkbox" class="custom-control-input" id="price-5" value="price-800-999" name="price">
+                                    <input type="checkbox" class="custom-control-input" id="price-5">
                                     <label class="custom-control-label" for="price-5">800.000 VNĐ - 999.000 VNĐ</label>
                                     <span class="badge border font-weight-normal">${fn:length(requestScope.productsByPrice5)}</span>
                                 </div>
-                            </div>
-                        </form>
-
-                        <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Sắp xếp theo giá</span></h5>
-                        <div class="bg-light p-4 mb-30">
-                            <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
-                                <input type="radio" class="custom-control-input" checked id="sort-1" readonly value="none" name="sort_by">
-                                <label class="custom-control-label" for="sort-1">Không</label>
-                            </div>
-                            <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
-                                <input type="radio" class="custom-control-input" id="sort-2" value="asc" name="sort_by">
-                                <label class="custom-control-label" for="sort-2">Tăng Dần</label>
-                            </div>
-                            <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
-                                <input type="radio" class="custom-control-input" id="sort-3" value="desc" name="sort_by">
-                                <label class="custom-control-label" for="sort-3">Giảm Dần</label>
-                            </div>
+                            </form>
                         </div>
+
+
+                        <!-- Price End -->
 
                     </div>
                     <!-- Shop Sidebar End -->
@@ -225,6 +201,19 @@
                     <!-- Shop Product Start -->
                     <div class="col-lg-9 col-md-8">
                         <div class="row pb-3">
+                            <div class="col-12 pb-1">
+                                <div class="d-flex align-items-center justify-content-between mb-4">
+                                    <div class="ml-2">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">Sắp xếp theo giá</button>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a class="dropdown-item" href="#">Tăng Dần</a>
+                                                <a class="dropdown-item" href="#">Giảm Dần</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <c:forEach var="product" items="${products}">
                                 <%@include file="product_item.jsp" %>
                             </c:forEach>
@@ -232,10 +221,11 @@
                             <div class="col-12">
                                 <nav>
                                     <ul class="pagination justify-content-center">
-                                        <c:set var="page" value="${requestScope.page}"/>
-                                        <c:forEach begin="${1}" end="${requestScope.totalPages}" var="i">
-                                        <li class="page-item ${(i==page)?"active":""}"><a class="page-link" href="user_products?page=${i}">${i}</a></li>
-                                        </c:forEach>
+                                        <li class="page-item disabled"><a class="page-link" href="#">Previous</span></a></li>
+                                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
                                     </ul>
                                 </nav>
                             </div>
