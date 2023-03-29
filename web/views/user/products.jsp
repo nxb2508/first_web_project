@@ -44,6 +44,8 @@
         <!-- Variable Start -->
         <c:set var="categories" value="${requestScope.categories}"/>
         <c:set var="products" value="${requestScope.products}"/>
+        <c:set var="checkCategoryId" value="${requestScope.checkCategoryId}"/>
+        <c:set var="checkPrice" value="${requestScope.checkPrice}"/>
         <!-- Variable End -->
 
 
@@ -57,6 +59,18 @@
                             <span class="h1 text-uppercase text-primary bg-dark px-2">B</span>
                             <span class="h1 text-uppercase text-dark bg-primary px-2 ml-n1">Shop</span>
                         </a>
+                    </div>
+                    <div class="col-lg-4 col-6 text-left">
+                        <form action="user_search_product" method="get" id="form1">
+                            <div class="input-group">
+                                <input type="text" name="product_name" class="form-control" placeholder="Tìm kiếm sản phẩm">
+                                <div class="input-group-append">
+                                    <button id="search_product" class="input-group-text bg-transparent text-primary">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -76,7 +90,7 @@
                              id="navbar-vertical" style="width: calc(100% - 30px); z-index: 999;">
                             <div class="navbar-nav w-100">
                                 <c:forEach var="category" items="${categories}">
-                                    <a href="" class="nav-item nav-link">${category.name}</a>
+                                    <a href="user_products?category_id=${category.id}" class="nav-item nav-link">${category.name}</a>
                                 </c:forEach>
                             </div>
                         </nav>
@@ -140,83 +154,91 @@
                 <div class="row px-xl-5">
                     <!-- Shop Sidebar Start -->
                     <div class="col-lg-3 col-md-4">
-                        <form action="user_search_product" method="get">
+                        <form action="user_products" method="get" id="form">
+                            <!-- ProductName Start -->
                             <div class="bg-light mb-30">
                                 <div class="input-group">
-                                    <input type="text" name="product_description" class="form-control" placeholder="Tìm kiếm sản phẩm">
+                                    <input type="text" name="product_name" class="form-control" placeholder="Tìm kiếm sản phẩm" value="${requestScope.product_name}">
                                     <div class="input-group-append">
-                                        <button class="search">
-                                            <span class="input-group-text bg-transparent text-primary search-icon">
-                                                <i class="fa fa-search"></i>
-                                            </span>
+                                        <button id="search_product" type="submit" class="input-group-text bg-transparent text-primary">
+                                            <i class="fa fa-search"></i>
                                         </button>
                                     </div>
                                 </div>
                             </div>
+                            <!-- ProductName Start -->
 
-
-                            <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Loại Áo</span></h5>
-                            <div class="bg-light mb-30">
-                                <div class="input-group">
-                                    <select class="form-control" name="category_id">
-                                        <option value="all_categories">Tất Cả</option>
-                                        <c:forEach var="category" items="${categories}">
-                                            <option value="${category.id}">${category.name}</option>
-                                        </c:forEach>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Lọc Theo Giá</span></h5>
+                            <!-- Categories Start -->
+                            <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Loại áo</span></h5>
                             <div class="bg-light p-4 mb-30">
                                 <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                                    <input type="checkbox" class="custom-control-input" checked id="price-all" readonly value="price-all" name="price">
-                                    <label class="custom-control-label" for="price-all">Mọi giá</label>
-                                    <span class="badge border font-weight-normal">${fn:length(requestScope.products)}</span>
+                                    <input type="checkbox" name="list_category_id" value="0" onclick="checkForm2(this)" class="custom-control-input" id="category_0" ${checkCategoryId[0]?'checked':''}>
+                                    <label class="custom-control-label" for="category_0">Tất cả</label>
+                                    <span class="badge border font-weight-normal">1000</span>
+                                </div>
+                                <c:forEach begin="0" end="${categories.size() - 1}" var="i">
+                                    <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                                        <input type="checkbox" name="list_category_id" value="${categories[i].id}" onclick="checkForm2(this)" class="custom-control-input" id="category_${categories[i].id}" ${(categories[i].id == requestScope.category_id)?'checked':''} ${checkCategoryId[i + 1]?'checked':''}>
+                                        <label class="custom-control-label" for="category_${categories[i].id}">${categories[i].name}</label>
+                                        <span class="badge border font-weight-normal">150</span>
+                                    </div>
+                                </c:forEach>
+                            </div>
+                            <!-- Categories End -->
+
+                            <!-- Price Start -->
+                            <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Giá</span></h5>
+                            <div class="bg-light p-4 mb-30">
+                                <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                                    <input type="checkbox" name="price" value="0" onclick="checkForm3(this)" class="custom-control-input" ${checkPrice[0]?'checked':''} id="price-all">
+                                    <label class="custom-control-label" for="price-all">Tất cả</label>
+                                    <span class="badge border font-weight-normal">1000</span>
                                 </div>
                                 <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                                    <input type="checkbox" class="custom-control-input" id="price-1" value="price-100-199" name="price">
-                                    <label class="custom-control-label" for="price-1">100.000 VNĐ - 199.000 VNĐ</label>
-                                    <span class="badge border font-weight-normal">${fn:length(requestScope.productsByPrice1)}</span>
+                                    <input type="checkbox" name="price" value="1" onclick="checkForm3(this)"  class="custom-control-input" ${checkPrice[1]?'checked':''} id="price-1">
+                                    <label class="custom-control-label" for="price-1">0 VNĐ - 199000 VNĐ</label>
+                                    <span class="badge border font-weight-normal">150</span>
                                 </div>
                                 <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                                    <input type="checkbox" class="custom-control-input" id="price-2" value="price-200-399" name="price">
-                                    <label class="custom-control-label" for="price-2">200.000 VNĐ - 399.000 VNĐ</label>
-                                    <span class="badge border font-weight-normal">${fn:length(requestScope.productsByPrice2)}</span>
+                                    <input type="checkbox" name="price" value="2" onclick="checkForm3(this)"  class="custom-control-input" ${checkPrice[2]?'checked':''} id="price-2">
+                                    <label class="custom-control-label" for="price-2">200000 VNĐ - 399000 VNĐ</label>
+                                    <span class="badge border font-weight-normal">295</span>
                                 </div>
                                 <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                                    <input type="checkbox" class="custom-control-input" id="price-3" value="price-400-599" name="price">
-                                    <label class="custom-control-label" for="price-3">400.000 VNĐ - 599.000 VNĐ</label>
-                                    <span class="badge border font-weight-normal">${fn:length(requestScope.productsByPrice3)}</span>
+                                    <input type="checkbox" name="price" value="3" onclick="checkForm3(this)"  class="custom-control-input" ${checkPrice[3]?'checked':''} id="price-3">
+                                    <label class="custom-control-label" for="price-3">400000 VNĐ - 599000 VNĐ</label>
+                                    <span class="badge border font-weight-normal">246</span>
                                 </div>
                                 <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
-                                    <input type="checkbox" class="custom-control-input" id="price-4" value="price-600-799" name="price">
-                                    <label class="custom-control-label" for="price-4">600.000 VNĐ - 799.000 VNĐ</label>
-                                    <span class="badge border font-weight-normal">${fn:length(requestScope.productsByPrice4)}</span>
+                                    <input type="checkbox" name="price" value="4" onclick="checkForm3(this)"  class="custom-control-input" ${checkPrice[4]?'checked':''} id="price-4">
+                                    <label class="custom-control-label" for="price-4">600000 VNĐ - 799000 VNĐ</label>
+                                    <span class="badge border font-weight-normal">145</span>
                                 </div>
                                 <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between">
-                                    <input type="checkbox" class="custom-control-input" id="price-5" value="price-800-999" name="price">
-                                    <label class="custom-control-label" for="price-5">800.000 VNĐ - 999.000 VNĐ</label>
-                                    <span class="badge border font-weight-normal">${fn:length(requestScope.productsByPrice5)}</span>
+                                    <input type="checkbox" name="price" value="5" onclick="checkForm3(this)"  class="custom-control-input" ${checkPrice[5]?'checked':''} id="price-5">
+                                    <label class="custom-control-label" for="price-5">800000 VNĐ - 999000 VNĐ</label>
+                                    <span class="badge border font-weight-normal">168</span>
+                                </div>
+
+                            </div>
+                            <!-- Price End -->
+
+                            <!-- Sort_by Start -->
+                            <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Sắp xếp</span></h5>
+                            <div class="bg-light p-4 mb-30">
+                                <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                                    <input type="checkbox" ${(requestScope.sort_by == 'asc')?'checked':''} class="custom-control-input" id="asc" name="sort_by" value="asc">
+                                    <label class="custom-control-label" for="asc">Tăng dần</label>
+                                </div>
+                                <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
+                                    <input type="checkbox" ${(requestScope.sort_by == 'desc')?'checked':''} class="custom-control-input" id="desc" name="sort_by" value="desc">
+                                    <label class="custom-control-label" for="desc">Giảm dần</label>
                                 </div>
                             </div>
+                            <!-- Sort_by End -->
+
                         </form>
 
-                        <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Sắp xếp theo giá</span></h5>
-                        <div class="bg-light p-4 mb-30">
-                            <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
-                                <input type="radio" class="custom-control-input" checked id="sort-1" readonly value="none" name="sort_by">
-                                <label class="custom-control-label" for="sort-1">Không</label>
-                            </div>
-                            <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
-                                <input type="radio" class="custom-control-input" id="sort-2" value="asc" name="sort_by">
-                                <label class="custom-control-label" for="sort-2">Tăng Dần</label>
-                            </div>
-                            <div class="custom-control custom-radio d-flex align-items-center justify-content-between mb-3">
-                                <input type="radio" class="custom-control-input" id="sort-3" value="desc" name="sort_by">
-                                <label class="custom-control-label" for="sort-3">Giảm Dần</label>
-                            </div>
-                        </div>
 
                     </div>
                     <!-- Shop Sidebar End -->
@@ -234,8 +256,8 @@
                                     <ul class="pagination justify-content-center">
                                         <c:set var="page" value="${requestScope.page}"/>
                                         <c:forEach begin="${1}" end="${requestScope.totalPages}" var="i">
-                                        <li class="page-item ${(i==page)?"active":""}"><a class="page-link" href="user_products?page=${i}">${i}</a></li>
-                                        </c:forEach>
+                                            <li class="page-item ${(i==page)?"active":""}"><a class="page-link" href="user_products?page=${i}">${i}</a></li>
+                                            </c:forEach>
                                     </ul>
                                 </nav>
                             </div>
@@ -268,6 +290,68 @@
 
         <!-- Template Javascript -->
         <script src="<c:url value="/template/user/js/main.js"/>"></script>
+
+        <script type="text/javascript">
+            var form = document.getElementById("form")
+            var asc = document.getElementById("asc");
+            var desc = document.getElementById("desc");
+            asc.onclick = function () {
+                if (desc.checked == true) {
+                    desc.checked = false;
+                    asc.checked = true;
+                }
+                form.submit()
+            }
+            desc.onclick = function () {
+                if (asc.checked == true) {
+                    asc.checked = false;
+                    desc.checked = true;
+                }
+                form.submit()
+            }
+
+            // var search_product = document.getElementById("search_product")
+            // search_product.addEventListener("click", (e) => {
+            //     e.preventDefault()
+            //     for (let form of forms) {
+            //         form.submit()
+            //     }
+            // })
+
+            function checkForm2(input) {
+                var list_category_id = document.getElementsByName("list_category_id");
+                if (input.id == "category_0" && list_category_id[0].checked == true) {
+                    for (var i = 1; i < list_category_id.length; i++) {
+                        list_category_id[i].checked = false;
+                    }
+                } else {
+                    for (var i = 1; i < list_category_id.length; i++) {
+                        if (list_category_id[i].checked == true) {
+                            list_category_id[0].checked = false;
+                            break;
+                        }
+                    }
+                }
+                form.submit();
+            }
+
+            function checkForm3(input) {
+                var price = document.getElementsByName("price");
+                if (input.id == "price-all" && price[0].checked == true) {
+                    for (var i = 1; i < price.length; i++) {
+                        price[i].checked = false;
+                    }
+                } else {
+                    for (var i = 1; i < price.length; i++) {
+                        if (price[i].checked == true) {
+                            price[0].checked = false;
+                        }
+                    }
+                }
+                form.submit();
+            }
+        </script>
+
     </body>
 
 </html>

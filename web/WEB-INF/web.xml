@@ -64,6 +64,10 @@
         <servlet-name>UserProductDetails</servlet-name>
         <servlet-class>controller.user.UserProductDetails</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>test</servlet-name>
+        <servlet-class>dao.test</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AdminSignIn</servlet-name>
         <url-pattern>/admin_sign_in</url-pattern>
@@ -128,7 +132,10 @@
         <servlet-name>UserProductDetails</servlet-name>
         <url-pattern>/user_product_details</url-pattern>
     </servlet-mapping>
-    
+    <servlet-mapping>
+        <servlet-name>test</servlet-name>
+        <url-pattern>/test</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30

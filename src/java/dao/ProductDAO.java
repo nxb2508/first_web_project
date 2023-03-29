@@ -181,6 +181,83 @@ public class ProductDAO extends ConnectDB {
         return products;
     }
 
+    //tim kiem san pham theo danh sach category
+    public List<ProductModel> searchByCategories(List<CategoryModel> categories) {
+        List<ProductModel> products = new ArrayList<>();
+        String sql = "select * from products where 1=1 ";
+        if (categories != null && !categories.isEmpty()) {
+            sql += " and category_id in (";
+            for (int i = 0; i < categories.size(); i++) {
+                if (i != categories.size() - 1) {
+                    sql += categories.get(i).getId() + ", ";
+                } else {
+                    sql += categories.get(i).getId() + ")";
+                }
+            }
+        }
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                ProductModel product = new ProductModel();
+                product.setId(rs.getInt("id"));
+                CategoryModel category = new CategoryDAO().getCategoryById(rs.getInt("category_id"));
+                List<GaleryModel> galeries = new GaleryDAO().getGaleriesByProductId(product);
+                product.setCategory(category);
+                product.setName(rs.getString("name"));
+                product.setDescription(rs.getString("description"));
+                product.setPrice(rs.getInt("price"));
+                product.setGaleries(galeries);
+                products.add(product);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return products;
+    }
+
+    //tim kiem san pham theo ten san pham, danh sach ten san pham va gia
+    public List<ProductModel> searchByCategoriesAndPrice(String productName, List<CategoryModel> categories, Integer min_price, Integer max_price) {
+        List<ProductModel> products = new ArrayList<>();
+        String sql = "select * from products where 1=1 ";
+        if (categories != null && !categories.isEmpty()) {
+            sql += " and category_id in (";
+            for (int i = 0; i < categories.size(); i++) {
+                if (i != categories.size() - 1) {
+                    sql += categories.get(i).getId() + ", ";
+                } else {
+                    sql += categories.get(i).getId() + ")";
+                }
+            }
+        }
+        if (min_price != null && max_price != null) {
+            sql += " and price between " + min_price + " and " + max_price + " ";
+        }
+        if (productName != null) {
+            sql += " and name COLLATE Latin1_general_CI_AI like '%" + productName + "%' COLLATE Latin1_general_CI_AI";
+        }
+        System.out.println(sql);
+        try {
+            PreparedStatement stm = connection.prepareStatement(sql);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                ProductModel product = new ProductModel();
+                product.setId(rs.getInt("id"));
+                CategoryModel category = new CategoryDAO().getCategoryById(rs.getInt("category_id"));
+                List<GaleryModel> galeries = new GaleryDAO().getGaleriesByProductId(product);
+                product.setCategory(category);
+                product.setName(rs.getString("name"));
+                product.setDescription(rs.getString("description"));
+                product.setPrice(rs.getInt("price"));
+                product.setGaleries(galeries);
+                products.add(product);
+            }
+        } catch (SQLException ex) {
+            System.out.println(ex);
+        }
+        return products;
+    }
+
     //lay danh sach san pham bang gia
     public List<ProductModel> getProductsByPrice(int minPrice, int maxPrice) {
         List<ProductModel> products = new ArrayList<>();
@@ -234,7 +311,15 @@ public class ProductDAO extends ConnectDB {
     }
 
     public static void main(String[] args) {
-        System.out.println(new ProductDAO().getProductsByCategoryId(new CategoryModel(2, "", null)).size());
+        List<CategoryModel> categories = new ArrayList<>();
+        CategoryModel category = new CategoryModel();
+        CategoryModel category1 = new CategoryModel();
+        category1.setId(3);
+        category.setId(1);
+        categories.add(category);
+        categories.add(category1);
+        List<ProductModel> products = new ProductDAO().searchByCategoriesAndPrice("", categories, 0, 200000);
+        System.out.println(products.size());
     }
 
 }
