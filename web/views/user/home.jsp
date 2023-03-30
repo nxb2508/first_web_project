@@ -110,12 +110,8 @@
                                 </div>
                                 <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
                                     <a href="user_sign_in" class="btn px-0">
-                                        <i class="fa-solid fa-user text-primary"></i>
+                                        <i class="fa-solid fa-right-to-bracket text-primary"></i>
                                         <span class="text-secondary">Ðăng Nhập</span>
-                                    </a>
-                                    <a href="user_sign_up" class="btn px-0">
-                                        <i class="fa-solid fa-user text-primary"></i>
-                                        <span class="text-secondary">Ðăng Ký</span>
                                     </a>
                                     <a href="" class="btn px-0 ml-3">
                                         <i class="fas fa-shopping-cart text-primary"></i>
