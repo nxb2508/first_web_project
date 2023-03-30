@@ -68,6 +68,14 @@
         <servlet-name>test</servlet-name>
         <servlet-class>dao.test</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UserSignIn</servlet-name>
+        <servlet-class>controller.user.UserSignIn</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UserSignUp</servlet-name>
+        <servlet-class>controller.user.UserSignUp</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AdminSignIn</servlet-name>
         <url-pattern>/admin_sign_in</url-pattern>
@@ -135,6 +143,14 @@
     <servlet-mapping>
         <servlet-name>test</servlet-name>
         <url-pattern>/test</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserSignIn</servlet-name>
+        <url-pattern>/user_sign_in</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserSignUp</servlet-name>
+        <url-pattern>/user_sign_up</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

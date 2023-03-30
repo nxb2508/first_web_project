@@ -61,9 +61,9 @@
                         </a>
                     </div>
                     <div class="col-lg-4 col-6 text-left">
-                        <form action="user_search_product" method="get" id="form1">
+                        <form action="user_products" method="get" id="form1">
                             <div class="input-group">
-                                <input type="text" name="product_name" class="form-control" placeholder="Tìm kiếm sản phẩm">
+                                <input type="text" name="product_name" value="${requestScope.product_name}" class="form-control" placeholder="Tìm kiếm sản phẩm">
                                 <div class="input-group-append">
                                     <button id="search_product" class="input-group-text bg-transparent text-primary">
                                         <i class="fa fa-search"></i>
@@ -90,7 +90,7 @@
                              id="navbar-vertical" style="width: calc(100% - 30px); z-index: 999;">
                             <div class="navbar-nav w-100">
                                 <c:forEach var="category" items="${categories}">
-                                    <a href="user_products?category_id=${category.id}" class="nav-item nav-link">${category.name}</a>
+                                    <a href="user_products?list_category_id=${category.id}" class="nav-item nav-link">${category.name}</a>
                                 </c:forEach>
                             </div>
                         </nav>
