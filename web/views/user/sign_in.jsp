@@ -31,7 +31,7 @@
                         <h1>Đăng Nhập</h1>
                     </div>
                     <div class="data">
-                        <form action="index2.html" method="" id="form" class="form">
+                        <form action="user_sign_in" method="post" id="form" class="form">
                             <div class="form-group">
                                 <input type="text" placeholder="Email" class="form-control" id="email" name="email">
                                 <span class="success-icon">
@@ -40,10 +40,10 @@
                                 <span class="error-icon">
                                     <i class="fa-solid fa-xmark"></i>
                                 </span>
-                                <small>Error</small>
+                                <small id="wrong-user">Error</small>
                             </div>
                             <div class="form-group">
-                                <input type="password" placeholder="Mật khẩu mới" class="form-control" id="password" name="pasword">
+                                <input type="password" placeholder="Mật khẩu mới" class="form-control" id="password" name="password">
                                 <span class="success-icon">
                                     <i class="fa-solid fa-check"></i>
                                 </span>
@@ -73,6 +73,16 @@
         crossorigin="anonymous"></script>
 
         <script src="/ttcs/template/user/sign_in/js/main.js"></script>
+        <script type="text/javascript">
+            var wrongUser = "${requestScope.wrongUser}";
+            console.log(wrongUser);
+            if(wrongUser !== ""){
+              errorMessage = document.getElementById("wrong-user");
+              errorMessage.innerText = wrongUser;
+              errorMessage.classList.add("visible");
+              email.focus();
+            }
+        </script>
     </body>
 
 </html>

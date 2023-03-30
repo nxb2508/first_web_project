@@ -5,12 +5,16 @@
 
 package controller.user;
 
+import dao.UserDAO;
+import extension.StringToSHA_1;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import model.UserModel;
 
 /**
  *
@@ -66,7 +70,22 @@ public class UserSignIn extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        String passwordEncrypt = StringToSHA_1.encrypt(password);
+        UserModel user = new UserModel();
+        user.setEmail(email);
+        user.setPassword(passwordEncrypt);
+        UserDAO userDB = new UserDAO();
+        if(userDB.isExist(user)){
+            user = userDB.getUserByEmail(email);
+            HttpSession session = request.getSession();
+            session.setAttribute("user", user);
+            response.sendRedirect("user_home");
+        } else {
+            request.setAttribute("wrongUser", "Email Hoặc Mật Khẩu Không Đúng!");
+            request.getRequestDispatcher("views/user/sign_in.jsp").forward(request, response);
+        }
     }
 
     /** 

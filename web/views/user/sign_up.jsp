@@ -97,12 +97,6 @@
 
   <script src="/ttcs/template/user/sign_up/js/main.js"></script>
   <script type="text/javascript">
-    function deleteProduct(id) {
-        if (confirm('Bạn sẽ đồng thời xóa những ảnh thuộc sản phẩm này?')) {
-            window.location = 'delete_product?id=' + id;
-        }
-    }
-    
     var isExisted = "${requestScope.isExisted}";
     console.log(isExisted)
     if(isExisted !== ""){
