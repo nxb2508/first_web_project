@@ -16,7 +16,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 }
 
 .content {
-    margin-top: 175px;
+    margin: 175px 0 40px 0;
 }
 
 .content .search {

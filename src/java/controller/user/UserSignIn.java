@@ -77,7 +77,7 @@ public class UserSignIn extends HttpServlet {
         user.setEmail(email);
         user.setPassword(passwordEncrypt);
         UserDAO userDB = new UserDAO();
-        if(userDB.isExist(user)){
+        if(userDB.isValid(user)){
             user = userDB.getUserByEmail(email);
             HttpSession session = request.getSession();
             session.setAttribute("user", user);

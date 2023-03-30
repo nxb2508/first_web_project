@@ -1,0 +1,99 @@
+* {
+  box-sizing: border-box;
+}
+
+.content .form-group {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+/* .form-control:focus {
+  border: 1px solid #367051;
+  box-shadow: none;
+} */
+
+.content .form-control.success {
+  border: 1px solid #367051;
+  box-shadow: none;
+}
+
+.content .form-control.error {
+  border: 1px solid #e74c3c;
+  box-shadow: none;
+}
+
+.content span .fa-xmark{
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  right: 10px;
+  top: 7px;
+
+  color: #fff;
+  font-size: 12px;
+
+  background-color: #e74c3c;
+  border-radius: 50%;
+}
+
+.content span .fa-check{
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  right: 10px;
+  top: 7px;
+
+  color: #fff;
+  font-size: 12px;
+
+  background-color: #2ecc71;
+  border-radius: 50%;
+}
+
+.content span {
+  visibility: hidden;
+}
+
+.content span.visible {
+  visibility: visible;
+}
+
+.content span.hidden {
+  visibility: hidden;
+}
+
+.content small {
+  visibility: hidden;
+  font-size: 16px;
+  color: #e74c3c;
+  padding: 0 10px;
+  margin: 5px 0;
+}
+
+.content small.visible {
+  visibility: visible;
+}
+
+.content small.hidden {
+  visibility: hidden;
+}
+
+.content label {
+  font-size: 20px;
+  color: #3D464D;
+}
+
+.content .btn {
+  font-size: 20px;
+}
+
+.content .sign-out {
+  background-color: #3D464D;
+  color: #fff;
+}

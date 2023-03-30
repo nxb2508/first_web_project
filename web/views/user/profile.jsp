@@ -38,7 +38,8 @@
         <!-- Customized Bootstrap Stylesheet -->
         <link href="<c:url value="/template/user/css/style.css"/>" rel="stylesheet">
         <link href="<c:url value="/template/user/css/my-style.css"/>" rel="stylesheet">
-        
+
+        <link rel="stylesheet" href="/ttcs/template/user/update_profile/css/styles.css">
     </head>
 
     <body>
@@ -142,101 +143,54 @@
 
         <!-- Content Start -->
         <section class="content">
-
-            <!-- Carousel Start -->
-            <div class="container-fluid mb-3">
-                <div class="row px-xl-5">
-                    <div class="col-lg-12">
-                        <div id="header-carousel" class="carousel slide carousel-fade mb-30 mb-lg-0" data-ride="carousel">
-                            <ol class="carousel-indicators">
-                                <li data-target="#header-carousel" data-slide-to="0" class="active"></li>
-                                <li data-target="#header-carousel" data-slide-to="1"></li>
-                                <li data-target="#header-carousel" data-slide-to="2"></li>
-                            </ol>
-                            <div class="carousel-inner">
-                                <div class="carousel-item position-relative active" style="height: 430px;">
-                                    <img class="position-absolute w-100 h-100" src="<c:url value="/template/user/img/pexels-antoni-shkraba-5264909.jpg"/>" style="object-fit: cover;">
-                                </div>
-                                <div class="carousel-item position-relative" style="height: 430px;">
-                                    <img class="position-absolute w-100 h-100" src="<c:url value="/template/user/img/pexels-rachel-claire-5490979.jpg"/>" style="object-fit: cover;">
-                                </div>
-                                <div class="carousel-item position-relative" style="height: 430px;">
-                                    <img class="position-absolute w-100 h-100" src="<c:url value="/template/user/img/pexels-sorapong-chaipanya-4530873.jpg"/>" style="object-fit: cover;">
-                                </div>
-                            </div>
+            <div class="container">
+                <div class="row flex-column">
+                    <h1 class="text-center">Thông Tin Tài Khoản</h1>
+                    <form action="" method="get" id="form" class="form">
+                        <div class="form-group">
+                            <label for="full-name">Họ Và Tên</label>
+                            <input type="text" readonly class="form-control" id="full-name" name="full-name" value="${user.fullname}">
+                            <span class="success-icon">
+                                <i class="fa-solid fa-check"></i>
+                            </span>
+                            <span class="error-icon">
+                                <i class="fa-solid fa-xmark"></i>
+                            </span>
+                            <small id="email-existed">Error</small>
                         </div>
-                    </div>
+                        <div class="form-group">
+                            <label for="phone-number">Số Điện Thoại</label>
+                            <input type="text" readonly class="form-control" id="phone-number" maxlength="11"
+                                   name="phone_number" value="${user.phoneNumber}">
+                            <span class="success-icon">
+                                <i class="fa-solid fa-check"></i>
+                            </span>
+                            <span class="error-icon">
+                                <i class="fa-solid fa-xmark"></i>
+                            </span>
+                            <small>Error</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Số Điện Thoại</label>
+                            <input type="text" readonly class="form-control" id="email" maxlength="11"
+                                   name="email" value="${user.email}">
+                            <span class="success-icon">
+                                <i class="fa-solid fa-check"></i>
+                            </span>
+                            <span class="error-icon">
+                                <i class="fa-solid fa-xmark"></i>
+                            </span>
+                            <small>Error</small>
+                        </div>
+                        <div class="form-group row justify-content-between">
+                            <a href="user_change_password" class="btn btn-primary form-control col-3">Thay Đổi Mật Khẩu</a>
+                            <a href="user_update_profile" class="btn btn-primary form-control col-3">Cập Nhật Thông Tin</a>
+                            <a href="user_sign_out" class="btn sign-out form-control col-2"><i class="fa-solid fa-right-from-bracket text-primary"></i>Đăng Xuất</a>
+                        </div>
+                    </form>
                 </div>
+
             </div>
-            <!-- Carousel End -->
-
-
-            <!-- Featured Start -->
-            <div class="container-fluid pt-5">
-                <div class="row px-xl-5 pb-3">
-                    <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-                        <div class="d-flex align-items-center bg-light mb-4" style="padding: 30px;">
-                            <h1 class="fa fa-check text-primary m-0 mr-3"></h1>
-                            <h5 class="font-weight-semi-bold m-0">Sản phẩm chất lượng</h5>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-                        <div class="d-flex align-items-center bg-light mb-4" style="padding: 30px;">
-                            <h1 class="fa fa-shipping-fast text-primary m-0 mr-2"></h1>
-                            <h5 class="font-weight-semi-bold m-0">Miễn phí giao hàng</h5>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-                        <div class="d-flex align-items-center bg-light mb-4" style="padding: 30px;">
-                            <h1 class="fas fa-exchange-alt text-primary m-0 mr-3"></h1>
-                            <h5 class="font-weight-semi-bold m-0">7 ngày hoàn trả</h5>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-                        <div class="d-flex align-items-center bg-light mb-4" style="padding: 30px;">
-                            <h1 class="fa fa-phone-volume text-primary m-0 mr-3"></h1>
-                            <h5 class="font-weight-semi-bold m-0">Hỗ trợ 24/7</h5>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Featured End -->
-
-
-            <!-- Categories Start -->
-            <div class="container-fluid pt-5">
-                <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Loại sản phẩm</span></h2>
-                <div class="row px-xl-5 pb-3">
-                    <c:forEach var="category" items="${categories}">
-                        <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                            <a class="text-decoration-none" href="">
-                                <div class="cat-item d-flex align-items-center mb-4">
-                                    <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                                        <img class="img-fluid" src="<c:url value="/assets/images/${category.products[0].galeries[0].thumbnail}"/>" alt="">
-                                    </div>
-                                    <div class="flex-fill pl-3">
-                                        <h6>${category.name}</h6>
-                                        <small class="text-body">${fn:length(category.products)} Sản Phẩm</small>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    </c:forEach>
-                </div>
-            </div>
-            <!-- Categories End -->
-
-
-            <!-- Products Start -->
-            <div class="container-fluid pt-5 pb-3">
-                <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Sản phẩm</span></h2>
-                <div class="row px-xl-5">
-                    <c:forEach var="product" items="${products}">
-                        <%@include file="product_item.jsp" %>
-                    </c:forEach>
-                </div>
-            </div>
-            <!-- Products End -->
         </section>
         <!-- Content End -->
 
@@ -260,7 +214,17 @@
 
         <!-- Template Javascript -->
         <script src="<c:url value="/template/user/js/main.js"/>"></script>
-        
+
+        <script type="text/javascript">
+            var success = "${requestScope.success}";
+            var error = "${requestScope.error}";
+            if (success !== ""){
+                alert(success);
+            } else if (error !== ""){
+                alert(error);
+            }
+        </script>
+
     </body>
 
 </html>

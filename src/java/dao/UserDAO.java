@@ -15,17 +15,30 @@ import model.UserModel;
  */
 public class UserDAO extends ConnectDB{
     //kiem tra user co trong db khong
-    public boolean isExist(UserModel user){
+    public boolean isExisted(UserModel user){
         String sql = "select * from users where email = ?";
-        if(user.getPassword() != null){
-            sql += " and password = ?";
-        }
+        System.out.println(sql);
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, user.getEmail());
-            if(user.getPassword() != null){
-                statement.setString(2, user.getPassword());
+            ResultSet rs = statement.executeQuery();
+            if(rs.next()){
+                return true;
             }
+        } catch (SQLException e) {
+            return false;
+        }
+        return false;
+    }
+    
+    //kiem tra co dung tai khoan khong
+    public boolean isValid(UserModel user){
+        String sql = "select * from users where email = ? and password = ?";
+        System.out.println(sql);
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, user.getEmail());
+            statement.setString(2, user.getPassword());
             ResultSet rs = statement.executeQuery();
             if(rs.next()){
                 return true;
@@ -41,10 +54,10 @@ public class UserDAO extends ConnectDB{
         String sql = "insert into users (fullname, phone_number, email, password) values (?, ?, ?, ?)";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
-            if(user.getFullName() == null){
+            if(user.getFullname()== null){
                 statement.setString(1, "");
             } else {
-                statement.setString(1, user.getFullName());
+                statement.setString(1, user.getFullname());
             }
             statement.setString(2, user.getPhoneNumber());
             statement.setString(3, user.getEmail());
@@ -68,7 +81,7 @@ public class UserDAO extends ConnectDB{
                 user = new UserModel();
                 user.setId(rs.getInt("id"));
                 user.setRole(new RoleDAO().getRoleById(rs.getInt("role_id")));
-                user.setFullName(rs.getString("fullname"));
+                user.setFullname(rs.getString("fullname"));
                 user.setPhoneNumber(rs.getString("phone_number"));
                 user.setEmail(email);
                 user.setPassword(rs.getString("password"));
@@ -82,12 +95,27 @@ public class UserDAO extends ConnectDB{
         return user;
     }
     
+    //sua tai khoan
+    public int updateUser(UserModel user){
+        String sql = "update users set fullname = ? , phone_number = ? where id = ?";
+        System.out.println(sql);
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, user.getFullname());
+            statement.setString(2, user.getPhoneNumber());
+            statement.setInt(3, user.getId());
+            return statement.executeUpdate();
+        } catch (SQLException e) {
+            return 0;
+        }
+    }
+    
     public static void main(String[] args) {
         UserModel user = new UserModel();
-        user.setFullName("Hello");
+        user.setId(6);
+        user.setFullname("Hello");
         user.setPhoneNumber("1234567890");
-        user.setEmail("123@h.h");
-        user.setPassword("123456");
-        System.out.println(new UserDAO().addUser(user));
+        user.setEmail("1@x.com");
+        System.out.println(new UserDAO().updateUser(user));
     }
 }

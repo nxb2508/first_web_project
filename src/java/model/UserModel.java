@@ -14,17 +14,17 @@ public class UserModel {
 
     private int id;
     private RoleModel role;
-    private String fullName, phoneNumber, email, password;
+    private String fullname, phoneNumber, email, password;
     private List<FeedbackModel> feedbacks;
     private List<OrderModel> orders;
     
     public UserModel() {
     }
 
-    public UserModel(int id, RoleModel role, String fullName, String phoneNumber, String email, String password, List<FeedbackModel> feedbacks, List<OrderModel> orders) {
+    public UserModel(int id, RoleModel role, String fullname, String phoneNumber, String email, String password, List<FeedbackModel> feedbacks, List<OrderModel> orders) {
         this.id = id;
         this.role = role;
-        this.fullName = fullName;
+        this.fullname = fullname;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.password = password;
@@ -48,12 +48,12 @@ public class UserModel {
         this.role = role;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getFullname() {
+        return fullname;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
 
     public String getPhoneNumber() {

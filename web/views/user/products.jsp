@@ -112,7 +112,7 @@
                                 </div>
                                 <div class="navbar-nav py-0">
                                     <c:if test="${user != null}">
-                                        <a href="#" class="nav-item nav-link">
+                                        <a href="user_profile" class="nav-item nav-link">
                                             <i class="fa-solid fa-user text-primary"></i>
                                             ${user.email}
                                         </a>
