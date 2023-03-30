@@ -97,13 +97,14 @@ public class UserDAO extends ConnectDB{
     
     //sua tai khoan
     public int updateUser(UserModel user){
-        String sql = "update users set fullname = ? , phone_number = ? where id = ?";
+        String sql = "update users set fullname = ? , phone_number = ?, password = ? where id = ?";
         System.out.println(sql);
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, user.getFullname());
             statement.setString(2, user.getPhoneNumber());
-            statement.setInt(3, user.getId());
+            statement.setString(3, user.getPassword());
+            statement.setInt(4, user.getId());
             return statement.executeUpdate();
         } catch (SQLException e) {
             return 0;

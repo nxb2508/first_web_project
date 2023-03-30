@@ -39,7 +39,7 @@
         <link href="<c:url value="/template/user/css/style.css"/>" rel="stylesheet">
         <link href="<c:url value="/template/user/css/my-style.css"/>" rel="stylesheet">
 
-        <link rel="stylesheet" href="/ttcs/template/user/update_profile/css/styles.css">
+        <link rel="stylesheet" href="/ttcs/template/user/change_password/css/styles.css">
     </head>
 
     <body>
@@ -145,47 +145,43 @@
         <section class="content">
             <div class="container">
                 <div class="row flex-column">
-                    <h1 class="text-center">Thông Tin Tài Khoản</h1>
-                    <form action="" method="get" id="form" class="form">
+                    <h1 class="text-center">Ðổi Mật Khẩu</h1>
+                    <form action="user_change_password" method="post" id="form" class="form">
                         <div class="form-group">
-                            <label for="full-name">Họ Và Tên</label>
-                            <input type="text" readonly class="form-control" id="full-name" name="full-name" value="${user.fullname}">
+                            <label for="old-password">Mật Khẩu Cũ</label>
+                            <input type="password" class="form-control" id="old-password" name="old_password">
                             <span class="success-icon">
                                 <i class="fa-solid fa-check"></i>
-                            </span>
-                            <span class="error-icon">
+                              </span>
+                              <span class="error-icon">
                                 <i class="fa-solid fa-xmark"></i>
-                            </span>
-                            <small id="email-existed">Error</small>
+                              </span>
+                              <small>Error</small>
                         </div>
                         <div class="form-group">
-                            <label for="phone-number">Số Điện Thoại</label>
-                            <input type="text" readonly class="form-control" id="phone-number" maxlength="11"
-                                   name="phone_number" value="${user.phoneNumber}">
+                            <label for="password">Mật Khẩu Mới</label>
+                            <input type="password" class="form-control" id="password" name="password">
                             <span class="success-icon">
-                                <i class="fa-solid fa-check"></i>
+                              <i class="fa-solid fa-check"></i>
                             </span>
                             <span class="error-icon">
-                                <i class="fa-solid fa-xmark"></i>
+                              <i class="fa-solid fa-xmark"></i>
                             </span>
                             <small>Error</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Số Điện Thoại</label>
-                            <input type="text" readonly class="form-control" id="email" maxlength="11"
-                                   name="email" value="${user.email}">
+                          </div>
+                          <div class="form-group">
+                            <label for="confirm-password">Nhập lại mật khẩu mới</label>
+                            <input type="password" class="form-control" id="confirm-password">
                             <span class="success-icon">
-                                <i class="fa-solid fa-check"></i>
+                              <i class="fa-solid fa-check"></i>
                             </span>
                             <span class="error-icon">
-                                <i class="fa-solid fa-xmark"></i>
+                              <i class="fa-solid fa-xmark"></i>
                             </span>
                             <small>Error</small>
-                        </div>
-                        <div class="form-group row justify-content-between">
-                            <a href="user_change_password" class="btn btn-primary form-control col-3">Thay Đổi Mật Khẩu</a>
-                            <a href="user_update_profile" class="btn btn-primary form-control col-3">Cập Nhật Thông Tin</a>
-                            <a href="user_sign_out" class="btn sign-out form-control col-2"><i class="fa-solid fa-right-from-bracket text-primary"></i>Đăng Xuất</a>
+                          </div>
+                        <div class="form-group">
+                            <button class="btn btn-primary form-control">Đổi Mật Khẩu</button>
                         </div>
                     </form>
                 </div>
@@ -215,8 +211,10 @@
         <!-- Template Javascript -->
         <script src="<c:url value="/template/user/js/main.js"/>"></script>
 
+        <script src="<c:url value="/template/user/change_password/js/main.js"/>"></script>
+
         <script type="text/javascript">
-            console.log("${user.id}")
+            
             console.log("${user.fullname}");
             console.log("${user.email}");
             console.log("${user.password}");

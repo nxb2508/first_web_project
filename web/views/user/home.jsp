@@ -261,6 +261,13 @@
         <!-- Template Javascript -->
         <script src="<c:url value="/template/user/js/main.js"/>"></script>
         
+        <script>
+            console.log("${user.fullname}");
+            console.log("${user.email}");
+            console.log("${user.password}");
+            console.log("${user.phoneNumber}");
+        </script>
+        
     </body>
 
 </html>

@@ -84,6 +84,14 @@
         <servlet-name>UpdateProfile</servlet-name>
         <servlet-class>controller.user.UserUpdateProfile</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UserChangePassword</servlet-name>
+        <servlet-class>controller.user.UserChangePassword</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UserSignOut</servlet-name>
+        <servlet-class>controller.user.UserSignOut</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AdminSignIn</servlet-name>
         <url-pattern>/admin_sign_in</url-pattern>
@@ -167,6 +175,14 @@
     <servlet-mapping>
         <servlet-name>UpdateProfile</servlet-name>
         <url-pattern>/user_update_profile</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserChangePassword</servlet-name>
+        <url-pattern>/user_change_password</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserSignOut</servlet-name>
+        <url-pattern>/user_sign_out</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
