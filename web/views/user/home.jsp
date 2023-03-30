@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="model.UserModel" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
@@ -44,6 +45,7 @@
         <!-- Variable Start -->
         <c:set var="categories" value="${requestScope.categories}"/>
         <c:set var="products" value="${requestScope.products}"/>
+        <c:set var="user" value="${sessionScope.user}"/>
         <!-- Variable End -->
 
 
@@ -108,15 +110,24 @@
                                     <a href="<c:url value="/user_products"/>" class="nav-item nav-link ">Toàn bộ sản phẩm</a>
                                     <a href="contact.html" class="nav-item nav-link">Liên Hệ</a>
                                 </div>
-                                <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
-                                    <a href="user_sign_in" class="btn px-0">
-                                        <i class="fa-solid fa-right-to-bracket text-primary"></i>
-                                        <span class="text-secondary">Ðăng Nhập</span>
-                                    </a>
-                                    <a href="" class="btn px-0 ml-3">
+                                <div class="navbar-nav py-0">
+                                    <c:if test="${user != null}">
+                                        <a href="#" class="nav-item nav-link">
+                                            <i class="fa-solid fa-user text-primary"></i>
+                                            ${user.email}
+                                        </a>
+                                    </c:if>
+                                    <c:if test="${user == null}">
+                                        <a href="user_sign_in" class="nav-item nav-link">
+                                            <i class="fa-solid fa-right-to-bracket text-primary"></i>
+                                            Ðăng Nhập
+                                        </a>
+                                    </c:if>
+                                    <a href="" class="nav-item nav-link">
                                         <i class="fas fa-shopping-cart text-primary"></i>
-                                        <span class="badge text-secondary border border-secondary rounded-circle"
-                                              style="padding-bottom: 2px;">0</span>
+                                        Giỏ Hàng
+                                        <!-- <span class="badge text-secondary border border-secondary rounded-circle"
+                                              style="padding-bottom: 2px;">0</span> -->
                                     </a>
                                 </div>
                             </div>
@@ -248,6 +259,7 @@
 
         <!-- Template Javascript -->
         <script src="<c:url value="/template/user/js/main.js"/>"></script>
+        
     </body>
 
 </html>

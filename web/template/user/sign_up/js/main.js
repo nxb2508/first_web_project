@@ -179,3 +179,5 @@ confirmPassword.addEventListener("input", () => {
     setErrorFor(confirmPassword, "Mật khẩu không khớp!");
   }
 })
+
+//tra ra du lieu

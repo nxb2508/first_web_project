@@ -5,6 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!doctype html>
 <html lang="en">
 
@@ -31,10 +33,10 @@
           <h1>Tạo Tài Khoản Mới</h1>
         </div>
         <div class="data">
-          <form action="index2.html" method="" id="form" class="form">
+          <form action="user_sign_up" method="post" id="form" class="form">
             <div class="form-group">
               <input type="text" placeholder="Số điện thoại" class="form-control" id="phone-number" maxlength="11"
-                name="phone_number">
+                name="phone_number" value="${requestScope.phone_number}">
               <span class="success-icon">
                 <i class="fa-solid fa-check"></i>
               </span>
@@ -51,10 +53,10 @@
               <span class="error-icon">
                 <i class="fa-solid fa-xmark"></i>
               </span>
-              <small>Error</small>
+              <small id="email-existed">Error</small>
             </div>
             <div class="form-group">
-              <input type="password" placeholder="Mật khẩu mới" class="form-control" id="password" name="pasword">
+              <input type="password" placeholder="Mật khẩu mới" class="form-control" id="password" name="password">
               <span class="success-icon">
                 <i class="fa-solid fa-check"></i>
               </span>
@@ -94,6 +96,22 @@
     crossorigin="anonymous"></script>
 
   <script src="/ttcs/template/user/sign_up/js/main.js"></script>
+  <script type="text/javascript">
+    function deleteProduct(id) {
+        if (confirm('Bạn sẽ đồng thời xóa những ảnh thuộc sản phẩm này?')) {
+            window.location = 'delete_product?id=' + id;
+        }
+    }
+    
+    var isExisted = "${requestScope.isExisted}";
+    console.log(isExisted)
+    if(isExisted !== ""){
+      errorMessage = document.getElementById("email-existed")
+      errorMessage.innerText = isExisted
+      errorMessage.classList.add("visible");
+      email.focus()
+    }
+</script>
 </body>
 
 </html>

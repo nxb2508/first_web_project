@@ -4,12 +4,16 @@
  */
 package controller.user;
 
+import dao.UserDAO;
+import extension.StringToSHA_1;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import model.UserModel;
 
 /**
  *
@@ -70,6 +74,27 @@ public class UserSignUp extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String phoneNumber = request.getParameter("phone_number");
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        //ma hoa mat khau
+        String passWordEncrypt = StringToSHA_1.encrypt(password);
+        UserModel userRaw = new UserModel();
+        userRaw.setPhoneNumber(phoneNumber);
+        userRaw.setEmail(email);
+        userRaw.setPassword(passWordEncrypt);
+        UserDAO userDB = new UserDAO();
+        if(userDB.isExist(userRaw)){
+            request.setAttribute("phone_number", phoneNumber);
+            request.setAttribute("isExisted", "Email Đã Tồn Tại");
+            request.getRequestDispatcher("views/user/sign_up.jsp").forward(request, response);
+        } else {
+            userDB.addUser(userRaw);
+            UserModel user = userDB.getUserByEmail(email);
+            HttpSession session = request.getSession();
+            session.setAttribute("user", user);
+            response.sendRedirect("user_home");
+        }
     }
 
     /**

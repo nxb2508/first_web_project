@@ -7,15 +7,12 @@ package extension;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
 
 /**
  *
  * @author Bach
  */
 public class StringToSHA_1 {
-    
-    
     
     public static String encrypt(String input){
         try {
@@ -50,8 +47,5 @@ public class StringToSHA_1 {
             throw new RuntimeException(e);
         }
     }
-    
-//    public static void main(String[] args) {
-//    }
     
 }
