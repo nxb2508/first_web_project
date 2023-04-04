@@ -9,7 +9,6 @@ import dao.CategoryDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -18,7 +17,6 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author Bach
  */
-@WebServlet(name="AddCategory", urlPatterns={"/add_category"})
 public class AddCategory extends HttpServlet {
    
     /** 
@@ -56,7 +54,8 @@ public class AddCategory extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        response.sendRedirect("views/admin/add_category.jsp");
+        request.getRequestDispatcher("views/admin/add_category.jsp").forward(request, response);
+//        response.sendRedirect("views/admin/add_category.jsp");
     } 
 
     /** 

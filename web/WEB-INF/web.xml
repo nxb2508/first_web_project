@@ -92,6 +92,22 @@
         <servlet-name>UserSignOut</servlet-name>
         <servlet-class>controller.user.UserSignOut</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AddCategory</servlet-name>
+        <servlet-class>controller.admin.AddCategory</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ListProduct</servlet-name>
+        <servlet-class>controller.admin.ListProduct</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SearchCategory</servlet-name>
+        <servlet-class>controller.admin.SearchCategory</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UserProducts</servlet-name>
+        <servlet-class>controller.user.UserProducts</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AdminSignIn</servlet-name>
         <url-pattern>/admin_sign_in</url-pattern>
@@ -188,6 +204,22 @@
         <error-code>404</error-code>
         <location>/views/user/error_404.jsp</location>
     </error-page>
+    <servlet-mapping>
+        <servlet-name>AddCategory</servlet-name>
+        <url-pattern>/add_category</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListProduct</servlet-name>
+        <url-pattern>/list_product</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchCategory</servlet-name>
+        <url-pattern>/search_category</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserProducts</servlet-name>
+        <url-pattern>/user_products</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             10

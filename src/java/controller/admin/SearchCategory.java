@@ -20,7 +20,6 @@ import model.CategoryModel;
  *
  * @author Bach
  */
-@WebServlet(name="SearchCategory", urlPatterns={"/search_category"})
 public class SearchCategory extends HttpServlet {
    
     /** 
