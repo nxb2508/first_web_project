@@ -112,6 +112,12 @@
                                     <a href="contact.html" class="nav-item nav-link">Liên Hệ</a>
                                 </div>
                                 <div class="navbar-nav py-0">
+                                    <c:if test="${user != null && user.role.id == 1}">
+                                        <a href="admin_home" class="nav-item nav-link">
+                                            <i class="fa-solid fa-lock text-primary"></i>
+                                            Trang quản lý
+                                        </a>
+                                    </c:if>
                                     <c:if test="${user != null}">
                                         <a href="user_profile" class="nav-item nav-link">
                                             <i class="fa-solid fa-user text-primary"></i>
