@@ -182,13 +182,13 @@
                                 <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                                     <input type="checkbox" name="list_category_id" value="0" onclick="checkForm2(this)" class="custom-control-input" id="category_0" ${checkCategoryId[0]?'checked':''}>
                                     <label class="custom-control-label" for="category_0">Tất cả</label>
-                                    <span class="badge border font-weight-normal">1000</span>
+                                    <span class="badge border font-weight-normal">${requestScope.allProducts.size()}</span>
                                 </div>
                                 <c:forEach begin="0" end="${categories.size() - 1}" var="i">
                                     <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                                         <input type="checkbox" name="list_category_id" value="${categories[i].id}" onclick="checkForm2(this)" class="custom-control-input" id="category_${categories[i].id}" ${(categories[i].id == requestScope.category_id)?'checked':''} ${checkCategoryId[i + 1]?'checked':''}>
                                         <label class="custom-control-label" for="category_${categories[i].id}">${categories[i].name}</label>
-                                        <span class="badge border font-weight-normal">150</span>
+                                        <span class="badge border font-weight-normal">${categories[i].products.size()}</span>
                                     </div>
                                 </c:forEach>
                             </div>
@@ -200,32 +200,32 @@
                                 <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                                     <input type="checkbox" name="price" value="0" onclick="checkForm3(this)" class="custom-control-input" ${checkPrice[0]?'checked':''} id="price-all">
                                     <label class="custom-control-label" for="price-all">Tất cả</label>
-                                    <span class="badge border font-weight-normal">1000</span>
+                                    <!--<span class="badge border font-weight-normal">1000</span>-->
                                 </div>
                                 <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                                     <input type="checkbox" name="price" value="1" onclick="checkForm3(this)"  class="custom-control-input" ${checkPrice[1]?'checked':''} id="price-1">
                                     <label class="custom-control-label" for="price-1">0 VNĐ - 199000 VNĐ</label>
-                                    <span class="badge border font-weight-normal">150</span>
+                                    <!--<span class="badge border font-weight-normal">150</span>-->
                                 </div>
                                 <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                                     <input type="checkbox" name="price" value="2" onclick="checkForm3(this)"  class="custom-control-input" ${checkPrice[2]?'checked':''} id="price-2">
                                     <label class="custom-control-label" for="price-2">200000 VNĐ - 399000 VNĐ</label>
-                                    <span class="badge border font-weight-normal">295</span>
+                                    <!--<span class="badge border font-weight-normal">295</span>-->
                                 </div>
                                 <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                                     <input type="checkbox" name="price" value="3" onclick="checkForm3(this)"  class="custom-control-input" ${checkPrice[3]?'checked':''} id="price-3">
                                     <label class="custom-control-label" for="price-3">400000 VNĐ - 599000 VNĐ</label>
-                                    <span class="badge border font-weight-normal">246</span>
+                                    <!--<span class="badge border font-weight-normal">246</span>-->
                                 </div>
                                 <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between mb-3">
                                     <input type="checkbox" name="price" value="4" onclick="checkForm3(this)"  class="custom-control-input" ${checkPrice[4]?'checked':''} id="price-4">
                                     <label class="custom-control-label" for="price-4">600000 VNĐ - 799000 VNĐ</label>
-                                    <span class="badge border font-weight-normal">145</span>
+                                    <!--<span class="badge border font-weight-normal">145</span>-->
                                 </div>
                                 <div class="custom-control custom-checkbox d-flex align-items-center justify-content-between">
                                     <input type="checkbox" name="price" value="5" onclick="checkForm3(this)"  class="custom-control-input" ${checkPrice[5]?'checked':''} id="price-5">
                                     <label class="custom-control-label" for="price-5">800000 VNĐ - 999000 VNĐ</label>
-                                    <span class="badge border font-weight-normal">168</span>
+                                    <!--<span class="badge border font-weight-normal">168</span>-->
                                 </div>
 
                             </div>

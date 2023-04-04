@@ -184,6 +184,10 @@
         <servlet-name>UserSignOut</servlet-name>
         <url-pattern>/user_sign_out</url-pattern>
     </servlet-mapping>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/views/user/error_404.jsp</location>
+    </error-page>
     <session-config>
         <session-timeout>
             10

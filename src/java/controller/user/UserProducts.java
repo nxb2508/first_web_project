@@ -82,6 +82,7 @@ public class UserProducts extends HttpServlet {
         List<CategoryModel> categories = new CategoryDAO().getAllCategories(); //lay toan bo ds san pham
         request.setAttribute("categories", categories); //gui categories sang front end
         List<ProductModel> products = new ArrayList<>(); //tao danh sach san pham
+        List<ProductModel> allProducts = new ProductDAO().getAllProducts();
         //bat dau lay du lieu phia client
         String categoryId = request.getParameter("category_id");
 
@@ -121,6 +122,7 @@ public class UserProducts extends HttpServlet {
             request.setAttribute("category_id", categoryId);
             request.setAttribute("checkCategoryId", checkCategoryId);
             request.setAttribute("checkPrice", checkPrice);
+            request.setAttribute("allProducts", allProducts);
             request.getRequestDispatcher("views/user/products.jsp").forward(request, response);
         }
 
@@ -138,7 +140,7 @@ public class UserProducts extends HttpServlet {
                 int tempId = Integer.parseInt(temp);
                 listCategoryId.add(tempId);
                 //List<CategoryModel>
-                if(listCategorySearch == null){
+                if (listCategorySearch == null) {
                     listCategorySearch = new ArrayList<>();
                 }
                 if (tempId != 0) {
@@ -227,6 +229,7 @@ public class UserProducts extends HttpServlet {
         request.setAttribute("checkPrice", checkPrice);
         request.setAttribute("sort_by", sortBy);
         request.setAttribute("product_name", productName);
+        request.setAttribute("allProducts", allProducts);
         request.getRequestDispatcher("views/user/products.jsp").forward(request, response);
     }
 
