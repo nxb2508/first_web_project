@@ -1,9 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
-    <servlet>
-        <servlet-name>AdminSignIn</servlet-name>
-        <servlet-class>controller.admin.AdminSignIn</servlet-class>
-    </servlet>
+    <filter>
+        <filter-name>UserHomeFilter</filter-name>
+        <filter-class>filter.user.UserHomeFilter</filter-class>
+    </filter>
+    <filter>
+        <filter-name>UserRoleFilter</filter-name>
+        <filter-class>filter.user.UserRoleFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>UserRoleFilter</filter-name>
+        <url-pattern>/add_category</url-pattern>
+        <url-pattern>/add_galery</url-pattern>
+        <url-pattern>/add_product</url-pattern>
+        <url-pattern>/delete_category</url-pattern>
+        <url-pattern>/delete_galery</url-pattern>
+        <url-pattern>/delete_product</url-pattern>
+        <url-pattern>/list_category</url-pattern>
+        <url-pattern>/list_galery</url-pattern>
+        <url-pattern>/list_product</url-pattern>
+        <url-pattern>/search_category</url-pattern>
+        <url-pattern>/search_galery</url-pattern>
+        <url-pattern>/search_product</url-pattern>
+        <url-pattern>/update_category</url-pattern>
+        <url-pattern>/update_galery</url-pattern>
+        <url-pattern>/update_product</url-pattern>
+        <url-pattern>/admin_home</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>UserHomeFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
     <servlet>
         <servlet-name>ListCategory</servlet-name>
         <servlet-class>controller.admin.ListCategory</servlet-class>
@@ -65,10 +92,6 @@
         <servlet-class>controller.user.UserProductDetails</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>test</servlet-name>
-        <servlet-class>dao.test</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>UserSignIn</servlet-name>
         <servlet-class>controller.user.UserSignIn</servlet-class>
     </servlet>
@@ -108,10 +131,6 @@
         <servlet-name>UserProducts</servlet-name>
         <servlet-class>controller.user.UserProducts</servlet-class>
     </servlet>
-    <servlet-mapping>
-        <servlet-name>AdminSignIn</servlet-name>
-        <url-pattern>/admin_sign_in</url-pattern>
-    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ListCategory</servlet-name>
         <url-pattern>/list_category</url-pattern>
@@ -171,10 +190,6 @@
     <servlet-mapping>
         <servlet-name>UserProductDetails</servlet-name>
         <url-pattern>/user_product_details</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>test</servlet-name>
-        <url-pattern>/test</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>UserSignIn</servlet-name>
