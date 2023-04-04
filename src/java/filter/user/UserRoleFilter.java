@@ -112,14 +112,24 @@ public class UserRoleFilter implements Filter {
         HttpSession session = req.getSession();
         UserModel user = (UserModel) session.getAttribute("user");
 
-        if ((req.getMethod().equalsIgnoreCase("GET") && user==null) || (req.getMethod().equalsIgnoreCase("GET") && user.getRole().getId() == 2)) {
+        if ((req.getMethod().equalsIgnoreCase("GET") && user==null) || (req.getMethod().equalsIgnoreCase("POST") && user==null)) {
+            res.sendRedirect("/ttcs/user_sign_in");
+            return;
+        }
+        
+        if ((req.getMethod().equalsIgnoreCase("GET") && user.getRole().getId() == 2) || (req.getMethod().equalsIgnoreCase("POST") && user.getRole().getId() == 2)) {
             res.sendRedirect("/ttcs/user_home");
             return;
         }
-        if ((req.getMethod().equalsIgnoreCase("POST") && user==null) || (req.getMethod().equalsIgnoreCase("POST") && user.getRole().getId() == 2)) {
-            res.sendRedirect("/ttcs/user_home");
-            return;
-        }
+        
+//        if ((req.getMethod().equalsIgnoreCase("GET") && user==null) || (req.getMethod().equalsIgnoreCase("GET") && user.getRole().getId() == 2)) {
+//            res.sendRedirect("/ttcs/user_home");
+//            return;
+//        }
+//        if ((req.getMethod().equalsIgnoreCase("POST") && user==null) || (req.getMethod().equalsIgnoreCase("POST") && user.getRole().getId() == 2)) {
+//            res.sendRedirect("/ttcs/user_home");
+//            return;
+//        }
 
         Throwable problem = null;
         try {

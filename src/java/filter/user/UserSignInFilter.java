@@ -15,6 +15,10 @@ import jakarta.servlet.FilterConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import model.UserModel;
 
 /**
  *
@@ -101,6 +105,16 @@ public class UserSignInFilter implements Filter {
 
 	doBeforeProcessing(request, response);
 	
+        HttpServletRequest req = (HttpServletRequest) request;
+        HttpServletResponse res = (HttpServletResponse) response;
+        HttpSession session = req.getSession();
+        UserModel user = (UserModel) session.getAttribute("user");
+        
+        if(user == null){
+            res.sendRedirect("/ttcs/user_sign_in");
+            return;
+        }
+        
 	Throwable problem = null;
 	try {
 	    chain.doFilter(request, response);
