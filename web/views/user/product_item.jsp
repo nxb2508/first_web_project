@@ -10,7 +10,7 @@
         <div class="product-img position-relative overflow-hidden">
             <img class="img-fluid w-100" src="<c:url value="/assets/images/${product.galeries[0].thumbnail}"/>" alt="">
             <div class="product-action">
-                <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
+                <a class="btn btn-outline-dark" href="user_add_to_cart?product_id=${product.id}&quantity=${1}"><i class="s-cart fa fa-shopping-cart"></i><span>Thêm Vào Giỏ Hàng</span></a>
             </div>
         </div>
         <div class="text-center py-4">

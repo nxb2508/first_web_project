@@ -14,20 +14,23 @@ public class ProductModel implements Comparable<ProductModel>{
     private int id;
     private CategoryModel category;
     private String name, description;
-    private int price;
+    private int quantity, price;
     private List<GaleryModel> galeries;
 
     public ProductModel() {
     }
 
-    public ProductModel(int id, CategoryModel category, String name, String description, int price, List<GaleryModel> galeries) {
+    public ProductModel(int id, CategoryModel category, String name, String description, int quantity, int price, List<GaleryModel> galeries) {
         this.id = id;
         this.category = category;
         this.name = name;
         this.description = description;
+        this.quantity = quantity;
         this.price = price;
         this.galeries = galeries;
     }
+
+
 
     public int getId() {
         return id;
@@ -75,6 +78,14 @@ public class ProductModel implements Comparable<ProductModel>{
 
     public void setGaleries(List<GaleryModel> galeries) {
         this.galeries = galeries;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     

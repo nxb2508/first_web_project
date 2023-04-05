@@ -5,8 +5,6 @@
 
 package controller.user;
 
-import dao.CategoryDAO;
-import dao.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,17 +12,12 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
-import model.CartModel;
-import model.CategoryModel;
-import model.ItemModel;
-import model.ProductModel;
 
 /**
  *
  * @author Bach
  */
-public class UserHome extends HttpServlet {
+public class UserAddToCart extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -41,10 +34,10 @@ public class UserHome extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UserHome</title>");  
+            out.println("<title>Servlet UserAddToCart</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet UserHome at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet UserAddToCart at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,10 +54,6 @@ public class UserHome extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        List<CategoryModel> categories_raw = new CategoryDAO().getAllCategories();
-        List<CategoryModel> categories = new CategoryDAO().getCategoriesByPage(categories_raw, 0, Math.min(10, categories_raw.size()));
-        List<ProductModel> products_raw = new ProductDAO().getAllProducts();
-        List<ProductModel> products = new ProductDAO().getProductsByPage(products_raw, 0, Math.min(20, products_raw.size()));
         
         //cookie
         Cookie[] cookies = request.getCookies();
@@ -73,18 +62,23 @@ public class UserHome extends HttpServlet {
             for(Cookie cookie : cookies){
                 if(cookie.getName().equals("cart")){
                     cookieTxt += cookie.getValue();
+                    cookie.setMaxAge(0);
+                    response.addCookie(cookie);
                 }
             }
         }
-        CartModel cart = new CartModel(cookieTxt);
-        List<ItemModel> items = cart.getItems();
-        
-        request.setAttribute("cart", cart);
-        request.setAttribute("items", items);
-        request.setAttribute("products", products);
-        request.setAttribute("categories", categories);
-        request.getRequestDispatcher("views/user/home.jsp").forward(request, response);
-    } 
+        String productId = request.getParameter("product_id");
+        String quantity = request.getParameter("quantity");
+        if(cookieTxt.equals("")){
+            cookieTxt = productId+"&"+quantity;
+        } else {
+            cookieTxt += "#" + productId+"&"+quantity;
+        }
+        Cookie cookie = new Cookie("cart", cookieTxt);
+        cookie.setMaxAge(7*24*60*60);
+        response.addCookie(cookie);
+        response.sendRedirect("user_home");
+    }
 
     /** 
      * Handles the HTTP <code>POST</code> method.

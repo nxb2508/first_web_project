@@ -38,7 +38,7 @@
         <!-- Customized Bootstrap Stylesheet -->
         <link href="<c:url value="/template/user/css/style.css"/>" rel="stylesheet">
         <link href="<c:url value="/template/user/css/my-style.css"/>" rel="stylesheet">
-        
+
     </head>
 
     <body>
@@ -130,11 +130,11 @@
                                             Ðăng Nhập
                                         </a>
                                     </c:if>
-                                    <a href="user_cart" class="nav-item nav-link">
+                                    <a href="" class="nav-item nav-link">
                                         <i class="fas fa-shopping-cart text-primary"></i>
                                         Giỏ Hàng
-                                        <span class="badge text-secondary border border-secondary rounded-circle"
-                                              style="padding-bottom: 2px;">${requestScope.cart.totalItems}</span>
+                                        <!-- <span class="badge text-secondary border border-secondary rounded-circle"
+                                              style="padding-bottom: 2px;">0</span> -->
                                     </a>
                                 </div>
                             </div>
@@ -149,100 +149,66 @@
         <!-- Content Start -->
         <section class="content">
 
-            <!-- Carousel Start -->
-            <div class="container-fluid mb-3">
+            <!-- Cart Start -->
+            <div class="container-fluid">
                 <div class="row px-xl-5">
-                    <div class="col-lg-12">
-                        <div id="header-carousel" class="carousel slide carousel-fade mb-30 mb-lg-0" data-ride="carousel">
-                            <ol class="carousel-indicators">
-                                <li data-target="#header-carousel" data-slide-to="0" class="active"></li>
-                                <li data-target="#header-carousel" data-slide-to="1"></li>
-                                <li data-target="#header-carousel" data-slide-to="2"></li>
-                            </ol>
-                            <div class="carousel-inner">
-                                <div class="carousel-item position-relative active" style="height: 430px;">
-                                    <img class="position-absolute w-100 h-100" src="<c:url value="/template/user/img/pexels-antoni-shkraba-5264909.jpg"/>" style="object-fit: cover;">
+                    <div class="col-lg-8 table-responsive mb-5">
+                        <table class="table table-light table-borderless table-hover mb-0">
+                            <thead class="thead-dark">
+                                <tr class="text-center">
+                                    <th >Sản Phẩm</th>
+                                    <th>Giá</th>
+                                    <th>Số Lượng</th>
+                                    <th>Thành Tiền</th>
+                                    <th>Xóa</th>
+                                </tr>
+                            </thead>
+                            <tbody class="align-middle">
+                                <c:forEach var='item' items="${requestScope.items}">
+                                    <tr>
+                                        <td class="align-middle">
+                                            <img class=" ml-2 mr-2" src="/ttcs/assets/images/${item.product.galeries[0].thumbnail}" alt="" style="width: 50px;">
+                                            <span>${item.product.name}</span>
+                                        </td>
+                                        <td class="align-middle text-center">${item.product.price}</td>
+                                        <td class="align-middle text-center">
+                                            <div class="input-group quantity mx-auto" style="width: 100px;">
+                                                <div class="input-group-btn">
+                                                    <a href="user_check_item_quantity?product_id=${item.product.id}&number=${-1}" class="btn btn-sm btn-primary btn-minus" >
+                                                        <i class="fa fa-minus"></i>
+                                                    </a>
+                                                </div>
+                                                <input type="text" class="form-control form-control-sm bg-secondary border-0 text-center" value="${item.quantity}">
+                                                <div class="input-group-btn">
+                                                    <a href="user_check_item_quantity?product_id=${item.product.id}&number=${1}" class="btn btn-sm btn-primary btn-plus">
+                                                        <i class="fa fa-plus"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="align-middle text-center">${(item.price * item.quantity)}</td>
+                                        <td class="align-middle text-center"><a href="user_check_item_quantity?product_id=${item.product.id}&number=${0}" class="btn btn-sm btn-danger"><i class="fa fa-times"></i></a></td>
+                                    </tr>
+                                </c:forEach>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-lg-4">
+                        <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Giỏ Hàng</span></h5>
+                        <div class="bg-light p-30 mb-5">
+                            <div class="pt-2">
+                                <div class="d-flex justify-content-between mt-2">
+                                    <h5>Tổng Tiền</h5>
+                                    <h5>${requestScope.cart.totalMoney}</h5>
                                 </div>
-                                <div class="carousel-item position-relative" style="height: 430px;">
-                                    <img class="position-absolute w-100 h-100" src="<c:url value="/template/user/img/pexels-rachel-claire-5490979.jpg"/>" style="object-fit: cover;">
-                                </div>
-                                <div class="carousel-item position-relative" style="height: 430px;">
-                                    <img class="position-absolute w-100 h-100" src="<c:url value="/template/user/img/pexels-sorapong-chaipanya-4530873.jpg"/>" style="object-fit: cover;">
-                                </div>
+                                <button class="btn btn-block btn-primary font-weight-bold my-3 py-3">Thanh Toán</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- Carousel End -->
+            <!-- Cart End -->
 
-
-            <!-- Featured Start -->
-            <div class="container-fluid pt-5">
-                <div class="row px-xl-5 pb-3">
-                    <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-                        <div class="d-flex align-items-center bg-light mb-4" style="padding: 30px;">
-                            <h1 class="fa fa-check text-primary m-0 mr-3"></h1>
-                            <h5 class="font-weight-semi-bold m-0">Sản phẩm chất lượng</h5>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-                        <div class="d-flex align-items-center bg-light mb-4" style="padding: 30px;">
-                            <h1 class="fa fa-shipping-fast text-primary m-0 mr-2"></h1>
-                            <h5 class="font-weight-semi-bold m-0">Miễn phí giao hàng</h5>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-                        <div class="d-flex align-items-center bg-light mb-4" style="padding: 30px;">
-                            <h1 class="fas fa-exchange-alt text-primary m-0 mr-3"></h1>
-                            <h5 class="font-weight-semi-bold m-0">7 ngày hoàn trả</h5>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
-                        <div class="d-flex align-items-center bg-light mb-4" style="padding: 30px;">
-                            <h1 class="fa fa-phone-volume text-primary m-0 mr-3"></h1>
-                            <h5 class="font-weight-semi-bold m-0">Hỗ trợ 24/7</h5>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Featured End -->
-
-
-            <!-- Categories Start -->
-            <div class="container-fluid pt-5">
-                <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Loại sản phẩm</span></h2>
-                <div class="row px-xl-5 pb-3">
-                    <c:forEach var="category" items="${categories}">
-                        <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                            <a class="text-decoration-none" href="">
-                                <div class="cat-item d-flex align-items-center mb-4">
-                                    <div class="overflow-hidden" style="width: 100px; height: 100px;">
-                                        <img class="img-fluid" src="<c:url value="/assets/images/${category.products[0].galeries[0].thumbnail}"/>" alt="">
-                                    </div>
-                                    <div class="flex-fill pl-3">
-                                        <h6>${category.name}</h6>
-                                        <small class="text-body">${fn:length(category.products)} Sản Phẩm</small>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    </c:forEach>
-                </div>
-            </div>
-            <!-- Categories End -->
-
-
-            <!-- Products Start -->
-            <div class="container-fluid pt-5 pb-3">
-                <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Sản phẩm</span></h2>
-                <div class="row px-xl-5">
-                    <c:forEach var="product" items="${products}">
-                        <%@include file="product_item.jsp" %>
-                    </c:forEach>
-                </div>
-            </div>
-            <!-- Products End -->
         </section>
         <!-- Content End -->
 
@@ -266,14 +232,14 @@
 
         <!-- Template Javascript -->
         <script src="<c:url value="/template/user/js/main.js"/>"></script>
-        
+
         <script>
             console.log("${user.fullname}");
             console.log("${user.email}");
             console.log("${user.password}");
             console.log("${user.phoneNumber}");
         </script>
-        
+
     </body>
 
 </html>

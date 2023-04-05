@@ -8,7 +8,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -53,6 +52,7 @@ public class ProductDAO extends ConnectDB {
                 product.setCategory(category);
                 product.setName(rs.getString("name"));
                 product.setDescription(rs.getString("description"));
+                product.setQuantity(rs.getInt("quantity"));
                 product.setPrice(rs.getInt("price"));
                 product.setGaleries(galeries);
                 products.add(product);
@@ -122,6 +122,7 @@ public class ProductDAO extends ConnectDB {
                 product.setCategory(new CategoryDAO().getCategoryById(rs.getInt("c_id")));
                 product.setName(rs.getString("p_name"));
                 product.setDescription(rs.getString("description"));
+                product.setQuantity(rs.getInt("quantity"));
                 product.setPrice(rs.getInt("price"));
                 List<GaleryModel> galeries = new GaleryDAO().getGaleriesByProductId(product);
                 product.setGaleries(galeries);
@@ -146,6 +147,7 @@ public class ProductDAO extends ConnectDB {
                 product.setCategory(category);
                 product.setName(rs.getString("name"));
                 product.setDescription(rs.getString("description"));
+                product.setQuantity(rs.getInt("quantity"));
                 product.setPrice(rs.getInt("price"));
                 List<GaleryModel> galeries = new GaleryDAO().getGaleriesByProductId(product);
                 product.setGaleries(galeries);
@@ -171,6 +173,7 @@ public class ProductDAO extends ConnectDB {
                 product.setCategory(category);
                 product.setName(rs.getString("name"));
                 product.setDescription(rs.getString("description"));
+                product.setQuantity(rs.getInt("quantity"));
                 product.setPrice(rs.getInt("price"));
                 product.setGaleries(galeries);
                 products.add(product);
@@ -206,6 +209,7 @@ public class ProductDAO extends ConnectDB {
                 product.setCategory(category);
                 product.setName(rs.getString("name"));
                 product.setDescription(rs.getString("description"));
+                product.setQuantity(rs.getInt("quantity"));
                 product.setPrice(rs.getInt("price"));
                 product.setGaleries(galeries);
                 products.add(product);
@@ -248,6 +252,7 @@ public class ProductDAO extends ConnectDB {
                 product.setCategory(category);
                 product.setName(rs.getString("name"));
                 product.setDescription(rs.getString("description"));
+                product.setQuantity(rs.getInt("quantity"));
                 product.setPrice(rs.getInt("price"));
                 product.setGaleries(galeries);
                 products.add(product);
@@ -274,6 +279,7 @@ public class ProductDAO extends ConnectDB {
                 product.setCategory(new CategoryDAO().getCategoryById(rs.getInt("category_id")));
                 product.setName(rs.getString("name"));
                 product.setDescription(rs.getString("description"));
+                product.setQuantity(rs.getInt("quantity"));
                 product.setPrice(rs.getInt("price"));
                 product.setGaleries(galeries);
                 products.add(product);
@@ -300,6 +306,7 @@ public class ProductDAO extends ConnectDB {
                 product_temp.setCategory(product.getCategory());
                 product_temp.setName(rs.getString("name"));
                 product_temp.setDescription(rs.getString("description"));
+                product_temp.setQuantity(rs.getInt("quantity"));
                 product_temp.setPrice(rs.getInt("price"));
                 product_temp.setGaleries(galeries);
                 products.add(product_temp);

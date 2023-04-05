@@ -17,6 +17,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 
 .content {
     margin: 175px 0 40px 0;
+    min-height: calc(970px - 175px - 97px - 41px);
 }
 
 .content .search {
@@ -27,4 +28,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 
 .content .search-icon {
     padding: 10px 10px;
+}
+
+.s-cart {
+    margin-right: 5px;
 }

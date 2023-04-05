@@ -141,6 +141,18 @@
         <servlet-name>UserProducts</servlet-name>
         <servlet-class>controller.user.UserProducts</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UserAddToCart</servlet-name>
+        <servlet-class>controller.user.UserAddToCart</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UserCart</servlet-name>
+        <servlet-class>controller.user.UserCart</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UserCheckItemQuantity</servlet-name>
+        <servlet-class>controller.user.UserCheckItemQuantity</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ListCategory</servlet-name>
         <url-pattern>/list_category</url-pattern>
@@ -244,6 +256,18 @@
     <servlet-mapping>
         <servlet-name>UserProducts</servlet-name>
         <url-pattern>/user_products</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserAddToCart</servlet-name>
+        <url-pattern>/user_add_to_cart</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserCart</servlet-name>
+        <url-pattern>/user_cart</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserCheckItemQuantity</servlet-name>
+        <url-pattern>/user_check_item_quantity</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
