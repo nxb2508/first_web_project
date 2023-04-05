@@ -40,6 +40,7 @@
         <url-pattern>/user_profile</url-pattern>
         <url-pattern>/user_update_profile</url-pattern>
         <url-pattern>/user_change_password</url-pattern>
+        <url-pattern>/user_check_out</url-pattern>
     </filter-mapping>
     <servlet>
         <servlet-name>ListCategory</servlet-name>
@@ -152,6 +153,10 @@
     <servlet>
         <servlet-name>UserCheckItemQuantity</servlet-name>
         <servlet-class>controller.user.UserCheckItemQuantity</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UserCheckOut</servlet-name>
+        <servlet-class>controller.user.UserCheckOut</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ListCategory</servlet-name>
@@ -268,6 +273,10 @@
     <servlet-mapping>
         <servlet-name>UserCheckItemQuantity</servlet-name>
         <url-pattern>/user_check_item_quantity</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserCheckOut</servlet-name>
+        <url-pattern>/user_check_out</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

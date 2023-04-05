@@ -47,6 +47,8 @@
         <c:set var="categories" value="${requestScope.categories}"/>
         <c:set var="products" value="${requestScope.products}"/>
         <c:set var="user" value="${sessionScope.user}"/>
+        <c:set var="cart" value="${requestScope.cart}"/>
+        <c:set var="items" value="${requestScope.items}"/>
         <!-- Variable End -->
 
 
@@ -134,7 +136,7 @@
                                         <i class="fas fa-shopping-cart text-primary"></i>
                                         Giỏ Hàng
                                         <span class="badge text-secondary border border-secondary rounded-circle"
-                                              style="padding-bottom: 2px;">${requestScope.cart.totalItems}</span>
+                                              style="padding-bottom: 2px;">${cart.totalItems}</span>
                                     </a>
                                 </div>
                             </div>
@@ -149,69 +151,75 @@
         <!-- Content Start -->
         <section class="content">
 
-            <!-- Cart Start -->
-            <div class="container-fluid">
+            <!-- Checkout Start -->
+            <form action="user_check_out" id="form-check-out" method="post" class="container-fluid">
                 <div class="row px-xl-5">
-                    <div class="col-lg-8 table-responsive mb-5">
-                        <table class="table table-light table-borderless table-hover mb-0">
-                            <thead class="thead-dark">
-                                <tr class="text-center">
-                                    <th >Sản Phẩm</th>
-                                    <th>Giá</th>
-                                    <th>Số Lượng</th>
-                                    <th>Thành Tiền</th>
-                                    <th>Xóa</th>
-                                </tr>
-                            </thead>
-                            <tbody class="align-middle">
-                                <c:forEach var='item' items="${requestScope.items}">
-                                    <tr>
-                                        <td class="align-middle">
-                                            <img class=" ml-2 mr-2" src="/ttcs/assets/images/${item.product.galeries[0].thumbnail}" alt="" style="width: 50px;">
-                                            <span>${item.product.name}</span>
-                                        </td>
-                                        <td class="align-middle text-center">${item.product.price}</td>
-                                        <td class="align-middle text-center">
-                                            <div class="input-group quantity mx-auto" style="width: 100px;">
-                                                <div class="input-group-btn">
-                                                    <a href="user_check_item_quantity?product_id=${item.product.id}&number=${-1}" class="btn btn-sm btn-primary btn-minus" >
-                                                        <i class="fa fa-minus"></i>
-                                                    </a>
-                                                </div>
-                                                <input type="text" class="form-control form-control-sm bg-secondary border-0 text-center" value="${item.quantity}">
-                                                <div class="input-group-btn">
-                                                    <a href="user_check_item_quantity?product_id=${item.product.id}&number=${1}" class="btn btn-sm btn-primary btn-plus">
-                                                        <i class="fa fa-plus"></i>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="align-middle text-center">${(item.price * item.quantity)}</td>
-                                        <td class="align-middle text-center"><a href="user_check_item_quantity?product_id=${item.product.id}&number=${0}" class="btn btn-sm btn-danger"><i class="fa fa-times"></i></a></td>
-                                    </tr>
-                                </c:forEach>
-                            </tbody>
-                        </table>
-                    </div>
                     <div class="col-lg-4">
-                        <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Giỏ Hàng</span></h5>
+                        <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Thông Tin Khách Hàng</span></h5>
                         <div class="bg-light p-30 mb-5">
+                            <div class="row">
+                                <div class="col-md-12 form-group">
+                                    <label>Họ Và Tên</label>
+                                    <input name="fullname" id="fullname" value="${user.fullname}" class="form-control" type="text" placeholder="" required>
+                                </div>
+                                <div class="col-md-12 form-group">
+                                    <label>Số Điện Thoại</label>
+                                    <input name="phone_number" id="phone_number" value="${user.phoneNumber}" class="form-control" type="text" placeholder="">
+                                </div>
+                                <div class="col-md-12 form-group">
+                                    <label>E-mail</label>
+                                    <input name="email" value="${user.email}" class="form-control" readonly type="text" placeholder="">
+                                </div>
+                                <div class="col-md-12 form-group">
+                                    <label>Địa Chỉ Giao Hàng</label>
+                                    <input name="address" id="address" class="form-control" type="text" placeholder="" required>
+                                </div>
+                                <div class="col-md-12 form-group">
+                                    <label>Ghi Chú</label>
+                                    <input name="note" class="form-control" type="text" placeholder="">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-8">
+                        <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Thông Tin Đơn Hàng</span></h5>
+                        <div class="bg-light p-30 mb-5">
+                            <div class="border-bottom">
+                                <div class="d-flex justify-content-between">
+                                    <div style="width: 60%">
+                                        <h6 class="mb-3">Danh Sách Sản Phẩm</h6>
+                                    </div>
+                                    <div class="text-center" style="width: 20%">Số Lượng</div>
+                                    <div class="text-center" style="width: 20%">Giá</div>
+                                </div>
+                                <c:forEach var="item" items="${cart.items}">
+                                    <div class="d-flex justify-content-between">
+                                        <div style="width: 60%">
+                                            <p>${item.product.name}</p>
+                                        </div>
+                                        <div class="text-center" style="width: 20%"><p>${item.quantity}</p></div>
+                                        <div class="text-center" style="width: 20%"><p>${item.price}</p></div>
+                                    </div>
+                                </c:forEach>
+                            </div>
                             <div class="pt-2">
-                                <div class="d-flex justify-content-between mt-2 total-items">
-                                    <h5>Tổng Số Sản Phẩm</h5>
-                                    <h5>${requestScope.cart.totalItems}</h5>
-                                </div>
                                 <div class="d-flex justify-content-between mt-2">
-                                    <h5>Tổng Tiền</h5>
-                                    <h5>${requestScope.cart.totalMoney}</h5>
+                                    <h5 style="width: 80%">Tổng Tiền</h5>
+                                    <h5 class="text-center" style="width: 20%">${cart.totalMoney}</h5>
                                 </div>
-                                <a href="user_check_out" class="btn btn-block btn-primary font-weight-bold my-3 py-3">Đặt Hàng</a>
+                            </div>
+                        </div>
+                        <div class="mb-5">
+                            <h5 class="position-relative text-uppercase text-center mb-3">Vui Lòng Nhập Đúng Số Điện Thoại Để Chúng Tôi Xác Nhận Trước Khi Giao Hàng</h5>
+                            <div class="bg-light p-30">
+                                <button id="btn-check-out" type="submit" class="btn btn-block btn-primary font-weight-bold py-3">Đặt Hàng</button>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <!-- Cart End -->
+            </form>
+            <!-- Checkout End -->
 
         </section>
         <!-- Content End -->
@@ -238,10 +246,37 @@
         <script src="<c:url value="/template/user/js/main.js"/>"></script>
 
         <script>
-            console.log("${user.fullname}");
-            console.log("${user.email}");
-            console.log("${user.password}");
-            console.log("${user.phoneNumber}");
+            var phoneNumber = document.getElementById("phone_number");
+            var address = document.getElementById("address");
+            var fullname = document.getElementById("fullname");
+            var btnCheckOut = document.getElementById("btn-check-out");
+            const phoneNumberRegex = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
+
+            btnCheckOut.addEventListener("click", (evt) => {
+                evt.preventDefault();
+                const phoneNumberValue = phoneNumber.value.trim();
+                const addressValue = address.value.trim();
+                const fullnameValue = fullname.value.trim();
+                const totalItems = Number.parseInt(${cart.totalItems});
+
+                console.log(totalItems);
+
+                if (totalItems <= 0) {
+                    alert("Vui Lòng Chọn Sản Phẩm Trước Khi Đặt Hàng");
+                } else if(fullnameValue === ""){
+                    alert("Vui Lòng Nhập Họ Và Tên");
+                    phoneNumber.focus();
+                }else if(!phoneNumberValue.match(phoneNumberRegex)){
+                    alert("Vui Lòng Nhập Đúng Số Điện Thoại");
+                    phoneNumber.focus();
+                } else if (addressValue === ""){
+                    alert("Vui Lòng Nhập Địa Chỉ");
+                    address.focus();
+                } else {
+                    document.getElementById("form-check-out").submit();
+
+                }
+            })
         </script>
 
     </body>
