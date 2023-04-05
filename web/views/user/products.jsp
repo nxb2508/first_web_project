@@ -63,7 +63,7 @@
                     <div class="col-lg-4 col-6 text-left">
                         <form action="user_products" method="get" id="form1">
                             <div class="input-group">
-                                <input type="text" name="product_name" value="${requestScope.product_name}" class="form-control" placeholder="Tìm kiếm sản phẩm">
+                                <input type="text" name="product_name" class="form-control" placeholder="Tìm kiếm sản phẩm">
                                 <div class="input-group-append">
                                     <button id="search_product" class="input-group-text bg-transparent text-primary">
                                         <i class="fa fa-search"></i>
@@ -129,11 +129,11 @@
                                             Ðăng Nhập
                                         </a>
                                     </c:if>
-                                    <a href="" class="nav-item nav-link">
+                                    <a href="user_cart" class="nav-item nav-link">
                                         <i class="fas fa-shopping-cart text-primary"></i>
                                         Giỏ Hàng
-                                        <!-- <span class="badge text-secondary border border-secondary rounded-circle"
-                                              style="padding-bottom: 2px;">0</span> -->
+                                        <span class="badge text-secondary border border-secondary rounded-circle"
+                                              style="padding-bottom: 2px;">${requestScope.cart.totalItems}</span>
                                     </a>
                                 </div>
                             </div>
@@ -143,7 +143,6 @@
             </div>
             <!-- Navbar End -->
         </header>
-
         <!-- Header End -->
 
         <!-- Content Start -->

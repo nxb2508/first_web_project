@@ -130,11 +130,11 @@
                                             Ðăng Nhập
                                         </a>
                                     </c:if>
-                                    <a href="" class="nav-item nav-link">
+                                    <a href="user_cart" class="nav-item nav-link">
                                         <i class="fas fa-shopping-cart text-primary"></i>
                                         Giỏ Hàng
-                                        <!-- <span class="badge text-secondary border border-secondary rounded-circle"
-                                              style="padding-bottom: 2px;">0</span> -->
+                                        <span class="badge text-secondary border border-secondary rounded-circle"
+                                              style="padding-bottom: 2px;">${requestScope.cart.totalItems}</span>
                                     </a>
                                 </div>
                             </div>
@@ -197,6 +197,10 @@
                         <h5 class="section-title position-relative text-uppercase mb-3"><span class="bg-secondary pr-3">Giỏ Hàng</span></h5>
                         <div class="bg-light p-30 mb-5">
                             <div class="pt-2">
+                                <div class="d-flex justify-content-between mt-2 total-items">
+                                    <h5>Tổng Số Sản Phẩm</h5>
+                                    <h5>${requestScope.cart.totalItems}</h5>
+                                </div>
                                 <div class="d-flex justify-content-between mt-2">
                                     <h5>Tổng Tiền</h5>
                                     <h5>${requestScope.cart.totalMoney}</h5>

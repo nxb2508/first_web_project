@@ -33,3 +33,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 .s-cart {
     margin-right: 5px;
 }
+
+.total-items {
+    border-bottom: 1px solid #001f3f;
+}

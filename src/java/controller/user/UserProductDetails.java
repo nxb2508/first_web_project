@@ -9,11 +9,14 @@ import dao.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
+import model.CartModel;
 import model.CategoryModel;
+import model.ItemModel;
 import model.ProductModel;
 
 /**
@@ -63,6 +66,23 @@ public class UserProductDetails extends HttpServlet {
         List<CategoryModel> categories_raw = new CategoryDAO().getAllCategories();
         List<CategoryModel> categories = new CategoryDAO().getCategoriesByPage(categories_raw, 0, Math.min(10, categories_raw.size()));
         String product_id_raw = request.getParameter("id");
+        
+        //cookie
+        Cookie[] cookies = request.getCookies();
+        String cookieTxt = "";
+        if(cookies != null){
+            for(Cookie cookie : cookies){
+                if(cookie.getName().equals("cart")){
+                    cookieTxt += cookie.getValue();
+                }
+            }
+        }
+        CartModel cart = new CartModel(cookieTxt);
+        List<ItemModel> items = cart.getItems();
+        
+        request.setAttribute("cart", cart);
+        request.setAttribute("items", items);
+        
         
         try {
             int product_id = Integer.parseInt(product_id_raw);

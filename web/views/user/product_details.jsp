@@ -63,7 +63,7 @@
                     <div class="col-lg-4 col-6 text-left">
                         <form action="user_products" method="get" id="form1">
                             <div class="input-group">
-                                <input type="text" name="product_name" value="${requestScope.product_name}" class="form-control" placeholder="Tìm kiếm sản phẩm">
+                                <input type="text" name="product_name" class="form-control" placeholder="Tìm kiếm sản phẩm">
                                 <div class="input-group-append">
                                     <button id="search_product" class="input-group-text bg-transparent text-primary">
                                         <i class="fa fa-search"></i>
@@ -106,8 +106,8 @@
                             </button>
                             <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                                 <div class="navbar-nav mr-auto py-0">
-                                    <a href="<c:url value="/user_home"/>" class="nav-item nav-link ">Trang chủ</a>
-                                    <a href="<c:url value="/user_products"/>" class="nav-item nav-link active">Toàn bộ sản phẩm</a>
+                                    <a href="<c:url value="/user_home"/>" class="nav-item nav-link">Trang chủ</a>
+                                    <a href="<c:url value="/user_products"/>" class="nav-item nav-link ">Toàn bộ sản phẩm</a>
                                     <a href="contact.html" class="nav-item nav-link">Liên Hệ</a>
                                 </div>
                                 <div class="navbar-nav py-0">
@@ -129,11 +129,11 @@
                                             Ðăng Nhập
                                         </a>
                                     </c:if>
-                                    <a href="" class="nav-item nav-link">
+                                    <a href="user_cart" class="nav-item nav-link">
                                         <i class="fas fa-shopping-cart text-primary"></i>
                                         Giỏ Hàng
-                                        <!-- <span class="badge text-secondary border border-secondary rounded-circle"
-                                              style="padding-bottom: 2px;">0</span> -->
+                                        <span class="badge text-secondary border border-secondary rounded-circle"
+                                              style="padding-bottom: 2px;">${requestScope.cart.totalItems}</span>
                                     </a>
                                 </div>
                             </div>
@@ -152,9 +152,9 @@
                 <div class="row px-xl-5">
                     <div class="col-12">
                         <nav class="breadcrumb bg-light mb-30">
-                            <a class="breadcrumb-item text-dark" href="#">Home</a>
-                            <a class="breadcrumb-item text-dark" href="#">Shop</a>
-                            <span class="breadcrumb-item active">Shop Detail</span>
+                            <a class="breadcrumb-item text-dark" href="user_home">Trang Chủ</a>
+                            <a class="breadcrumb-item text-dark" href="user_products">Toàn Bộ Sản Phẩm</a>
+                            <span class="breadcrumb-item active">${product.name}</span>
                         </nav>
                     </div>
                 </div>
@@ -188,23 +188,23 @@
                             <h3>${product.name}</h3>
                             <h3 class="font-weight-semi-bold mb-4">${product.price} VNÐ</h3>
                             <p class="mb-4">${product.description}</p>
-                            <div class="d-flex align-items-center mb-4 pt-2">
+                            <form action="user_add_to_cart" class="d-flex align-items-center mb-4 pt-2">
+                                <input type="hidden" name="product_id" value="${product.id}">
                                 <div class="input-group quantity mr-3" style="width: 130px;">
                                     <div class="input-group-btn">
-                                        <button class="btn btn-primary btn-minus">
+                                        <button type="button" class="btn btn-primary btn-minus">
                                             <i class="fa fa-minus"></i>
                                         </button>
                                     </div>
-                                    <input type="text" class="form-control bg-secondary border-0 text-center" value="1">
+                                    <input type="text" name="quantity" class="form-control bg-secondary border-0 text-center" value="1">
                                     <div class="input-group-btn">
-                                        <button class="btn btn-primary btn-plus">
+                                        <button type="button" class="btn btn-primary btn-plus">
                                             <i class="fa fa-plus"></i>
                                         </button>
                                     </div>
                                 </div>
-                                <button class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i> Add To
-                                    Cart</button>
-                            </div>
+                                <button type="submit" class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i> Thêm Vào Giỏ Hàng</button>
+                            </form>
                         </div>
                     </div>
                 </div>

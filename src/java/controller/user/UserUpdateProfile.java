@@ -9,10 +9,14 @@ import dao.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.List;
+import model.CartModel;
+import model.ItemModel;
 import model.UserModel;
 
 /**
@@ -56,6 +60,22 @@ public class UserUpdateProfile extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
+        //cookie
+        Cookie[] cookies = request.getCookies();
+        String cookieTxt = "";
+        if(cookies != null){
+            for(Cookie cookie : cookies){
+                if(cookie.getName().equals("cart")){
+                    cookieTxt += cookie.getValue();
+                }
+            }
+        }
+        CartModel cart = new CartModel(cookieTxt);
+        List<ItemModel> items = cart.getItems();
+        
+        request.setAttribute("cart", cart);
+        request.setAttribute("items", items);
+        
         request.getRequestDispatcher("views/user/update_profile.jsp").forward(request, response);
     } 
 
