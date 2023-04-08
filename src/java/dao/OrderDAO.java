@@ -20,13 +20,12 @@ import model.OrderModel;
 public class OrderDAO extends ConnectDB {
 
     public int addOrder(OrderModel order) {
-        Connection con = connection;
         int result = 0;
         String sql1 = "insert into orders (user_id, fullname, phone_number, email, address, note, total_money) values (?, ?, ?, ?, ?, ?, ?)";
         try {
-            con.setAutoCommit(false);
+            connection.setAutoCommit(false);
             //them thong tin order vao database
-            PreparedStatement statement1 = con.prepareStatement(sql1);
+            PreparedStatement statement1 = connection.prepareStatement(sql1);
             statement1.setInt(1, order.getUser().getId());
             statement1.setString(2, order.getFullname());
             statement1.setString(3, order.getPhoneNumber());
@@ -50,16 +49,34 @@ public class OrderDAO extends ConnectDB {
                         statement3.setInt(3, orderDetail.getPrice());
                         statement3.setInt(4, orderDetail.getQuantity());
                         result = statement3.executeUpdate();
+                        if (result != 0) {
+                            String sql4 = "update products set quantity = ? where id = ?";
+                            PreparedStatement statement4 = connection.prepareStatement(sql4);
+                            int productQuantity = orderDetail.getProduct().getQuantity();
+                            orderDetail.getProduct().setQuantity(productQuantity - orderDetail.getQuantity());
+                            statement4.setInt(1, orderDetail.getProduct().getQuantity());
+                            statement4.setInt(2, orderDetail.getProduct().getId());
+                            result = statement4.executeUpdate();
+                            if (result == 0) {
+                                connection.rollback();
+                                connection.setAutoCommit(true);
+                            }
+                        } else {
+                            connection.rollback();
+                            connection.setAutoCommit(true);
+                        }
                     }
-                    if(result != 0){
-                        con.commit();
+                    if (result != 0) {
+                        connection.commit();
+                        connection.setAutoCommit(true);
                     } else {
-                        con.rollback();
+                        connection.rollback();
+                        connection.setAutoCommit(true);
                     }
                 }
             }
         } catch (SQLException e) {
-            
+
         }
         return result;
     }

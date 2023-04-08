@@ -14,9 +14,11 @@
             </div>
         </div>
         <div class="text-center py-4">
-            <a class="h6 text-decoration-none text-truncate" href="<c:url value='/user_product_details?id=${product.id}'/>">${product.name}</a>
-            <div class="d-flex align-items-center justify-content-center mt-2">
-                <h5>${product.price} VNĐ</h5>
+            <a class="h5 text-decoration-none text-truncate" href="<c:url value='/user_product_details?id=${product.id}'/>"><p class="d-flex justify-content-center align-items-center" style="white-space: break-spaces; word-break: break-word; min-height: 48px">${product.name}</p></a>
+            <div class="d-flex align-items-center flex-column justify-content-center mt-2">
+                <h5 style="color: #999900">
+                    <fmt:formatNumber type = "number" maxFractionDigits = "3" value = "${product.price}" /> VNĐ</h5>
+                <h6>Còn lại: ${product.quantity}</h6>
             </div>
         </div>
     </div>

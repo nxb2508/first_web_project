@@ -8,6 +8,7 @@
 <%@page import="model.UserModel" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -215,14 +216,14 @@
                 <div class="row px-xl-5 pb-3">
                     <c:forEach var="category" items="${categories}">
                         <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                            <a class="text-decoration-none" href="">
+                            <a class="text-decoration-none" href="user_products?list_category_id=${category.id}">
                                 <div class="cat-item d-flex align-items-center mb-4">
                                     <div class="overflow-hidden" style="width: 100px; height: 100px;">
                                         <img class="img-fluid" src="<c:url value="/assets/images/${category.products[0].galeries[0].thumbnail}"/>" alt="">
                                     </div>
                                     <div class="flex-fill pl-3">
                                         <h6>${category.name}</h6>
-                                        <small class="text-body">${fn:length(category.products)} Sản Phẩm</small>
+                                        <small class="text-body">${fn:length(category.products)} Mẫu</small>
                                     </div>
                                 </div>
                             </a>
