@@ -101,57 +101,57 @@ public class UserCheckOut extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Cookie[] cookies = request.getCookies();
-        String cookieTxt = "";
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("cart")) {
-                    cookieTxt += cookie.getValue();
-                }
-            }
-        }
-        CartModel cart = new CartModel(cookieTxt);
-
-        HttpSession session = request.getSession();
-        UserModel user = (UserModel) session.getAttribute("user");
-
-        String fullname = request.getParameter("fullname");
-        String phoneNumber = request.getParameter("phone_number");
-        String address = request.getParameter("address");
-        String note = request.getParameter("note");
-
-        OrderModel order = new OrderModel();
-        order.setUser(user);
-        order.setFullname(fullname);
-        order.setPhoneNumber(phoneNumber);
-        order.setEmail(user.getEmail());
-        order.setAddress(address);
-        order.setNote(note);
-        order.setTotalMoney(cart.getTotalMoney());
-
-        List<OrderDetailModel> listOrderDetail = new ArrayList<>();
-        for (ItemModel item : cart.getItems()) {
-            OrderDetailModel orderDetail = new OrderDetailModel();
-            orderDetail.setProduct(item.getProduct());
-            orderDetail.setPrice(item.getPrice());
-            orderDetail.setQuantity(item.getQuantity());
-            listOrderDetail.add(orderDetail);
-        }
-
-        order.setOrderDetails(listOrderDetail);
-
-        OrderDAO orderDB = new OrderDAO();
-        int result = orderDB.addOrder(order);
-        if (result == 0) {
-            request.setAttribute("addOrderError", "Da Xay Ra Loi Trong Luc Dat Hang");
-            request.getRequestDispatcher("user_check_out").forward(request, response);
-        } else {
-            Cookie cookie = new Cookie("cart", "");
-            cookie.setMaxAge(0);
-            response.addCookie(cookie);
-            session.setAttribute("addOrderSuccess", "Dat Hang Thanh Cong");
-            response.sendRedirect("user_check_out");
-        }
+//        Cookie[] cookies = request.getCookies();
+//        String cookieTxt = "";
+//        if (cookies != null) {
+//            for (Cookie cookie : cookies) {
+//                if (cookie.getName().equals("cart")) {
+//                    cookieTxt += cookie.getValue();
+//                }
+//            }
+//        }
+//        CartModel cart = new CartModel(cookieTxt);
+//
+//        HttpSession session = request.getSession();
+//        UserModel user = (UserModel) session.getAttribute("user");
+//
+//        String fullname = request.getParameter("fullname");
+//        String phoneNumber = request.getParameter("phone_number");
+//        String address = request.getParameter("address");
+//        String note = request.getParameter("note");
+//
+//        OrderModel order = new OrderModel();
+//        order.setUser(user);
+//        order.setFullname(fullname);
+//        order.setPhoneNumber(phoneNumber);
+//        order.setEmail(user.getEmail());
+//        order.setAddress(address);
+//        order.setNote(note);
+//        order.setTotalMoney(cart.getTotalMoney());
+//
+//        List<OrderDetailModel> listOrderDetail = new ArrayList<>();
+//        for (ItemModel item : cart.getItems()) {
+//            OrderDetailModel orderDetail = new OrderDetailModel();
+//            orderDetail.setProduct(item.getProduct());
+//            orderDetail.setPrice(item.getPrice());
+//            orderDetail.setQuantity(item.getQuantity());
+//            listOrderDetail.add(orderDetail);
+//        }
+//
+//        order.setOrderDetails(listOrderDetail);
+//
+//        OrderDAO orderDB = new OrderDAO();
+//        int result = orderDB.addOrder(order);
+//        if (result == 0) {
+//            request.setAttribute("addOrderError", "Da Xay Ra Loi Trong Luc Dat Hang");
+//            request.getRequestDispatcher("user_check_out").forward(request, response);
+//        } else {
+//            Cookie cookie = new Cookie("cart", "");
+//            cookie.setMaxAge(0);
+//            response.addCookie(cookie);
+//            session.setAttribute("addOrderSuccess", "Dat Hang Thanh Cong");
+//            response.sendRedirect("user_check_out");
+//        }
 
     }
 

@@ -139,11 +139,31 @@ public class InventoryDAO extends ConnectDB {
         return 0;
     }
     
+    public InventoryModel getInventoryByProductIdAndSizeId(int productId, int sizeId){
+        InventoryModel inventory = new InventoryModel();
+        String sql = "select * from inventories where product_id = ? and size_id = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, productId);
+            statement.setInt(2, sizeId);
+            ResultSet rs = statement.executeQuery();
+            if(rs.next()){
+                inventory.setId(rs.getInt("id"));
+                inventory.setProduct(new ProductDAO().getProductById(rs.getInt("product_id")));
+                inventory.setSize(new SizeDAO().getSizeById(rs.getInt("size_id")));
+                inventory.setQuantity(rs.getInt("quantity"));
+                inventory.setSolds(rs.getInt("solds"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(InventoryDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return inventory;
+    }
     
     public static void main(String[] args) {
-        InventoryModel inventory = new InventoryDAO().getInventoryById(3);
+        InventoryModel inventory = new InventoryDAO().getInventoryByProductIdAndSizeId(1, 2);
         List<InventoryModel> inventories = new InventoryDAO().searchInventoryByName("ao");
-        System.out.println(inventories.size());
+        System.out.println(inventory.getId());
     }
 
 }

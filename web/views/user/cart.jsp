@@ -158,6 +158,7 @@
                             <thead class="thead-dark">
                                 <tr class="text-center">
                                     <th >Sản Phẩm</th>
+                                    <th >Kích Thước</th>
                                     <th>Giá</th>
                                     <th>Số Lượng</th>
                                     <th>Thành Tiền</th>
@@ -168,27 +169,32 @@
                                 <c:forEach var='item' items="${requestScope.items}">
                                     <tr>
                                         <td class="align-middle">
-                                            <img class=" ml-2 mr-2" src="/ttcs/assets/images/${item.product.galeries[0].thumbnail}" alt="" style="width: 50px;">
-                                            <span>${item.product.name}</span>
+                                            <img class=" ml-2 mr-2" src="/ttcs/assets/images/${item.inventory.product.galeries[0].thumbnail}" alt="" style="width: 50px;">
+                                            <span>${item.inventory.product.name}</span>
                                         </td>
-                                        <td class="align-middle text-center">${item.product.price}</td>
+                                        <td class="align-middle text-center">${item.inventory.size.name}</td>
+                                        <td class="align-middle text-center">
+                                            <fmt:formatNumber type = "number" maxFractionDigits = "3" value = "${item.inventory.product.price}" /> VNĐ
+                                        </td>
                                         <td class="align-middle text-center">
                                             <div class="input-group quantity mx-auto" style="width: 100px;">
                                                 <div class="input-group-btn">
-                                                    <a href="user_check_item_quantity?product_id=${item.product.id}&number=${-1}" class="btn btn-sm btn-primary btn-minus" >
+                                                    <a href="user_check_item_quantity?inventory_id=${item.inventory.id}&number=${-1}" class="btn btn-sm btn-primary btn-minus" >
                                                         <i class="fa fa-minus"></i>
                                                     </a>
                                                 </div>
                                                 <input type="text" class="form-control form-control-sm bg-secondary border-0 text-center" value="${item.quantity}">
                                                 <div class="input-group-btn">
-                                                    <a href="user_check_item_quantity?product_id=${item.product.id}&number=${1}" class="btn btn-sm btn-primary btn-plus">
+                                                    <a href="user_check_item_quantity?inventory_id=${item.inventory.id}&number=${1}" class="btn btn-sm btn-primary btn-plus">
                                                         <i class="fa fa-plus"></i>
                                                     </a>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="align-middle text-center">${(item.price * item.quantity)}</td>
-                                        <td class="align-middle text-center"><a href="user_check_item_quantity?product_id=${item.product.id}&number=${0}" class="btn btn-sm btn-danger"><i class="fa fa-times"></i></a></td>
+                                        <td class="align-middle text-center">
+                                            <fmt:formatNumber type = "number" maxFractionDigits = "3" value = "${(item.price * item.quantity)}" /> VNĐ
+                                        </td>
+                                        <td class="align-middle text-center"><a href="user_check_item_quantity?inventory_id=${item.inventory.id}&number=${0}" class="btn btn-sm btn-danger"><i class="fa fa-times"></i></a></td>
                                     </tr>
                                 </c:forEach>
                             </tbody>
@@ -204,7 +210,9 @@
                                 </div>
                                 <div class="d-flex justify-content-between mt-2">
                                     <h5>Tổng Tiền</h5>
-                                    <h5>${requestScope.cart.totalMoney}</h5>
+                                    <h5>
+                                        <fmt:formatNumber type = "number" maxFractionDigits = "3" value = "${requestScope.cart.totalMoney}" /> VNĐ
+                                    </h5>
                                 </div>
                                 <a href="user_check_out" class="btn btn-block btn-primary font-weight-bold my-3 py-3">Đặt Hàng</a>
                             </div>
@@ -239,10 +247,10 @@
         <script src="<c:url value="/template/user/js/main.js"/>"></script>
 
         <script>
-            console.log("${user.fullname}");
-            console.log("${user.email}");
-            console.log("${user.password}");
-            console.log("${user.phoneNumber}");
+            var outOfProduct = '${requestScope.outOfProduct}';
+            if(outOfProduct !== ''){
+                alert(outOfProduct);
+            }
         </script>
 
     </body>

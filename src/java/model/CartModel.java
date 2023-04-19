@@ -4,7 +4,7 @@
  */
 package model;
 
-import dao.ProductDAO;
+import dao.InventoryDAO;
 import java.util.*;
 
 /**
@@ -26,11 +26,11 @@ public class CartModel {
                 String cookies[] = cookieTxt.split("#");
                 for (String cookie : cookies) {
                     if (cookie != null && !cookie.equals("null&null")) {
-                        String[] keyValue = cookie.split("&");
-                        int productId = Integer.parseInt(keyValue[0]);
-                        ProductModel product = new ProductDAO().getProductById(productId);
-                        int itemQuantity = Integer.parseInt(keyValue[1]);
-                        ItemModel item = new ItemModel(product, itemQuantity, product.getPrice());
+                        String[] tuple = cookie.split("&");
+                        int inventoryId = Integer.parseInt(tuple[0]);
+                        int itemQuantity = Integer.parseInt(tuple[1]);
+                        InventoryModel inventory = new InventoryDAO().getInventoryById(inventoryId);
+                        ItemModel item = new ItemModel(inventory, itemQuantity, inventory.getProduct().getPrice());
                         addItem(item);
                     }
                 }
@@ -46,9 +46,9 @@ public class CartModel {
     }
 
     //lay item trong gio hang theo productId
-    private ItemModel getItemByProductId(int productId) {
+    private ItemModel getItemByInventoryId(int inventoryId) {
         for (ItemModel item : items) {
-            if (item.getProduct().getId() == productId) {
+            if (item.getInventory().getId() == inventoryId) {
                 return item;
             }
         }
@@ -56,14 +56,14 @@ public class CartModel {
     }
 
     //lay so luong item co trong gio hang theo productId
-    public int getItemQuantityByProductId(int productId) {
-        return getItemByProductId(productId).getQuantity();
+    public int getItemQuantityByInventoryId(int inventoryId) {
+        return getItemByInventoryId(inventoryId).getQuantity();
     }
 
     //them item vao gio hang
     public void addItem(ItemModel item) {
-        if (getItemByProductId(item.getProduct().getId()) != null) {
-            ItemModel existedItem = getItemByProductId(item.getProduct().getId());
+        if (getItemByInventoryId(item.getInventory().getId()) != null) {
+            ItemModel existedItem = getItemByInventoryId(item.getInventory().getId());
             existedItem.setQuantity(existedItem.getQuantity() + item.getQuantity());
         } else {
             items.add(item);
@@ -71,9 +71,9 @@ public class CartModel {
     }
 
     //xoa item khoi gio hang
-    public void removeItem(int productId) {
-        if (getItemByProductId(productId) != null) {
-            items.remove(getItemByProductId(productId));
+    public void removeItem(int inventoryId) {
+        if (getItemByInventoryId(inventoryId) != null) {
+            items.remove(getItemByInventoryId(inventoryId));
         }
     }
 
@@ -98,10 +98,10 @@ public class CartModel {
     //tra ve cookieTxt moi
     public String getCookieTxt() {
         String cookieTxt = "";
-        if (items.size() > 0) {
-            cookieTxt = items.get(0).getProduct().getId() + "&" + items.get(0).getQuantity();
+        if (!items.isEmpty()) {
+            cookieTxt = items.get(0).getInventory().getId() + "&" + items.get(0).getQuantity();
             for (int i = 1; i < items.size(); i++) {
-                cookieTxt += "#" + items.get(i).getProduct().getId() + "&" + items.get(i).getQuantity();
+                cookieTxt += "#" + items.get(i).getInventory().getId() + "&" + items.get(i).getQuantity();
             }
         }
         return cookieTxt;

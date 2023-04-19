@@ -193,11 +193,11 @@
                             <h4 class="mb-4">Mo ta: ${product.description}</h4>
                             <form action="user_add_to_cart" class="row align-items-center mb-4 pt-2">
                                 <div class="d-flex mb-4 col-12">
-                                    <strong class="text-dark mr-3">Sizes:</strong>
-                                    <c:forEach var="size" items="${sizes}">
+                                    <strong class="text-dark mr-3">Kich Thuoc: </strong>
+                                    <c:forEach var="i" begin="0" end="${sizes.size()-1}">
                                         <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" class="custom-control-input" id="size-${size.id}" name="size_id" value="${size.id}">
-                                            <label class="custom-control-label" for="size-${size.id}">${size.name}</label>
+                                            <input ${i==0?'checked':''} type="radio" class="custom-control-input" id="size-${sizes[i].id}" name="size_id" value="${sizes[i].id}">
+                                            <label class="custom-control-label" for="size-${sizes[i].id}">${sizes[i].name}</label>
                                         </div>
                                     </c:forEach>
                                 </div>
@@ -239,7 +239,7 @@
                                     <div class="product-img position-relative overflow-hidden">
                                         <img class="img-fluid w-100" src="<c:url value="/assets/images/${related_product.galeries[0].thumbnail}"/>" alt="">
                                         <div class="product-action">
-                                            <a class="btn btn-outline-dark btn-square" href="<c:url value='/user_product_details?id=${product.id}'/>"><i class="fa fa-shopping-cart"></i></a>
+                                            <a class="btn btn-outline-dark btn-square" href="<c:url value='/user_product_details?id=${related_product.id}'/>"><i class="fa fa-shopping-cart"></i></a>
                                         </div>
                                     </div>
                                     <div class="text-center py-4">

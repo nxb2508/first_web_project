@@ -4,16 +4,19 @@
  */
 package controller.user;
 
-import dao.ProductDAO;
+import dao.CategoryDAO;
+import dao.InventoryDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
 import model.CartModel;
+import model.CategoryModel;
+import model.InventoryModel;
 import model.ItemModel;
-import model.ProductModel;
 
 /**
  *
@@ -32,7 +35,6 @@ public class UserCheckItemQuantity extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         //reset cookie
         Cookie[] cookies = request.getCookies();
         String cookieTxt = "";
@@ -46,39 +48,46 @@ public class UserCheckItemQuantity extends HttpServlet {
             }
         }
         CartModel cart = new CartModel(cookieTxt);
-        
-        
-        String productIdRaw = request.getParameter("product_id");
-        String numberRaw = request.getParameter("number");
-//        try {
-//            int productId = Integer.parseInt(productIdRaw);
-//            ProductModel product = new ProductDAO().getProductById(productId);
-//            int productQuantity = product.getQuantity();
-//            int number = Integer.parseInt(numberRaw);
-//            int itemQuantity = cart.getItemQuantityByProductId(productId);
-//            if (number == 1) {
-//                if (itemQuantity >= productQuantity) {
-//                    request.setAttribute("outOfProduct", "khong du san pham");
-//                } else {
-//                    ItemModel item = new ItemModel(product, number, product.getPrice());
-//                    cart.addItem(item);
-//                }
-//            } else if (number == -1) {
-//                if (itemQuantity <= 1) {
-//                    cart.removeItem(productId);
-//                } else {
-//                    ItemModel item = new ItemModel(product, number, product.getPrice());
-//                    cart.addItem(item);
-//                }
-//            } else if (number == 0) {
-//                cart.removeItem(productId);
-//            }
-//            cookieTxt = cart.getCookieTxt();
-//            Cookie cookie = new Cookie("cart", cookieTxt);
-//            cookie.setMaxAge(7 * 24 * 60 * 60);
-//            response.addCookie(cookie);
-//        } catch (NumberFormatException e) {
-//        }
+        try {
+            int inventoryId = Integer.parseInt(request.getParameter("inventory_id"));
+            InventoryModel inventory = new InventoryDAO().getInventoryById(inventoryId);
+            int inventoryQuantity = inventory.getQuantity();
+            int number = Integer.parseInt(request.getParameter("number"));
+            int itemQuantity = cart.getItemQuantityByInventoryId(inventoryId);
+            if (number == 1) {
+                if (itemQuantity >= inventoryQuantity) {
+                    List<ItemModel> items = cart.getItems();
+                    request.setAttribute("cart", cart);
+                    request.setAttribute("items", items);
+                    cookieTxt = cart.getCookieTxt();
+                    Cookie cookie = new Cookie("cart", cookieTxt);
+                    cookie.setMaxAge(7 * 24 * 60 * 60);
+                    response.addCookie(cookie);
+                    List<CategoryModel> categories_raw = new CategoryDAO().getAllCategories();
+                    List<CategoryModel> categories = new CategoryDAO().getCategoriesByPage(categories_raw, 0, Math.min(10, categories_raw.size()));
+                    request.setAttribute("categories", categories);
+                    request.setAttribute("outOfProduct", "khong du san pham");
+                    request.getRequestDispatcher("views/user/cart.jsp").forward(request, response);
+                } else {
+                    ItemModel item = new ItemModel(inventory, number, inventory.getProduct().getPrice());
+                    cart.addItem(item);
+                }
+            } else if (number == -1) {
+                if (itemQuantity <= 1) {
+                    cart.removeItem(inventoryId);
+                } else {
+                    ItemModel item = new ItemModel(inventory, number, inventory.getProduct().getPrice());
+                    cart.addItem(item);
+                }
+            } else if (number == 0) {
+                cart.removeItem(inventoryId);
+            }
+            cookieTxt = cart.getCookieTxt();
+            Cookie cookie = new Cookie("cart", cookieTxt);
+            cookie.setMaxAge(7 * 24 * 60 * 60);
+            response.addCookie(cookie);
+        } catch (NumberFormatException e) {
+        }
         response.sendRedirect("user_cart");
     }
 
