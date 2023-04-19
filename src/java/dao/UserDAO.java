@@ -95,6 +95,31 @@ public class UserDAO extends ConnectDB{
         return user;
     }
     
+    //lay tai khoan bang id
+    public UserModel getUserById(int userId){
+        UserModel user = null;
+        String sql = "select * from users where id = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, userId);
+            ResultSet rs = statement.executeQuery();
+            if(rs.next()){
+                user = new UserModel();
+                user.setId(rs.getInt("id"));
+                user.setRole(new RoleDAO().getRoleById(rs.getInt("role_id")));
+                user.setFullname(rs.getString("fullname"));
+                user.setPhoneNumber(rs.getString("phone_number"));
+                user.setEmail(rs.getString("email"));
+                user.setPassword(rs.getString("password"));
+                return user;
+            }
+        } catch (SQLException e) {
+            return null;
+        }
+        return user;
+    }
+    
+    
     //sua tai khoan
     public int updateUser(UserModel user){
         String sql = "update users set fullname = ? , phone_number = ?, password = ? where id = ?";

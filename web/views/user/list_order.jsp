@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="model.UserModel" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
@@ -38,15 +39,16 @@
         <!-- Customized Bootstrap Stylesheet -->
         <link href="<c:url value="/template/user/css/style.css"/>" rel="stylesheet">
         <link href="<c:url value="/template/user/css/my-style.css"/>" rel="stylesheet">
+
+        <link rel="stylesheet" href="/ttcs/template/user/update_profile/css/styles.css">
     </head>
 
     <body>
 
         <!-- Variable Start -->
         <c:set var="categories" value="${requestScope.categories}"/>
-        <c:set var="product" value="${requestScope.product}"/>
-        <c:set var="related_products" value="${requestScope.related_products}"/>
-        <c:set var="sizes" value="${requestScope.sizes}"/>
+        <c:set var="orders" value="${requestScope.orders}"/>
+        <c:set var="user" value="${sessionScope.user}"/>
         <!-- Variable End -->
 
 
@@ -107,7 +109,7 @@
                             </button>
                             <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                                 <div class="navbar-nav mr-auto py-0">
-                                    <a href="<c:url value="/user_home"/>" class="nav-item nav-link">Trang chủ</a>
+                                    <a href="<c:url value="/user_home"/>" class="nav-item nav-link active">Trang chủ</a>
                                     <a href="<c:url value="/user_products"/>" class="nav-item nav-link ">Toàn bộ sản phẩm</a>
                                     <a href="contact.html" class="nav-item nav-link">Liên Hệ</a>
                                 </div>
@@ -148,121 +150,46 @@
 
         <!-- Content Start -->
         <section class="content">
-            <!-- Breadcrumb Start -->
-            <div class="container-fluid">
-                <div class="row px-xl-5">
+            <div class="container">
+                <div class="row flex-column">
+                    <h1 class="col-lg-12 text-center">Danh Sách Đơn Hàng</h1>
                     <div class="col-12">
-                        <nav class="breadcrumb bg-light mb-30">
-                            <a class="breadcrumb-item text-dark" href="user_home">Trang Chủ</a>
-                            <a class="breadcrumb-item text-dark" href="user_products">Toàn Bộ Sản Phẩm</a>
-                            <span class="breadcrumb-item active">${product.name}</span>
+                        <table class="table table-striped table-dark">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Tên</th>
+                                    <th scope="col">Số Điện Thoại</th>
+                                    <th scope="col">Ngày Đặt</th>
+                                    <th scope="col">Tổng Tiền</th>
+                                    <th scope="col">Trạng thái</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <c:forEach var="order" items="${orders}">
+                                    <tr>
+                                        <th>${order.fullname}</th>
+                                        <td>${order.phoneNumber}</td>
+                                        <td>${order.orderDate}</td>
+                                        <td>${order.totalMoney}</td>
+                                        <td>${order.status.name}</td>
+                                    </tr>
+                                </c:forEach>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-12">
+                        <nav>
+                            <ul class="pagination justify-content-center">
+                                <c:set var="page" value="${requestScope.page}"/>
+                                <c:forEach begin="${1}" end="${requestScope.totalPages}" var="i">
+                                    <li class="page-item ${(i==page)?"active":""}"><a class="page-link" href="user_list_order?page=${i}">${i}</a></li>
+                                    </c:forEach>
+                            </ul>
                         </nav>
                     </div>
                 </div>
+
             </div>
-            <!-- Breadcrumb End -->
-
-
-            <!-- Shop Detail Start -->
-            <div class="container-fluid pb-5">
-                <div class="row px-xl-5">
-                    <div class="col-lg-5 mb-30">
-                        <div id="product-carousel" class="carousel slide" data-ride="carousel">
-                            <div class="carousel-inner bg-light">
-                                <c:forEach begin="${0}" end="${(fn:length(product.galeries) - 1 > 0)?(fn:length(product.galeries) - 1):(0)}" step="${1}" var="i">
-                                    <div class="carousel-item ${(i == 0)?'active':''}">
-                                        <img class="w-100 h-100" src="<c:url value="/assets/images/${product.galeries[i].thumbnail}"/>" alt="Image">
-                                    </div>
-                                </c:forEach>
-                            </div>
-                            <a class="carousel-control-prev" href="#product-carousel" data-slide="prev">
-                                <i class="fa fa-2x fa-angle-left text-dark"></i>
-                            </a>
-                            <a class="carousel-control-next" href="#product-carousel" data-slide="next">
-                                <i class="fa fa-2x fa-angle-right text-dark"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-7 h-auto mb-30">
-                        <div class="h-100 bg-light p-30">
-                            <h2>${product.name}</h2>
-                            <h3 class="font-weight-semi-bold mb-4">
-                                Giá: <fmt:formatNumber type = "number" maxFractionDigits = "3" value = "${product.price}" /> VNĐ
-                            </h3>
-                            <h4 class="mb-4">Mo ta: ${product.description}</h4>
-                            <form action="user_add_to_cart" class="row align-items-center mb-4 pt-2">
-                                <div class="d-flex mb-4 col-12">
-                                    <strong class="text-dark mr-3">Kich Thuoc: </strong>
-                                    <c:forEach var="i" begin="0" end="${sizes.size()-1}">
-                                        <div class="custom-control custom-radio custom-control-inline">
-                                            <input ${i==0?'checked':''} type="radio" class="custom-control-input" id="size-${sizes[i].id}" name="size_id" value="${sizes[i].id}">
-                                            <label class="custom-control-label" for="size-${sizes[i].id}">${sizes[i].name}</label>
-                                        </div>
-                                    </c:forEach>
-                                </div>
-                                <div class="d-flex mb-4 col-12">
-                                    <strong class="text-dark mr-3">Con Lai: </strong>
-                                    <c:forEach var="i" begin="0" end="${4}">
-                                        <span>${i}</span>
-                                    </c:forEach>
-                                </div>
-
-                                <div class="col-12 d-flex">
-                                    <input type="hidden" name="product_id" value="${product.id}">
-                                    <div class="input-group quantity mr-3" style="width: 130px;">
-                                        <div class="input-group-btn">
-                                            <button type="button" class="btn btn-primary btn-minus">
-                                                <i class="fa fa-minus"></i>
-                                            </button>
-                                        </div>
-                                        <input type="text" name="quantity" class="form-control bg-secondary border-0 text-center" value="1">
-                                        <div class="input-group-btn">
-                                            <button type="button" class="btn btn-primary btn-plus">
-                                                <i class="fa fa-plus"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i> Thêm Vào Giỏ Hàng</button>
-                                </div>
-
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Shop Detail End -->
-
-
-            <!-- Products Start -->
-            <div class="container-fluid py-5">
-                <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">You May Also Like</span></h2>
-                <div class="row px-xl-5">
-                    <div class="col">
-                        <div class="owl-carousel related-carousel">
-                            <c:forEach var="related_product" items="${related_products}">
-                                <div class="product-item bg-light">
-                                    <div class="product-img position-relative overflow-hidden">
-                                        <img class="img-fluid w-100" src="<c:url value="/assets/images/${related_product.galeries[0].thumbnail}"/>" alt="">
-                                        <div class="product-action">
-                                            <a class="btn btn-outline-dark btn-square" href="<c:url value='/user_product_details?id=${related_product.id}'/>"><i class="fa fa-shopping-cart"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="text-center py-4">
-                                        <p class="d-flex justify-content-center align-items-center" style="white-space: break-spaces; word-break: break-word; min-height: 48px">${related_product.name}</p>
-                                        <div class="d-flex align-items-center flex-column justify-content-center mt-2">
-                                            <h5 style="color: #999900">
-                                                <fmt:formatNumber type = "number" maxFractionDigits = "3" value = "${related_product.price}" /> VNĐ
-                                            </h5>
-                                        </div>
-                                    </div>
-                                </div>
-                            </c:forEach>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Products End -->
         </section>
         <!-- Content End -->
 
@@ -286,6 +213,26 @@
 
         <!-- Template Javascript -->
         <script src="<c:url value="/template/user/js/main.js"/>"></script>
+
+        <script type="text/javascript">
+            var success = "${requestScope.success}";
+            var error = "${requestScope.error}";
+            var changePasswordSuccess = "${requestScope.changePasswordSuccess}";
+            var changePasswordError = "${requestScope.changePasswordError}";
+            var wrongOldPassword = "${requestScope.wrongOldPassword}";
+            if (success !== "") {
+                alert(success);
+            } else if (error !== "") {
+                alert(error);
+            } else if (changePasswordError !== "") {
+                alert(changePasswordError);
+            } else if (changePasswordSuccess !== "") {
+                alert(changePasswordSuccess);
+            } else if (wrongOldPassword !== "") {
+                alert(wrongOldPassword);
+            }
+        </script>
+
     </body>
 
 </html>

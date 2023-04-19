@@ -6,6 +6,7 @@ package controller.user;
 
 import dao.CategoryDAO;
 import dao.OrderDAO;
+import dao.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,12 +15,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import java.util.ArrayList;
 import java.util.List;
 import model.CartModel;
 import model.CategoryModel;
 import model.ItemModel;
-import model.OrderDetailModel;
 import model.OrderModel;
 import model.UserModel;
 
@@ -27,7 +26,7 @@ import model.UserModel;
  *
  * @author Bach
  */
-public class UserCheckOut extends HttpServlet {
+public class UserOrderList extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -46,10 +45,10 @@ public class UserCheckOut extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UserCheckOut</title>");
+            out.println("<title>Servlet UserOrderList</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet UserCheckOut at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet UserOrderList at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -67,7 +66,8 @@ public class UserCheckOut extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        List<CategoryModel> categories = new CategoryDAO().getAllCategories(); //lay toan bo ds san pham
+        request.setAttribute("categories", categories); //gui categories sang front end
         Cookie[] cookies = request.getCookies();
         String cookieTxt = "";
         if (cookies != null) {
@@ -83,11 +83,31 @@ public class UserCheckOut extends HttpServlet {
         request.setAttribute("cart", cart);
         request.setAttribute("items", items);
 
-        List<CategoryModel> categories_raw = new CategoryDAO().getAllCategories();
-        List<CategoryModel> categories = new CategoryDAO().getCategoriesByPage(categories_raw, 0, Math.min(10, categories_raw.size()));
-        request.setAttribute("categories", categories);
-
-        request.getRequestDispatcher("views/user/check_out.jsp").forward(request, response);
+        int itemsPerPage = 10;
+        String page_raw = request.getParameter("page");
+        int page;
+        if (page_raw != null) {
+            try {
+                page = Integer.parseInt(page_raw);
+            } catch (NumberFormatException e) {
+                page = 1;
+                System.out.println(e);
+            }
+        } else {
+            page = 1;
+        }
+        
+        HttpSession session = request.getSession();
+        UserModel user = (UserModel) session.getAttribute("user");
+        
+        List<OrderModel> listOrderRaw = new OrderDAO().listOrderByUser(user);
+        int totalPages = (int) Math.ceil(listOrderRaw.size() * 1.0 / itemsPerPage);
+        int start = (page - 1) * itemsPerPage;
+        int end = Math.min(page * itemsPerPage, listOrderRaw.size());
+        request.setAttribute("page", page);
+        request.setAttribute("totalPages", totalPages);
+        request.setAttribute("orders", new OrderDAO().getOrdersByPage(listOrderRaw, start, end));
+        request.getRequestDispatcher("views/user/list_order.jsp").forward(request, response);
     }
 
     /**
@@ -101,57 +121,7 @@ public class UserCheckOut extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Cookie[] cookies = request.getCookies();
-        String cookieTxt = "";
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("cart")) {
-                    cookieTxt += cookie.getValue();
-                }
-            }
-        }
-        CartModel cart = new CartModel(cookieTxt);
-
-        HttpSession session = request.getSession();
-        UserModel user = (UserModel) session.getAttribute("user");
-
-        String fullname = request.getParameter("fullname");
-        String phoneNumber = request.getParameter("phone_number");
-        String address = request.getParameter("address");
-        String note = request.getParameter("note");
-
-        OrderModel order = new OrderModel();
-        order.setUser(user);
-        order.setFullname(fullname);
-        order.setPhoneNumber(phoneNumber);
-        order.setAddress(address);
-        order.setNote(note);
-        order.setTotalMoney(cart.getTotalMoney());
-
-        List<OrderDetailModel> listOrderDetail = new ArrayList<>();
-        for (ItemModel item : cart.getItems()) {
-            OrderDetailModel orderDetail = new OrderDetailModel();
-            orderDetail.setInventory(item.getInventory());
-            orderDetail.setPrice(item.getPrice());
-            orderDetail.setQuantity(item.getQuantity());
-            listOrderDetail.add(orderDetail);
-        }
-
-        order.setOrderDetails(listOrderDetail);
-
-        OrderDAO orderDB = new OrderDAO();
-        int result = orderDB.addOrder(order);
-        if (result == 0) {
-            request.setAttribute("addOrderError", "Da Xay Ra Loi Trong Luc Dat Hang");
-            request.getRequestDispatcher("user_check_out").forward(request, response);
-        } else {
-            Cookie cookie = new Cookie("cart", "");
-            cookie.setMaxAge(0);
-            response.addCookie(cookie);
-            request.setAttribute("addOrderSuccess", "Dat Hang Thanh Cong");
-            response.sendRedirect("user_list_order");
-        }
-
+        processRequest(request, response);
     }
 
     /**

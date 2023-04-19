@@ -189,10 +189,13 @@
                             </span>
                             <small>Error</small>
                         </div>
-                        <div class="form-group row justify-content-between">
-                            <a href="user_change_password" class="btn btn-primary form-control col-3">Thay Đổi Mật Khẩu</a>
+                        <div class="form-group row justify-content-around">
                             <a href="user_update_profile" class="btn btn-primary form-control col-3">Cập Nhật Thông Tin</a>
-                            <a href="user_sign_out" class="btn sign-out form-control col-2"><i class="fa-solid fa-right-from-bracket text-primary"></i>Đăng Xuất</a>
+                            <a href="user_change_password" class="btn btn-primary form-control col-3">Thay Đổi Mật Khẩu</a>
+                        </div>
+                        <div class="form-group row justify-content-around">
+                            <a href="user_list_order" class="btn btn-primary form-control col-3">Đơn Hàng</a>
+                            <a href="user_sign_out" class="btn sign-out form-control col-3"><i class="fa-solid fa-right-from-bracket text-primary"></i>Đăng Xuất</a>
                         </div>
                     </form>
                 </div>
@@ -228,21 +231,21 @@
             console.log("${user.email}");
             console.log("${user.password}");
             console.log("${user.phoneNumber}");
-            
+
             var success = "${requestScope.success}";
             var error = "${requestScope.error}";
             var changePasswordSuccess = "${requestScope.changePasswordSuccess}";
             var changePasswordError = "${requestScope.changePasswordError}";
             var wrongOldPassword = "${requestScope.wrongOldPassword}";
-            if (success !== ""){
+            if (success !== "") {
                 alert(success);
-            } else if (error !== ""){
+            } else if (error !== "") {
                 alert(error);
-            } else if (changePasswordError !== ""){
+            } else if (changePasswordError !== "") {
                 alert(changePasswordError);
-            } else if (changePasswordSuccess !== ""){
+            } else if (changePasswordSuccess !== "") {
                 alert(changePasswordSuccess);
-            } else if (wrongOldPassword !== ""){
+            } else if (wrongOldPassword !== "") {
                 alert(wrongOldPassword);
             }
         </script>

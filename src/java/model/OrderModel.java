@@ -4,6 +4,7 @@
  */
 package model;
 
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -14,21 +15,20 @@ public class OrderModel {
 
     private int id;
     private UserModel user;
-    private String fullname, phoneNumber, email, address, note;
-    private int status;
-    private String orderDate;
+    private String fullname, phoneNumber, address, note;
+    private StatusModel status;
+    private Date orderDate;
     private int totalMoney;
     private List<OrderDetailModel> orderDetails;
-    
+
     public OrderModel() {
     }
 
-    public OrderModel(int id, UserModel user, String fullname, String phoneNumber, String email, String address, String note, int status, String orderDate, int totalMoney, List<OrderDetailModel> orderDetails) {
+    public OrderModel(int id, UserModel user, String fullname, String phoneNumber, String address, String note, StatusModel status, Date orderDate, int totalMoney, List<OrderDetailModel> orderDetails) {
         this.id = id;
         this.user = user;
         this.fullname = fullname;
         this.phoneNumber = phoneNumber;
-        this.email = email;
         this.address = address;
         this.note = note;
         this.status = status;
@@ -69,14 +69,6 @@ public class OrderModel {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getAddress() {
         return address;
     }
@@ -93,19 +85,19 @@ public class OrderModel {
         this.note = note;
     }
 
-    public int getStatus() {
+    public StatusModel getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(StatusModel status) {
         this.status = status;
     }
 
-    public String getOrderDate() {
+    public Date getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(String orderDate) {
+    public void setOrderDate(Date orderDate) {
         this.orderDate = orderDate;
     }
 
@@ -125,10 +117,4 @@ public class OrderModel {
         this.orderDetails = orderDetails;
     }
 
-    
-    
-    
-    
-    
-    
 }

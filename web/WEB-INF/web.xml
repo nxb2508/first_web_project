@@ -41,6 +41,7 @@
         <url-pattern>/user_update_profile</url-pattern>
         <url-pattern>/user_change_password</url-pattern>
         <url-pattern>/user_check_out</url-pattern>
+        <url-pattern>/user_list_order</url-pattern>
     </filter-mapping>
     <servlet>
         <servlet-name>ListCategory</servlet-name>
@@ -193,6 +194,14 @@
     <servlet>
         <servlet-name>UpdateInventory</servlet-name>
         <servlet-class>controller.admin.UpdateInventory</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UserSuccess</servlet-name>
+        <servlet-class>controller.user.UserSuccess</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UserOrderList</servlet-name>
+        <servlet-class>controller.user.UserOrderList</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ListCategory</servlet-name>
@@ -349,6 +358,14 @@
     <servlet-mapping>
         <servlet-name>UpdateInventory</servlet-name>
         <url-pattern>/admin-update-inventory</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserSuccess</servlet-name>
+        <url-pattern>/test</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserOrderList</servlet-name>
+        <url-pattern>/user_list_order</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

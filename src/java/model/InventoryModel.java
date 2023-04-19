@@ -13,25 +13,15 @@ public class InventoryModel {
     private ProductModel product;
     private SizeModel size;
     private int quantity;
-    private int solds;
 
     public InventoryModel() {
     }
 
-    public InventoryModel(int id, ProductModel product, SizeModel size, int quantity, int solds) {
+    public InventoryModel(int id, ProductModel product, SizeModel size, int quantity) {
         this.id = id;
         this.product = product;
         this.size = size;
         this.quantity = quantity;
-        this.solds = solds;
-    }
-
-    public int getSolds() {
-        return solds;
-    }
-
-    public void setSolds(int solds) {
-        this.solds = solds;
     }
 
     public int getId() {

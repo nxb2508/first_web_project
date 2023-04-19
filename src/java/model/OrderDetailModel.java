@@ -12,16 +12,16 @@ public class OrderDetailModel {
 
     private int id;
     private OrderModel order;
-    private ProductModel product;
+    private InventoryModel inventory;
     private int price, quantity;
     
     public OrderDetailModel() {
     }
 
-    public OrderDetailModel(int id, OrderModel order, ProductModel product, int price, int quantity) {
+    public OrderDetailModel(int id, OrderModel order, InventoryModel inventory, int price, int quantity) {
         this.id = id;
         this.order = order;
-        this.product = product;
+        this.inventory = inventory;
         this.price = price;
         this.quantity = quantity;
     }
@@ -42,12 +42,12 @@ public class OrderDetailModel {
         this.order = order;
     }
 
-    public ProductModel getProduct() {
-        return product;
+    public InventoryModel getInventory() {
+        return inventory;
     }
 
-    public void setProduct(ProductModel product) {
-        this.product = product;
+    public void setInventory(InventoryModel inventory) {
+        this.inventory = inventory;
     }
 
     public int getPrice() {
@@ -65,7 +65,7 @@ public class OrderDetailModel {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
-    
+
     
     
 }

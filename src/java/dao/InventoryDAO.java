@@ -32,7 +32,6 @@ public class InventoryDAO extends ConnectDB {
                 inventory.setProduct(new ProductDAO().getProductById(rs.getInt("product_id")));
                 inventory.setSize(new SizeDAO().getSizeById(rs.getInt("size_id")));
                 inventory.setQuantity(rs.getInt("quantity"));
-                inventory.setSolds(rs.getInt("solds"));
                 inventories.add(inventory);
             }
         } catch (SQLException e) {
@@ -57,7 +56,6 @@ public class InventoryDAO extends ConnectDB {
             statement.setInt(1, inventory.getProduct().getId());
             statement.setInt(2, inventory.getSize().getId());
             statement.setInt(3, inventory.getQuantity());
-            statement.setInt(4, inventory.getSolds());
             return statement.executeUpdate();
         } catch (SQLException ex) {
         }
@@ -77,7 +75,6 @@ public class InventoryDAO extends ConnectDB {
                 inventory.setProduct(new ProductDAO().getProductById(rs.getInt("product_id")));
                 inventory.setSize(new SizeDAO().getSizeById(rs.getInt("size_id")));
                 inventory.setQuantity(rs.getInt("quantity"));
-                inventory.setSolds(rs.getInt("solds"));
                 return inventory;
             }
         } catch (SQLException ex) {
@@ -103,7 +100,6 @@ public class InventoryDAO extends ConnectDB {
                 inventory.setProduct(new ProductDAO().getProductById(rs.getInt("product_id")));
                 inventory.setSize(new SizeDAO().getSizeById(rs.getInt("size_id")));
                 inventory.setQuantity(rs.getInt("quantity"));
-                inventory.setSolds(rs.getInt("solds"));
                 inventories.add(inventory);
             }
         } catch (SQLException ex) {
@@ -152,7 +148,6 @@ public class InventoryDAO extends ConnectDB {
                 inventory.setProduct(new ProductDAO().getProductById(rs.getInt("product_id")));
                 inventory.setSize(new SizeDAO().getSizeById(rs.getInt("size_id")));
                 inventory.setQuantity(rs.getInt("quantity"));
-                inventory.setSolds(rs.getInt("solds"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(InventoryDAO.class.getName()).log(Level.SEVERE, null, ex);

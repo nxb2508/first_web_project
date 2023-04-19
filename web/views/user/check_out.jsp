@@ -191,23 +191,31 @@
                                     <div style="width: 60%">
                                         <h6 class="mb-3">Danh Sách Sản Phẩm</h6>
                                     </div>
+                                    <div class="text-center" style="width: 20%">Kich Thuoc</div>
                                     <div class="text-center" style="width: 20%">Số Lượng</div>
                                     <div class="text-center" style="width: 20%">Giá</div>
                                 </div>
                                 <c:forEach var="item" items="${cart.items}">
                                     <div class="d-flex justify-content-between">
                                         <div style="width: 60%">
-                                            <p>${item.product.name}</p>
+                                            <p>${item.inventory.product.name}</p>
                                         </div>
+                                        <div class="text-center" style="width: 20%"><p>${item.inventory.size.name}</p></div>
                                         <div class="text-center" style="width: 20%"><p>${item.quantity}</p></div>
-                                        <div class="text-center" style="width: 20%"><p>${item.price}</p></div>
+                                        <div class="text-center" style="width: 20%">
+                                            <p>
+                                                <fmt:formatNumber type = "number" maxFractionDigits = "3" value = "${item.price}" /> VNĐ
+                                            </p>
+                                        </div>
                                     </div>
                                 </c:forEach>
                             </div>
                             <div class="pt-2">
                                 <div class="d-flex justify-content-between mt-2">
                                     <h5 style="width: 80%">Tổng Tiền</h5>
-                                    <h5 class="text-center" style="width: 20%">${cart.totalMoney}</h5>
+                                    <h5 class="text-center" style="width: 20%">
+                                        <fmt:formatNumber type = "number" maxFractionDigits = "3" value = "${cart.totalMoney}" /> VNĐ
+                                    </h5>
                                 </div>
                             </div>
                         </div>
@@ -264,13 +272,13 @@
 
                 if (totalItems <= 0) {
                     alert("Vui Lòng Chọn Sản Phẩm Trước Khi Đặt Hàng");
-                } else if(fullnameValue === ""){
+                } else if (fullnameValue === "") {
                     alert("Vui Lòng Nhập Họ Và Tên");
                     phoneNumber.focus();
-                }else if(!phoneNumberValue.match(phoneNumberRegex)){
+                } else if (!phoneNumberValue.match(phoneNumberRegex)) {
                     alert("Vui Lòng Nhập Đúng Số Điện Thoại");
                     phoneNumber.focus();
-                } else if (addressValue === ""){
+                } else if (addressValue === "") {
                     alert("Vui Lòng Nhập Địa Chỉ");
                     address.focus();
                 } else {
