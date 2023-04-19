@@ -131,6 +131,8 @@ public class CategoryDAO extends ConnectDB {
     }
     
     public static void main(String[] args) {
+        List<CategoryModel> categories = new CategoryDAO().getAllCategories();
+        System.out.println(categories.size());
     }
 
 }

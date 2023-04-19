@@ -4,21 +4,19 @@
  */
 package controller.admin;
 
-import dao.CategoryDAO;
+import dao.SizeDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
-import model.CategoryModel;
 
 /**
  *
  * @author Bach
  */
-public class ListCategory extends HttpServlet {
+public class AddSize extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,10 +35,10 @@ public class ListCategory extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ListCategory</title>");
+            out.println("<title>Servlet AddSize</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ListCategory at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet AddSize at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -58,29 +56,7 @@ public class ListCategory extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String category_name = request.getParameter("category_name");
-        if (category_name == null) {
-            category_name = "";
-        }
-        CategoryDAO categoryDB = new CategoryDAO();
-        List<CategoryModel> categoriesRaw = categoryDB.searchCategoriesByName(category_name);
-        int itemsPerPage = 10;
-        String pageStr = request.getParameter("page");
-        int page;
-        if (pageStr != null) {
-            page = Integer.parseInt(pageStr);
-        } else {
-            page = 1;
-        }
-        int start = (page - 1) * itemsPerPage;
-        int totalPages = (int) Math.ceil(categoriesRaw.size() * 1.0 / itemsPerPage);
-        int end = Math.min(page * itemsPerPage, categoriesRaw.size());
-        List<CategoryModel> categories = categoryDB.getCategoriesByPage(categoriesRaw, start, end);
-        request.setAttribute("page", page);
-        request.setAttribute("totalPages", totalPages);
-        request.setAttribute("categories", categories);
-        request.setAttribute("category_name", category_name);
-        request.getRequestDispatcher("views/admin/list_category.jsp").forward(request, response);
+        request.getRequestDispatcher("views/admin/add_size.jsp").forward(request, response);
     }
 
     /**
@@ -94,29 +70,15 @@ public class ListCategory extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String category_name = request.getParameter("category_name");
-        if (category_name == null) {
-            category_name = "";
-        }
-        CategoryDAO categoryDB = new CategoryDAO();
-        List<CategoryModel> categoriesRaw = categoryDB.searchCategoriesByName(category_name);
-        int itemsPerPage = 10;
-        String pageStr = request.getParameter("page");
-        int page;
-        if (pageStr != null) {
-            page = Integer.parseInt(pageStr);
+        String name = request.getParameter("size_name");
+        SizeDAO sizeDB = new SizeDAO();
+        int result = sizeDB.addSize(name);
+        if (result == 0) {
+            request.setAttribute("addError", "Đã Xảy Ra Lỗi Khi Thêm Kích Thước Sản Phẩm");
         } else {
-            page = 1;
+            request.setAttribute("added", "Đã Thêm Kích Thước Sản Phẩm");
         }
-        int start = (page - 1) * itemsPerPage;
-        int totalPages = (int) Math.ceil(categoriesRaw.size() * 1.0 / itemsPerPage);
-        int end = Math.min(page * itemsPerPage, categoriesRaw.size());
-        List<CategoryModel> categories = categoryDB.getCategoriesByPage(categoriesRaw, start, end);
-        request.setAttribute("page", page);
-        request.setAttribute("totalPages", totalPages);
-        request.setAttribute("categories", categories);
-        request.setAttribute("category_name", category_name);
-        request.getRequestDispatcher("views/admin/list_category.jsp").forward(request, response);
+        request.getRequestDispatcher("admin-list-size").forward(request, response);
     }
 
     /**

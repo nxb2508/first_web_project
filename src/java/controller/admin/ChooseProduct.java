@@ -4,21 +4,22 @@
  */
 package controller.admin;
 
-import dao.CategoryDAO;
+import dao.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.Collections;
 import java.util.List;
-import model.CategoryModel;
+import model.ProductModel;
 
 /**
  *
  * @author Bach
  */
-public class ListCategory extends HttpServlet {
+public class ChooseProduct extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,10 +38,10 @@ public class ListCategory extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ListCategory</title>");
+            out.println("<title>Servlet ChooseProduct</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ListCategory at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ChooseProduct at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -58,29 +59,43 @@ public class ListCategory extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String category_name = request.getParameter("category_name");
-        if (category_name == null) {
-            category_name = "";
+        String search_description = request.getParameter("search_description");
+        String sort_by = request.getParameter("sort_by");
+        if (search_description == null) {
+            search_description = "";
         }
-        CategoryDAO categoryDB = new CategoryDAO();
-        List<CategoryModel> categoriesRaw = categoryDB.searchCategoriesByName(category_name);
+        List<ProductModel> products = new ProductDAO().searchProducts(search_description);
+        if (sort_by != null) {
+            if (sort_by.equals("asc")) {
+                Collections.sort(products);
+            } else if (sort_by.equals("desc")) {
+                Collections.sort(products, Collections.reverseOrder());
+            }
+        } else {
+            sort_by = "none";
+        }
         int itemsPerPage = 10;
-        String pageStr = request.getParameter("page");
+        String page_raw = request.getParameter("page");
         int page;
-        if (pageStr != null) {
-            page = Integer.parseInt(pageStr);
+        if (page_raw != null) {
+            try {
+                page = Integer.parseInt(page_raw);
+            } catch (NumberFormatException e) {
+                page = 1;
+                System.out.println(e);
+            }
         } else {
             page = 1;
         }
+        int totalPages = (int) Math.ceil(products.size() * 1.0 / itemsPerPage);
         int start = (page - 1) * itemsPerPage;
-        int totalPages = (int) Math.ceil(categoriesRaw.size() * 1.0 / itemsPerPage);
-        int end = Math.min(page * itemsPerPage, categoriesRaw.size());
-        List<CategoryModel> categories = categoryDB.getCategoriesByPage(categoriesRaw, start, end);
+        int end = Math.min(page * itemsPerPage, products.size());
+        request.setAttribute("search_description", search_description);
+        request.setAttribute("sort_by", sort_by);
         request.setAttribute("page", page);
         request.setAttribute("totalPages", totalPages);
-        request.setAttribute("categories", categories);
-        request.setAttribute("category_name", category_name);
-        request.getRequestDispatcher("views/admin/list_category.jsp").forward(request, response);
+        request.setAttribute("products", new ProductDAO().getProductsByPage(products, start, end));
+        request.getRequestDispatcher("views/admin/choose_product.jsp").forward(request, response);
     }
 
     /**
@@ -94,29 +109,7 @@ public class ListCategory extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String category_name = request.getParameter("category_name");
-        if (category_name == null) {
-            category_name = "";
-        }
-        CategoryDAO categoryDB = new CategoryDAO();
-        List<CategoryModel> categoriesRaw = categoryDB.searchCategoriesByName(category_name);
-        int itemsPerPage = 10;
-        String pageStr = request.getParameter("page");
-        int page;
-        if (pageStr != null) {
-            page = Integer.parseInt(pageStr);
-        } else {
-            page = 1;
-        }
-        int start = (page - 1) * itemsPerPage;
-        int totalPages = (int) Math.ceil(categoriesRaw.size() * 1.0 / itemsPerPage);
-        int end = Math.min(page * itemsPerPage, categoriesRaw.size());
-        List<CategoryModel> categories = categoryDB.getCategoriesByPage(categoriesRaw, start, end);
-        request.setAttribute("page", page);
-        request.setAttribute("totalPages", totalPages);
-        request.setAttribute("categories", categories);
-        request.setAttribute("category_name", category_name);
-        request.getRequestDispatcher("views/admin/list_category.jsp").forward(request, response);
+        processRequest(request, response);
     }
 
     /**

@@ -8,10 +8,10 @@ import dao.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.Collections;
 import java.util.List;
 import model.ProductModel;
 
@@ -59,7 +59,23 @@ public class ListProduct extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List<ProductModel> products = new ProductDAO().getAllProducts();
+        String search_description = request.getParameter("search_description");
+        String sort_by = request.getParameter("sort_by");
+        if (search_description == null) {
+            search_description = "";
+        }
+        List<ProductModel> products = new ProductDAO().searchProducts(search_description);
+        if (sort_by != null) {
+            if (sort_by.equals("asc")) {
+                Collections.sort(products);
+            } else if (sort_by.equals("desc")) {
+                Collections.sort(products, Collections.reverseOrder());
+            } else {
+                sort_by = "none";
+            }
+        } else {
+            sort_by = "none";
+        }
         int itemsPerPage = 10;
         String page_raw = request.getParameter("page");
         int page;
@@ -76,6 +92,8 @@ public class ListProduct extends HttpServlet {
         int totalPages = (int) Math.ceil(products.size() * 1.0 / itemsPerPage);
         int start = (page - 1) * itemsPerPage;
         int end = Math.min(page * itemsPerPage, products.size());
+        request.setAttribute("search_description", search_description);
+        request.setAttribute("sort_by", sort_by);
         request.setAttribute("page", page);
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("products", new ProductDAO().getProductsByPage(products, start, end));

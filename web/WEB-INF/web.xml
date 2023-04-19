@@ -71,10 +71,6 @@
         <servlet-class>controller.admin.DeleteProduct</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>SearchProduct</servlet-name>
-        <servlet-class>controller.admin.SearchProduct</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>ListGalery</servlet-name>
         <servlet-class>controller.admin.ListGalery</servlet-class>
     </servlet>
@@ -158,6 +154,46 @@
         <servlet-name>UserCheckOut</servlet-name>
         <servlet-class>controller.user.UserCheckOut</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ListOrder</servlet-name>
+        <servlet-class>controller.admin.ListOrder</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddSize</servlet-name>
+        <servlet-class>controller.admin.AddSize</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ListSize</servlet-name>
+        <servlet-class>controller.admin.ListSize</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateSize</servlet-name>
+        <servlet-class>controller.admin.UpdateSize</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteSize</servlet-name>
+        <servlet-class>controller.admin.DeleteSize</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ListInventory</servlet-name>
+        <servlet-class>controller.admin.ListInventory</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddInventory</servlet-name>
+        <servlet-class>controller.admin.AddInventory</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ChooseProduct</servlet-name>
+        <servlet-class>controller.admin.ChooseProduct</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteInventory</servlet-name>
+        <servlet-class>controller.admin.DeleteInventory</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateInventory</servlet-name>
+        <servlet-class>controller.admin.UpdateInventory</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ListCategory</servlet-name>
         <url-pattern>/list_category</url-pattern>
@@ -185,10 +221,6 @@
     <servlet-mapping>
         <servlet-name>DeleteProduct</servlet-name>
         <url-pattern>/delete_product</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>SearchProduct</servlet-name>
-        <url-pattern>/search_product</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ListGalery</servlet-name>
@@ -278,9 +310,49 @@
         <servlet-name>UserCheckOut</servlet-name>
         <url-pattern>/user_check_out</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListOrder</servlet-name>
+        <url-pattern>/admin-list-order</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddSize</servlet-name>
+        <url-pattern>/admin-add-size</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListSize</servlet-name>
+        <url-pattern>/admin-list-size</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateSize</servlet-name>
+        <url-pattern>/admin-update-size</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteSize</servlet-name>
+        <url-pattern>/admin-delete-size</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListInventory</servlet-name>
+        <url-pattern>/admin-list-inventory</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddInventory</servlet-name>
+        <url-pattern>/admin-add-inventory</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChooseProduct</servlet-name>
+        <url-pattern>/admin-choose-product</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteInventory</servlet-name>
+        <url-pattern>/admin-delete-inventory</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateInventory</servlet-name>
+        <url-pattern>/admin-update-inventory</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
-            10
+            60
         </session-timeout>
     </session-config>
 </web-app>

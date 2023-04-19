@@ -4,8 +4,6 @@
  */
 package model;
 
-import java.util.List;
-
 /**
  *
  * @author Bach
@@ -15,21 +13,17 @@ public class UserModel {
     private int id;
     private RoleModel role;
     private String fullname, phoneNumber, email, password;
-    private List<FeedbackModel> feedbacks;
-    private List<OrderModel> orders;
     
     public UserModel() {
     }
 
-    public UserModel(int id, RoleModel role, String fullname, String phoneNumber, String email, String password, List<FeedbackModel> feedbacks, List<OrderModel> orders) {
+    public UserModel(int id, RoleModel role, String fullname, String phoneNumber, String email, String password) {
         this.id = id;
         this.role = role;
         this.fullname = fullname;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.password = password;
-        this.feedbacks = feedbacks;
-        this.orders = orders;
     }
 
     public int getId() {
@@ -79,24 +73,5 @@ public class UserModel {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    public List<FeedbackModel> getFeedbacks() {
-        return feedbacks;
-    }
-
-    public void setFeedbacks(List<FeedbackModel> feedbacks) {
-        this.feedbacks = feedbacks;
-    }
-
-    public List<OrderModel> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<OrderModel> orders) {
-        this.orders = orders;
-    }
-
-    
-    
     
 }

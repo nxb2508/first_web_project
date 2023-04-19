@@ -2,24 +2,22 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.user;
+package controller.admin;
 
-import dao.ProductDAO;
+import dao.SizeDAO;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.CartModel;
-import model.ItemModel;
-import model.ProductModel;
+import java.util.List;
+import model.SizeModel;
 
 /**
  *
  * @author Bach
  */
-public class UserCheckItemQuantity extends HttpServlet {
+public class ListSize extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,54 +30,29 @@ public class UserCheckItemQuantity extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        //reset cookie
-        Cookie[] cookies = request.getCookies();
-        String cookieTxt = "";
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("cart")) {
-                    cookieTxt += cookie.getValue();
-                    cookie.setMaxAge(0);
-                    response.addCookie(cookie);
-                }
+        SizeDAO sizeDB = new SizeDAO();
+        int itemsPerPage = 10;
+        String page_raw = request.getParameter("page");
+        int page;
+        if (page_raw != null) {
+            try {
+                page = Integer.parseInt(page_raw);
+            } catch (NumberFormatException e) {
+                page = 1;
+                System.out.println(e);
             }
+        } else {
+            page = 1;
         }
-        CartModel cart = new CartModel(cookieTxt);
-        
-        
-        String productIdRaw = request.getParameter("product_id");
-        String numberRaw = request.getParameter("number");
-//        try {
-//            int productId = Integer.parseInt(productIdRaw);
-//            ProductModel product = new ProductDAO().getProductById(productId);
-//            int productQuantity = product.getQuantity();
-//            int number = Integer.parseInt(numberRaw);
-//            int itemQuantity = cart.getItemQuantityByProductId(productId);
-//            if (number == 1) {
-//                if (itemQuantity >= productQuantity) {
-//                    request.setAttribute("outOfProduct", "khong du san pham");
-//                } else {
-//                    ItemModel item = new ItemModel(product, number, product.getPrice());
-//                    cart.addItem(item);
-//                }
-//            } else if (number == -1) {
-//                if (itemQuantity <= 1) {
-//                    cart.removeItem(productId);
-//                } else {
-//                    ItemModel item = new ItemModel(product, number, product.getPrice());
-//                    cart.addItem(item);
-//                }
-//            } else if (number == 0) {
-//                cart.removeItem(productId);
-//            }
-//            cookieTxt = cart.getCookieTxt();
-//            Cookie cookie = new Cookie("cart", cookieTxt);
-//            cookie.setMaxAge(7 * 24 * 60 * 60);
-//            response.addCookie(cookie);
-//        } catch (NumberFormatException e) {
-//        }
-        response.sendRedirect("user_cart");
+        int start = (page - 1) * itemsPerPage;
+        List<SizeModel> sizesRaw = sizeDB.getAllSizes();
+        int totalPages = (int) Math.ceil(sizesRaw.size() * 1.0 / itemsPerPage);
+        int end = Math.min(page * itemsPerPage, sizesRaw.size());
+        List<SizeModel> sizes = sizeDB.getSizesByPage(sizesRaw, start, end);
+        request.setAttribute("page", page);
+        request.setAttribute("totalPages", totalPages);
+        request.setAttribute("sizes", sizes);
+        request.getRequestDispatcher("views/admin/list_size.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

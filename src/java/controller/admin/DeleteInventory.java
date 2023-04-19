@@ -2,24 +2,21 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.user;
+package controller.admin;
 
-import dao.ProductDAO;
+import dao.InventoryDAO;
 import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.CartModel;
-import model.ItemModel;
-import model.ProductModel;
 
 /**
  *
  * @author Bach
  */
-public class UserCheckItemQuantity extends HttpServlet {
+public class DeleteInventory extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,54 +29,21 @@ public class UserCheckItemQuantity extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        //reset cookie
-        Cookie[] cookies = request.getCookies();
-        String cookieTxt = "";
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("cart")) {
-                    cookieTxt += cookie.getValue();
-                    cookie.setMaxAge(0);
-                    response.addCookie(cookie);
-                }
+        String inventoryIdRaw = request.getParameter("id");
+        try {
+            int inventoryId = Integer.parseInt(inventoryIdRaw);
+            int result = new InventoryDAO().deleteInventory(inventoryId);
+            if (result == 0) {
+                request.setAttribute("deleteError", "Xay Ra Loi Khi Xoa");
+                request.getRequestDispatcher("admin-list-inventory").forward(request, response);
+            } else {
+                request.setAttribute("deleted", "Xoa san pham trong kho thanh cong");
+                request.getRequestDispatcher("admin-list-inventory").forward(request, response);
             }
+        } catch (NumberFormatException e) {
+            request.setAttribute("deleteError", "Xay Ra Loi Khi Xoa");
+            request.getRequestDispatcher("admin-list-inventory").forward(request, response);
         }
-        CartModel cart = new CartModel(cookieTxt);
-        
-        
-        String productIdRaw = request.getParameter("product_id");
-        String numberRaw = request.getParameter("number");
-//        try {
-//            int productId = Integer.parseInt(productIdRaw);
-//            ProductModel product = new ProductDAO().getProductById(productId);
-//            int productQuantity = product.getQuantity();
-//            int number = Integer.parseInt(numberRaw);
-//            int itemQuantity = cart.getItemQuantityByProductId(productId);
-//            if (number == 1) {
-//                if (itemQuantity >= productQuantity) {
-//                    request.setAttribute("outOfProduct", "khong du san pham");
-//                } else {
-//                    ItemModel item = new ItemModel(product, number, product.getPrice());
-//                    cart.addItem(item);
-//                }
-//            } else if (number == -1) {
-//                if (itemQuantity <= 1) {
-//                    cart.removeItem(productId);
-//                } else {
-//                    ItemModel item = new ItemModel(product, number, product.getPrice());
-//                    cart.addItem(item);
-//                }
-//            } else if (number == 0) {
-//                cart.removeItem(productId);
-//            }
-//            cookieTxt = cart.getCookieTxt();
-//            Cookie cookie = new Cookie("cart", cookieTxt);
-//            cookie.setMaxAge(7 * 24 * 60 * 60);
-//            response.addCookie(cookie);
-//        } catch (NumberFormatException e) {
-//        }
-        response.sendRedirect("user_cart");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

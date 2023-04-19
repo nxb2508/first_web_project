@@ -5,7 +5,6 @@
 package controller.admin;
 
 import dao.GaleryDAO;
-import dao.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -59,6 +58,11 @@ public class ListGalery extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String product_name = request.getParameter("product_name");
+        if (product_name == null) {
+            product_name = "";
+        }
+        List<GaleryModel> galeries = new GaleryDAO().searchGaleriesByProductName(product_name);
         int itemsPerPage = 10;
         String page_raw = request.getParameter("page");
         int page;
@@ -72,11 +76,10 @@ public class ListGalery extends HttpServlet {
         } else {
             page = 1;
         }
-        List<GaleryModel> galeries = new GaleryDAO().getAllGaleries();
-
         int totalPages = (int) Math.ceil(galeries.size() * 1.0 / itemsPerPage);
         int start = (page - 1) * itemsPerPage;
         int end = Math.min(page * itemsPerPage, galeries.size());
+        request.setAttribute("product_name", product_name);
         request.setAttribute("page", page);
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("galeries", new GaleryDAO().getGaleriesByPage(galeries, start, end));
@@ -94,6 +97,11 @@ public class ListGalery extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String product_name = request.getParameter("product_name");
+        if (product_name == null) {
+            product_name = "";
+        }
+        List<GaleryModel> galeries = new GaleryDAO().searchGaleriesByProductName(product_name);
         int itemsPerPage = 10;
         String page_raw = request.getParameter("page");
         int page;
@@ -107,10 +115,10 @@ public class ListGalery extends HttpServlet {
         } else {
             page = 1;
         }
-        List<GaleryModel> galeries = new GaleryDAO().getAllGaleries();
         int totalPages = (int) Math.ceil(galeries.size() * 1.0 / itemsPerPage);
         int start = (page - 1) * itemsPerPage;
         int end = Math.min(page * itemsPerPage, galeries.size());
+        request.setAttribute("product_name", product_name);
         request.setAttribute("page", page);
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("galeries", new GaleryDAO().getGaleriesByPage(galeries, start, end));

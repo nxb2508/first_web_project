@@ -72,7 +72,7 @@
                     </h1>
                     <ol class="breadcrumb">
                         <li><a href="<c:url value='/admin_home'/>"><i class="fa fa-dashboard"></i> Trang chủ</a></li>
-                        <li class="active">Quản lý loại sản phẩm</li>
+                        <li><a href="<c:url value='/list_category'/>"><i class="fa fa-dashboard active"></i> Quản lý loại sản phẩm</a></li>
                     </ol>
                 </section>
 
@@ -81,7 +81,7 @@
                     <div class="row justify-content-center justify-content-xl-center">
                         <div class="col-xl-6 d-flex content-top justify-content-between">
                             <a class="btn btn-primary" href="<c:url value='/add_category'/>" role="button">Thêm loại sản phẩm</a>
-                            <form action="<c:url value='/search_category'/>" method="get" class="sidebar-form col-xl-4">
+                            <form action="<c:url value='/list_category'/>" method="get" class="sidebar-form col-xl-4">
                                 <div class="input-group">
                                     <input type="text" name="category_name" class="form-control" placeholder="Tìm kiếm loại sản phẩm" value="${requestScope.category_name}">
                                     <span class="input-group-btn">
@@ -120,7 +120,7 @@
                             <ul class="pagination">
                                 <c:set var="page" value="${requestScope.page}"/>
                                 <c:forEach begin="${1}" end="${requestScope.totalPages}" var="i">
-                                    <li class="page-item ${(i==page)?"active":""}"><a class="page-link" href="list_category?page=${i}">${i}</a></li>
+                                    <li class="page-item ${(i==page)?"active":""}"><a class="page-link" href="list_category?page=${i}&category_name=${category_name}">${i}</a></li>
                                 </c:forEach>
                             </ul>
                         </div>

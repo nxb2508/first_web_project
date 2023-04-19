@@ -4,7 +4,9 @@
  */
 package controller.admin;
 
-import dao.CategoryDAO;
+import dao.InventoryDAO;
+import dao.ProductDAO;
+import dao.SizeDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,13 +14,15 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
-import model.CategoryModel;
+import model.InventoryModel;
+import model.ProductModel;
+import model.SizeModel;
 
 /**
  *
  * @author Bach
  */
-public class ListCategory extends HttpServlet {
+public class AddInventory extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,10 +41,10 @@ public class ListCategory extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ListCategory</title>");
+            out.println("<title>Servlet AddInventory</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ListCategory at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet AddInventory at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -58,29 +62,19 @@ public class ListCategory extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String category_name = request.getParameter("category_name");
-        if (category_name == null) {
-            category_name = "";
+        String productIdRaw = request.getParameter("product_id");
+        try {
+            int productId = Integer.parseInt(productIdRaw);
+            ProductModel product = new ProductDAO().getProductById(productId);
+            List<SizeModel> sizes = new SizeDAO().getAllSizes();
+            request.setAttribute("sizes", sizes);
+            request.setAttribute("product", product);
+            request.getRequestDispatcher("views/admin/add_inventory.jsp").forward(request, response);
+        } catch (NumberFormatException e) {
+            List<SizeModel> sizes = new SizeDAO().getAllSizes();
+            request.setAttribute("sizes", sizes);
+            request.getRequestDispatcher("views/admin/add_inventory.jsp").forward(request, response);
         }
-        CategoryDAO categoryDB = new CategoryDAO();
-        List<CategoryModel> categoriesRaw = categoryDB.searchCategoriesByName(category_name);
-        int itemsPerPage = 10;
-        String pageStr = request.getParameter("page");
-        int page;
-        if (pageStr != null) {
-            page = Integer.parseInt(pageStr);
-        } else {
-            page = 1;
-        }
-        int start = (page - 1) * itemsPerPage;
-        int totalPages = (int) Math.ceil(categoriesRaw.size() * 1.0 / itemsPerPage);
-        int end = Math.min(page * itemsPerPage, categoriesRaw.size());
-        List<CategoryModel> categories = categoryDB.getCategoriesByPage(categoriesRaw, start, end);
-        request.setAttribute("page", page);
-        request.setAttribute("totalPages", totalPages);
-        request.setAttribute("categories", categories);
-        request.setAttribute("category_name", category_name);
-        request.getRequestDispatcher("views/admin/list_category.jsp").forward(request, response);
     }
 
     /**
@@ -94,29 +88,33 @@ public class ListCategory extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String category_name = request.getParameter("category_name");
-        if (category_name == null) {
-            category_name = "";
+        String productIdRaw = request.getParameter("product_id");
+        String sizeIdRaw = request.getParameter("size_id");
+        String quantityRaw = request.getParameter("quantity");
+        try {
+            int productId = Integer.parseInt(productIdRaw);
+            int sizeId = Integer.parseInt(sizeIdRaw);
+            int quantity = Integer.parseInt(quantityRaw);
+            InventoryModel inventory = new InventoryModel();
+            inventory.setProduct(new ProductDAO().getProductById(productId));
+            inventory.setSize(new SizeDAO().getSizeById(sizeId));
+            inventory.setQuantity(quantity);
+            int result = new InventoryDAO().addInventory(inventory);
+            if (result == 0) {
+                List<SizeModel> sizes = new SizeDAO().getAllSizes();
+                request.setAttribute("sizes", sizes);
+                request.setAttribute("error", "Da Xay Ra Loi");
+                request.getRequestDispatcher("admin-add-inventory").forward(request, response);
+            } else {
+                request.setAttribute("added", "Đã thêm sản phẩm vào kho");
+                request.getRequestDispatcher("admin-list-inventory").forward(request, response);
+            }
+        } catch (NumberFormatException e) {
+            List<SizeModel> sizes = new SizeDAO().getAllSizes();
+            request.setAttribute("sizes", sizes);
+            request.setAttribute("error", "Da Xay Ra Loi");
+            request.getRequestDispatcher("admin-add-inventory").forward(request, response);
         }
-        CategoryDAO categoryDB = new CategoryDAO();
-        List<CategoryModel> categoriesRaw = categoryDB.searchCategoriesByName(category_name);
-        int itemsPerPage = 10;
-        String pageStr = request.getParameter("page");
-        int page;
-        if (pageStr != null) {
-            page = Integer.parseInt(pageStr);
-        } else {
-            page = 1;
-        }
-        int start = (page - 1) * itemsPerPage;
-        int totalPages = (int) Math.ceil(categoriesRaw.size() * 1.0 / itemsPerPage);
-        int end = Math.min(page * itemsPerPage, categoriesRaw.size());
-        List<CategoryModel> categories = categoryDB.getCategoriesByPage(categoriesRaw, start, end);
-        request.setAttribute("page", page);
-        request.setAttribute("totalPages", totalPages);
-        request.setAttribute("categories", categories);
-        request.setAttribute("category_name", category_name);
-        request.getRequestDispatcher("views/admin/list_category.jsp").forward(request, response);
     }
 
     /**

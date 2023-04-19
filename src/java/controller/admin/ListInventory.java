@@ -4,22 +4,20 @@
  */
 package controller.admin;
 
-import dao.ProductDAO;
+import dao.InventoryDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.Collections;
 import java.util.List;
-import model.ProductModel;
+import model.InventoryModel;
 
 /**
  *
  * @author Bach
  */
-public class SearchProduct extends HttpServlet {
+public class ListInventory extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,19 +30,7 @@ public class SearchProduct extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet SearchProduct</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet SearchProduct at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -59,14 +45,11 @@ public class SearchProduct extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String search_description = request.getParameter("search_description");
-        String sort_by = request.getParameter("sort_by");
-        List<ProductModel> products = new ProductDAO().searchProducts(search_description);
-        if (sort_by.equals("asc")) {
-            Collections.sort(products);
-        } else if (sort_by.equals("desc")){
-            Collections.sort(products, Collections.reverseOrder());
+        String productName = request.getParameter("product_name");
+        if (productName == null) {
+            productName = "";
         }
+        List<InventoryModel> inventories = new InventoryDAO().searchInventoryByName(productName);
         int itemsPerPage = 10;
         String page_raw = request.getParameter("page");
         int page;
@@ -80,15 +63,14 @@ public class SearchProduct extends HttpServlet {
         } else {
             page = 1;
         }
-        int totalPages = (int) Math.ceil(products.size() * 1.0 / itemsPerPage);
+        int totalPages = (int) Math.ceil(inventories.size() * 1.0 / itemsPerPage);
         int start = (page - 1) * itemsPerPage;
-        int end = Math.min(page * itemsPerPage, products.size());
-        request.setAttribute("search_description", search_description);
-        request.setAttribute("sort_by", sort_by);
+        int end = Math.min(page * itemsPerPage, inventories.size());
+        request.setAttribute("product_name", productName);
         request.setAttribute("page", page);
         request.setAttribute("totalPages", totalPages);
-        request.setAttribute("products", new ProductDAO().getProductsByPage(products, start, end));
-        request.getRequestDispatcher("views/admin/search_product.jsp").forward(request, response);
+        request.setAttribute("inventories", new InventoryDAO().getInventoryByPage(inventories, start, end));
+        request.getRequestDispatcher("views/admin/list_inventory.jsp").forward(request, response);
     }
 
     /**
@@ -102,7 +84,32 @@ public class SearchProduct extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String productName = request.getParameter("product_name");
+        if (productName == null) {
+            productName = "";
+        }
+        List<InventoryModel> inventories = new InventoryDAO().searchInventoryByName(productName);
+        int itemsPerPage = 10;
+        String page_raw = request.getParameter("page");
+        int page;
+        if (page_raw != null) {
+            try {
+                page = Integer.parseInt(page_raw);
+            } catch (NumberFormatException e) {
+                page = 1;
+                System.out.println(e);
+            }
+        } else {
+            page = 1;
+        }
+        int totalPages = (int) Math.ceil(inventories.size() * 1.0 / itemsPerPage);
+        int start = (page - 1) * itemsPerPage;
+        int end = Math.min(page * itemsPerPage, inventories.size());
+        request.setAttribute("product_name", productName);
+        request.setAttribute("page", page);
+        request.setAttribute("totalPages", totalPages);
+        request.setAttribute("inventories", new InventoryDAO().getInventoryByPage(inventories, start, end));
+        request.getRequestDispatcher("views/admin/list_inventory.jsp").forward(request, response);
     }
 
     /**

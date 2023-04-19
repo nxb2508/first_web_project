@@ -85,10 +85,10 @@
                             </div>
 
                             <!-- Tìm Kiếm  -->
-                            <form action="<c:url value='/search_galery'/>" method="get" class="sidebar-form col-xl-8 col-md-4">
+                            <form action="<c:url value='/list_galery'/>" method="get" class="sidebar-form col-xl-8 col-md-4">
                                 <div class="input-group row d-flex justify-content-start align-items-center">
                                     <div class="col-xl-9">
-                                        <input type="text" name="product_name" class="form-control" placeholder="Tìm kiếm sản phẩm">
+                                        <input type="text" name="product_name" class="form-control" placeholder="Tìm kiếm sản phẩm" value="${requestScope.product_name}">
                                     </div>
                                     <div class="input-group-btn col-xl-3">
                                         <button type="submit" id="search-btn" class="btn btn-flat" style="background-color: #3c8dbc; color: #fff; width: 100%">Tìm Kiếm</button>
@@ -128,7 +128,7 @@
                             <ul class="pagination">
                                 <c:set var="page" value="${requestScope.page}"/>
                                 <c:forEach begin="${1}" end="${requestScope.totalPages}" var="i">
-                                    <li class="page-item ${(i==page)?"active":""}"><a class="page-link" href="list_galery?page=${i}">${i}</a></li>
+                                    <li class="page-item ${(i==page)?"active":""}"><a class="page-link" href="list_galery?page=${i}&product_name=${product_name}">${i}</a></li>
                                 </c:forEach>
                             </ul>
                         </div>

@@ -5,21 +5,18 @@
 
 package controller.admin;
 
-import dao.GaleryDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
-import model.GaleryModel;
 
 /**
  *
  * @author Bach
  */
-public class SearchGalery extends HttpServlet {
+public class ListOrder extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -36,10 +33,10 @@ public class SearchGalery extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet SearchGalery</title>");  
+            out.println("<title>Servlet ListOrder</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet SearchGalery at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet ListOrder at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -56,29 +53,7 @@ public class SearchGalery extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        String product_name = request.getParameter("product_name");
-        List<GaleryModel> galeries = new GaleryDAO().searchGaleriesByProductName(product_name);
-        int itemsPerPage = 10;
-        String page_raw = request.getParameter("page");
-        int page;
-        if (page_raw != null) {
-            try {
-                page = Integer.parseInt(page_raw);
-            } catch (NumberFormatException e) {
-                page = 1;
-                System.out.println(e);
-            }
-        } else {
-            page = 1;
-        }
-        int totalPages = (int) Math.ceil(galeries.size() * 1.0 / itemsPerPage);
-        int start = (page - 1) * itemsPerPage;
-        int end = Math.min(page * itemsPerPage, galeries.size());
-        request.setAttribute("product_name", product_name);
-        request.setAttribute("page", page);
-        request.setAttribute("totalPages", totalPages);
-        request.setAttribute("galeries", new GaleryDAO().getGaleriesByPage(galeries, start, end));
-        request.getRequestDispatcher("views/admin/search_galery.jsp").forward(request, response);
+        request.getRequestDispatcher("views/admin/list_order.jsp").forward(request, response);
     } 
 
     /** 

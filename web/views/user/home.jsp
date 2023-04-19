@@ -5,7 +5,6 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="model.UserModel" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
@@ -39,7 +38,7 @@
         <!-- Customized Bootstrap Stylesheet -->
         <link href="<c:url value="/template/user/css/style.css"/>" rel="stylesheet">
         <link href="<c:url value="/template/user/css/my-style.css"/>" rel="stylesheet">
-        
+
     </head>
 
     <body>
@@ -267,14 +266,14 @@
 
         <!-- Template Javascript -->
         <script src="<c:url value="/template/user/js/main.js"/>"></script>
-        
+
         <script>
             console.log("${user.fullname}");
             console.log("${user.email}");
             console.log("${user.password}");
             console.log("${user.phoneNumber}");
         </script>
-        
+
     </body>
 
 </html>

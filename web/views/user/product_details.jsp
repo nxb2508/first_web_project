@@ -46,7 +46,7 @@
         <c:set var="categories" value="${requestScope.categories}"/>
         <c:set var="product" value="${requestScope.product}"/>
         <c:set var="related_products" value="${requestScope.related_products}"/>
-        
+        <c:set var="sizes" value="${requestScope.sizes}"/>
         <!-- Variable End -->
 
 
@@ -186,25 +186,40 @@
 
                     <div class="col-lg-7 h-auto mb-30">
                         <div class="h-100 bg-light p-30">
-                            <h3>${product.name}</h3>
-                            <h3 class="font-weight-semi-bold mb-4">${product.price} VNÐ</h3>
-                            <p class="mb-4">${product.description}</p>
-                            <form action="user_add_to_cart" class="d-flex align-items-center mb-4 pt-2">
-                                <input type="hidden" name="product_id" value="${product.id}">
-                                <div class="input-group quantity mr-3" style="width: 130px;">
-                                    <div class="input-group-btn">
-                                        <button type="button" class="btn btn-primary btn-minus">
-                                            <i class="fa fa-minus"></i>
-                                        </button>
-                                    </div>
-                                    <input type="text" name="quantity" class="form-control bg-secondary border-0 text-center" value="1">
-                                    <div class="input-group-btn">
-                                        <button type="button" class="btn btn-primary btn-plus">
-                                            <i class="fa fa-plus"></i>
-                                        </button>
-                                    </div>
+                            <h2>${product.name}</h2>
+                            <h3 class="font-weight-semi-bold mb-4">
+                                Giá: <fmt:formatNumber type = "number" maxFractionDigits = "3" value = "${product.price}" /> VNĐ
+                            </h3>
+                            <h4 class="mb-4">Mo ta: ${product.description}</h4>
+                            <form action="user_add_to_cart" class="row align-items-center mb-4 pt-2">
+                                <div class="d-flex mb-4 col-12">
+                                    <strong class="text-dark mr-3">Sizes:</strong>
+                                    <c:forEach var="size" items="${sizes}">
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" class="custom-control-input" id="size-${size.id}" name="size_id" value="${size.id}">
+                                            <label class="custom-control-label" for="size-${size.id}">${size.name}</label>
+                                        </div>
+                                    </c:forEach>
                                 </div>
-                                <button type="submit" class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i> Thêm Vào Giỏ Hàng</button>
+
+                                <div class="col-12 d-flex">
+                                    <input type="hidden" name="product_id" value="${product.id}">
+                                    <div class="input-group quantity mr-3" style="width: 130px;">
+                                        <div class="input-group-btn">
+                                            <button type="button" class="btn btn-primary btn-minus">
+                                                <i class="fa fa-minus"></i>
+                                            </button>
+                                        </div>
+                                        <input type="text" name="quantity" class="form-control bg-secondary border-0 text-center" value="1">
+                                        <div class="input-group-btn">
+                                            <button type="button" class="btn btn-primary btn-plus">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i> Thêm Vào Giỏ Hàng</button>
+                                </div>
+
                             </form>
                         </div>
                     </div>
@@ -221,19 +236,21 @@
                         <div class="owl-carousel related-carousel">
                             <c:forEach var="related_product" items="${related_products}">
                                 <div class="product-item bg-light">
-                                <div class="product-img position-relative overflow-hidden">
-                                    <img class="img-fluid w-100" src="<c:url value="/assets/images/${related_product.galeries[0].thumbnail}"/>" alt="">
-                                    <div class="product-action">
-                                        <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
+                                    <div class="product-img position-relative overflow-hidden">
+                                        <img class="img-fluid w-100" src="<c:url value="/assets/images/${related_product.galeries[0].thumbnail}"/>" alt="">
+                                        <div class="product-action">
+                                            <a class="btn btn-outline-dark btn-square" href="<c:url value='/user_product_details?id=${product.id}'/>"><i class="fa fa-shopping-cart"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="text-center py-4">
+                                        <p class="d-flex justify-content-center align-items-center" style="white-space: break-spaces; word-break: break-word; min-height: 48px">${related_product.name}</p>
+                                        <div class="d-flex align-items-center flex-column justify-content-center mt-2">
+                                            <h5 style="color: #999900">
+                                                <fmt:formatNumber type = "number" maxFractionDigits = "3" value = "${related_product.price}" /> VNĐ
+                                            </h5>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="text-center py-4">
-                                    <a class="h6 text-decoration-none text-truncate" href="<c:url value='/user_product_details?id=${related_product.id}'/>">${related_product.name}</a>
-                                    <div class="d-flex align-items-center justify-content-center mt-2">
-                                        <h5>${related_product.price} VNĐ</h5>
-                                    </div>
-                                </div>
-                            </div>
                             </c:forEach>
                         </div>
                     </div>

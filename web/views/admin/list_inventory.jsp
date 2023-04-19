@@ -68,12 +68,11 @@
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
                     <h1>
-                        Quản lý sản phẩm
+                        Quản lý sản phẩm trong kho
                     </h1>
                     <ol class="breadcrumb">
                         <li><a href="<c:url value='/admin_home'/>"><i class="fa fa-dashboard"></i> Trang chủ</a></li>
-                        <li><a href="<c:url value='/list_product'/>"><i class="fa fa-dashboard"></i> Quản lý sản phẩm</a></li>
-                        <li class="active">Tìm kiếm sản phẩm</li>
+                        <li class="active">Quản lý sản phẩm trong kho</li>
                     </ol>
                 </section>
 
@@ -81,59 +80,47 @@
                 <section class="content">
                     <div class="row justify-content-center justify-content-xl-center">
                         <div class="col-xl-8 d-flex content-top justify-content-between row">
-                            <div class="col-xl-2">
-                                <a class="btn btn-primary" href="<c:url value='/add_product'/>" role="button">Thêm sản phẩm</a>
+                            <div class="col-xl-2 col-md-2">
+                                <a class="btn btn-primary" href="<c:url value='/admin-add-inventory'/>" role="button">Thêm sản phẩm trong kho</a>
                             </div>
-                            <form action="<c:url value='/search_product'/>" method="get" class="sidebar-form col-xl-9">
-                                <div class="input-group">
-                                    <input type="text" name="search_description" class="form-control" placeholder="Tìm kiếm sản phẩm" value="${requestScope.search_description}">
-                                </div>
-                                <div class="row d-flex justify-content-start align-items-center">
-                                    <div class="col-xl-3 search_option">
-                                        Sắp Xếp Theo Giá:
+
+                            <!-- Tìm Kiếm  -->
+                            <form action="<c:url value='/admin-list-inventory'/>" method="get" class="sidebar-form col-xl-8 col-md-4">
+                                <div class="input-group row d-flex justify-content-start align-items-center">
+                                    <div class="col-xl-9">
+                                        <input type="text" name="product_name" class="form-control" placeholder="Tìm kiếm sản phẩm trong kho" value="${requestScope.product_name}">
                                     </div>
-                                    <div class="input-group col-xl-2 d-flex justify-content-start align-items-center">
-                                        <label  class="search_option label" for="radio_sort1">Không</label>
-                                        <input type="radio" name = "sort_by" id="radio_sort1" value="none" ${(requestScope.sort_by == "none")?"checked":""}>
-                                    </div>
-                                    <div class="input-group col-xl-2 d-flex justify-content-start align-items-center">
-                                        <label class="search_option label" for="radio_sort2">Tăng dần</label>
-                                        <input type="radio" name = "sort_by" id="radio_sort2" value="asc" ${(requestScope.sort_by == "asc")?"checked":""}>
-                                    </div>
-                                    <div class="input-group col-xl-2 d-flex justify-content-start align-items-center">
-                                        <label class="search_option label" for="radio_sort3">Giảm dần</label>
-                                        <input type="radio" name = "sort_by" id="radio_sort3" value="desc" ${(requestScope.sort_by == "desc")?"checked":""}>
-                                    </div>
-                                    <div class="input-group-btn col-xl-2">
-                                        <button type="submit" id="search-btn" class="btn btn-flat search_option" style="background-color: #3c8dbc; color: #fff; width: 100%">Tìm Kiếm</button>
+                                    <div class="input-group-btn col-xl-3">
+                                        <button type="submit" id="search-btn" class="btn btn-flat" style="background-color: #3c8dbc; color: #fff; width: 100%">Tìm Kiếm</button>
                                     </div>
                                 </div>
                             </form>
+                            <!-- End Tìm Kiếm -->
                         </div>
                         <div class="col-xl-12 ">
                             <!-- table -->
-                            <table class="table table-bordered">
+                            <table class="table table-bordered inventory">
                                 <thead>
                                     <tr>
                                         <th scope="col">ID</th>
-                                        <th scope="col">Loại Sản Phẩm</th>
-                                        <th scope="col">Tên</th>
-                                        <th scope="col">Mô Tả</th>
-                                        <th scope="col">Giá</th>
-                                        <th scope="col">Sửa</th>
+                                        <th scope="col">Sản Phẩm</th>
+                                        <th scope="col">Kích thước</th>
+                                        <th scope="col">Số lượng còn lại</th>
+                                        <th scope="col">Đã bán</th>
+                                        <th scope="col">Cập nhật</th>
                                         <th scope="col">Xóa</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <c:forEach items="${requestScope.products}" var="product">
+                                    <c:forEach items="${requestScope.inventories}" var="inventory">
                                         <tr>
-                                            <th scope="row">${product.id}</th>
-                                            <td>${product.category.name}</td>
-                                            <td>${product.name}</td>
-                                            <td>${product.description}</td>
-                                            <td>${product.price}</td>
-                                            <td><a href="<c:url value='/update_product?id=${product.id}&category_id=${product.category.id}&name=${product.name}&description=${product.description}&price=${product.price}'/>"><i class="fa-regular fa-pen-to-square"></i></a></td>
-                                            <td><a href="#" onclick="deleteProduct(${product.id})"><i class="fa-solid fa-trash"></i></a></td>
+                                            <th scope="row">${inventory.id}</th>
+                                            <td><img class="thumbnail mr-3" src="/ttcs/assets/images/${inventory.product.galeries[0].thumbnail}" alt="">${inventory.product.name}</td>
+                                            <td>${inventory.size.name}</td>
+                                            <td>${inventory.quantity}</td>
+                                            <td>${inventory.solds}</td>
+                                            <td><a href="<c:url value='/admin-update-inventory?id=${inventory.id}'/>"><i class="fa-regular fa-pen-to-square"></i></a></td>
+                                            <td><a href="#" onclick="deleteF(${inventory.id})"><i class="fa-solid fa-trash"></i></a></td>
                                         </tr>
                                     </c:forEach>
                                 </tbody>
@@ -145,8 +132,8 @@
                             <ul class="pagination">
                                 <c:set var="page" value="${requestScope.page}"/>
                                 <c:forEach begin="${1}" end="${requestScope.totalPages}" var="i">
-                                    <li class="page-item ${(i==page)?"active":""}"><a class="page-link" href="search_product?page=${i}&search_description=${search_description}&sort_by=${sort_by}">${i}</a></li>
-                                </c:forEach>
+                                    <li class="page-item ${(i==page)?"active":""}"><a class="page-link" href="admin-list-inventory?page=${i}&product_name=${product_name}">${i}</a></li>
+                                    </c:forEach>
                             </ul>
                         </div>
                     </div><!-- /.row -->
@@ -208,7 +195,7 @@
         <script src="<c:url value='/template/admin/plugins/slimScroll/jquery.slimscroll.min.js' />"
         type="text/javascript"></script>
         <!-- FastClick -->
-        <script src="" <c:url value='/template/admin/plugins/fastclick/fastclick.min.js' />"></script>
+        <script src="<c:url value='/template/admin/plugins/fastclick/fastclick.min.js' />"></script>
         <!-- AdminLTE App -->
         <script src="<c:url value='/template/admin/dist/js/app.min.js' />" type="text/javascript"></script>
 
@@ -220,21 +207,27 @@
         <script src="<c:url value='/template/admin/dist/js/demo.js'/>" type="text/javascript"></script>
 
         <script type="text/javascript">
-            function deleteProduct(id) {
-                if (confirm('Bạn sẽ đồng thời xóa những ảnh thuộc sản phẩm này?')) {
-                    window.location = 'delete_product?id=' + id;
+            function deleteF(id) {
+                if (confirm('Xóa sản phẩm trong kho?')) {
+                    window.location = 'admin-delete-inventory?id=' + id;
                 }
             }
-            
+
             var added = "${requestScope.added}";
             var updated = "${requestScope.updated}";
             var deleted = "${requestScope.deleted}";
-            if (added !== ""){
+            var deleteError = "${requestScope.deleteError}";
+            var updateError = "${requestScope.updateError}";
+            if (added !== "") {
                 alert(added);
-            } else if (updated !== ""){
+            } else if (updated !== "") {
                 alert(updated);
-            } else if (deleted !== ""){
+            } else if (deleted !== "") {
                 alert(deleted);
+            } else if (deleteError !== "") {
+                alert(deleteError);
+            } else if (updateError !== "") {
+                alert(updateError);
             }
         </script>
     </body>

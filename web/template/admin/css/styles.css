@@ -87,8 +87,8 @@ body {
 .content-wrapper .content .thumbnail {
     display: inline-block;
     object-fit: cover;
-    height: 200px;
-    width: calc(400px / 3);
+    height: 100px;
+    width: calc(200px / 3);
 }
 
 .content-wrapper .content .galery_thumbnail input[type="file"]{
@@ -128,4 +128,46 @@ body {
 .admin-acc a:hover {
     color: #fff;
     background: rgba(0,0,0,0.1);
+}
+
+.main-sidebar .sidebar-menu a {
+    display: block;
+    padding: 10px 0 10px 10px 
+}
+
+.main-sidebar .sidebar-menu a:hover {
+    color: #fff;
+    background: #1e282c;
+    border-left: 5px solid #f39c12;
+}
+
+.my-table {
+    border: #1e282c solid 1px;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.my-table th, .my-table td {
+    border: #1e282c solid 1px;
+    border-collapse: collapse;
+    padding: 0 10px;
+}
+
+.my-table tr {
+    margin: 0;
+}
+
+.inventory img {
+    height: 100px;
+    width: calc(200px / 3);
+    object-fit: cover;
+}
+
+.content .data-href {
+    cursor: pointer;
+}
+
+.content .update-inventory input {
+    
+    width: 400px;
 }

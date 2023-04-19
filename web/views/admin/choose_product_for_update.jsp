@@ -68,48 +68,69 @@
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
                     <h1>
-                        Quản lý loại sản phẩm
+                        Quản lý sản phẩm
                     </h1>
                     <ol class="breadcrumb">
                         <li><a href="<c:url value='/admin_home'/>"><i class="fa fa-dashboard"></i> Trang chủ</a></li>
-                        <li><a href="<c:url value='/list_category'/>"><i class="fa fa-dashboard"></i> Quản lý loại sản phẩm</a></li>
-                        <li class="active">Tìm kiếm loại sản phẩm</li>
+                        <li><a href="<c:url value='/list_product'/>"><i class="fa fa-dashboard"></i> Quản lý sản phẩm</a></li>
+                        <li class="active">Tìm kiếm sản phẩm</li>
                     </ol>
                 </section>
 
                 <!-- Main content -->
                 <section class="content">
                     <div class="row justify-content-center justify-content-xl-center">
-                        <div class="col-xl-6 d-flex content-top justify-content-between">
-                            <a class="btn btn-primary" href="<c:url value='/add_category'/>" role="button">Thêm loại sản phẩm</a>
-                            <form action="<c:url value='/search_category'/>" method="get" class="sidebar-form col-xl-4">
+                        <div class="col-xl-8 d-flex content-top justify-content-between row">
+                            <form action="<c:url value='/admin-choose-product'/>" method="get" class="sidebar-form col-xl-9">
                                 <div class="input-group">
-                                    <input type="text" name="category_name" class="form-control" placeholder="Tìm kiếm loại sản phẩm" value="${requestScope.category_name}">
-                                    <span class="input-group-btn">
-                                        <button type="submit" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
-                                    </span>
+                                    <input type="text" name="search_description" class="form-control" placeholder="Tìm kiếm sản phẩm" value="${requestScope.search_description}">
+                                </div>
+                                <div class="row d-flex justify-content-start align-items-center">
+                                    <div class="col-xl-3 search_option">
+                                        Sắp Xếp Theo Giá:
+                                    </div>
+                                    <div class="input-group col-xl-2 d-flex justify-content-start align-items-center">
+                                        <label  class="search_option label" for="radio_sort1">Không</label>
+                                        <input type="radio" name = "sort_by" id="radio_sort1" value="none" ${(requestScope.sort_by == "none")?"checked":""}>
+                                    </div>
+                                    <div class="input-group col-xl-2 d-flex justify-content-start align-items-center">
+                                        <label class="search_option label" for="radio_sort2">Tăng dần</label>
+                                        <input type="radio" name = "sort_by" id="radio_sort2" value="asc" ${(requestScope.sort_by == "asc")?"checked":""}>
+                                    </div>
+                                    <div class="input-group col-xl-2 d-flex justify-content-start align-items-center">
+                                        <label class="search_option label" for="radio_sort3">Giảm dần</label>
+                                        <input type="radio" name = "sort_by" id="radio_sort3" value="desc" ${(requestScope.sort_by == "desc")?"checked":""}>
+                                    </div>
+                                    <div class="input-group-btn col-xl-2">
+                                        <button type="submit" id="search-btn" class="btn btn-flat search_option" style="background-color: #3c8dbc; color: #fff; width: 100%">Tìm Kiếm</button>
+                                    </div>
                                 </div>
                             </form>
                         </div>
                         <div class="col-xl-12 ">
                             <!-- table -->
-                            <c:set var="categories" value="${requestScope.categories}" />
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
                                         <th scope="col">ID</th>
+                                        <th scope="col">Loại Sản Phẩm</th>
                                         <th scope="col">Tên</th>
-                                        <th scope="col">Sửa</th>
-                                        <th scope="col">Xóa</th>
+                                        <th scope="col">Mô Tả</th>
+                                        <th scope="col">Giá</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <c:forEach items="${categories}" var="category">
-                                        <tr>
-                                            <th scope="row">${category.id}</th>
-                                            <td>${category.name}</td>
-                                            <td><a href="<c:url value='/update_category?id=${category.id}&name=${category.name}'/>"><i class="fa-regular fa-pen-to-square"></i></a></td>
-                                            <td><a href="#" onclick="deleteCategory(${category.id})"><i class="fa-solid fa-trash"></i></a></td>
+                                    <c:set var="id" value="${requestScope.id}"/>
+                                    <c:forEach items="${requestScope.products}" var="product">
+                                        <tr class="data-href" onclick="window.location = 'admin-update-inventory?id=${id}&product_id=${product.id}'">
+                                            <th scope="row">${product.id}</th>
+                                            <td>${product.category.name}</td>
+                                            <td>
+                                                <img class="thumbnail mr-3" src="/ttcs/assets/images/${product.galeries[0].thumbnail}" alt="">
+                                                ${product.name}
+                                            </td>
+                                            <td>${product.description}</td>
+                                            <td>${product.price}</td>
                                         </tr>
                                     </c:forEach>
                                 </tbody>
@@ -121,8 +142,8 @@
                             <ul class="pagination">
                                 <c:set var="page" value="${requestScope.page}"/>
                                 <c:forEach begin="${1}" end="${requestScope.totalPages}" var="i">
-                                    <li class="page-item ${(i==page)?"active":""}"><a class="page-link" href="search_category?page=${i}&category_name=${category_name}">${i}</a></li>
-                                </c:forEach>
+                                    <li class="page-item ${(i==page)?"active":""}"><a class="page-link" href="admin-choose-product?page=${i}&search_description=${search_description}&sort_by=${sort_by}">${i}</a></li>
+                                    </c:forEach>
                             </ul>
                         </div>
                     </div><!-- /.row -->
@@ -145,7 +166,7 @@
         <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.min.js" type="text/javascript"></script>
         <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
         <script>
-                                                $.widget.bridge('uibutton', $.ui.button);
+                                            $.widget.bridge('uibutton', $.ui.button);
         </script>
         <!-- Bootstrap 3.3.2 JS -->
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js"></script>
@@ -184,7 +205,7 @@
         <script src="<c:url value='/template/admin/plugins/slimScroll/jquery.slimscroll.min.js' />"
         type="text/javascript"></script>
         <!-- FastClick -->
-        <script src="" <c:url value='/template/admin/plugins/fastclick/fastclick.min.js' />"></script>
+        <script src="<c:url value='/template/admin/plugins/fastclick/fastclick.min.js' />"></script>
         <!-- AdminLTE App -->
         <script src="<c:url value='/template/admin/dist/js/app.min.js' />" type="text/javascript"></script>
 
@@ -196,11 +217,22 @@
         <script src="<c:url value='/template/admin/dist/js/demo.js'/>" type="text/javascript"></script>
 
         <script type="text/javascript">
-                                                function deleteCategory(id) {
-                                                    if (confirm('Bạn chắc chắn muốn xóa?')) {
-                                                        window.location = 'delete_category?id=' + id;
-                                                    }
+                                            function deleteProduct(id) {
+                                                if (confirm('Bạn sẽ đồng thời xóa những ảnh thuộc sản phẩm này?')) {
+                                                    window.location = 'delete_product?id=' + id;
                                                 }
+                                            }
+
+                                            var added = "${requestScope.added}";
+                                            var updated = "${requestScope.updated}";
+                                            var deleted = "${requestScope.deleted}";
+                                            if (added !== "") {
+                                                alert(added);
+                                            } else if (updated !== "") {
+                                                alert(updated);
+                                            } else if (deleted !== "") {
+                                                alert(deleted);
+                                            }
         </script>
     </body>
 

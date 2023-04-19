@@ -14,47 +14,22 @@
 
         <!-- /.search form -->
         <!-- sidebar menu: : style can be found in sidebar.less -->
-        <ul class="sidebar-menu">
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-pie-chart"></i>
-                    <span>Quản lý</span>
-                    <i class="fa fa-angle-left pull-right"></i>
-                </a>
-                <ul class="treeview-menu" style="display: none;">
-                    <li><a href="<c:url value='/list_category'/>"><i class="fa fa-circle-o"></i>Quản
-                            lý loại sản phẩm</a></li>
-                    <li><a href="<c:url value='/list_product'/>"><i class="fa fa-circle-o"></i>Quản lý sản phẩm</a></li>
-                    <li><a href="<c:url value='/list_galery'/>"><i class="fa fa-circle-o"></i>Quản lý hình ảnh sản phẩm</a></li>
-                </ul>
-            </li>
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-edit"></i> <span>Forms</span>
-                    <i class="fa fa-angle-left pull-right"></i>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="../../template/admin/pages/forms/general.html"><i
-                                class="fa fa-circle-o"></i> General Elements</a></li>
-                    <li><a href="../../template/admin/pages/forms/advanced.html"><i
-                                class="fa fa-circle-o"></i> Advanced Elements</a></li>
-                    <li><a href="../../template/admin/pages/forms/editors.html"><i
-                                class="fa fa-circle-o"></i> Editors</a></li>
-                </ul>
-            </li>
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-table"></i> <span>Tables</span>
-                    <i class="fa fa-angle-left pull-right"></i>
-                </a>
-                <ul class="treeview-menu" style="display: none;">
-                    <li><a href="../../template/admin/pages/tables/simple.html"><i
-                                class="fa fa-circle-o"></i> Simple tables</a></li>
-                    <li class=""><a href="../../template/admin/pages/tables/data.html"><i
-                                class="fa fa-circle-o"></i> Data tables</a></li>
-                </ul>
-            </li>
-        </ul>
+        <div class="sidebar-menu">
+            <a href="<c:url value='/list_category'/>">Quản
+            lý loại sản phẩm</a>
+        </div>
+        <div class="sidebar-menu">
+            <a href="<c:url value='/list_product'/>">Quản lý sản phẩm</a>
+        </div>
+        <div class="sidebar-menu">
+            <a href="<c:url value='/list_galery'/>">Quản lý hình ảnh sản phẩm</a>
+        </div>
+        <div class="sidebar-menu">
+            <a href="<c:url value='/admin-list-size'/>">Quản lý kích thước sản phẩm</a>
+        </div>
+        <div class="sidebar-menu">
+            <a href="<c:url value='/admin-list-inventory'/>">Quản lý sản phẩm trong kho</a>
+        </div>
     </section>
     <!-- /.sidebar -->
 </aside>

@@ -6,6 +6,7 @@ package controller.user;
 
 import dao.CategoryDAO;
 import dao.ProductDAO;
+import dao.SizeDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -18,6 +19,7 @@ import model.CartModel;
 import model.CategoryModel;
 import model.ItemModel;
 import model.ProductModel;
+import model.SizeModel;
 
 /**
  *
@@ -89,6 +91,8 @@ public class UserProductDetails extends HttpServlet {
             ProductModel product = new ProductDAO().getProductById(product_id);
             List<ProductModel> related_products_raw = new ProductDAO().getProductsRelatedByCategoryId(product);
             List<ProductModel> related_products = new ProductDAO().getProductsByPage(related_products_raw, 0, Math.min(5, related_products_raw.size()));
+            List<SizeModel> sizes = new SizeDAO().getAllSizes();
+            request.setAttribute("sizes", sizes);
             request.setAttribute("related_products", related_products);
             request.setAttribute("categories", categories);
             request.setAttribute("product", product);

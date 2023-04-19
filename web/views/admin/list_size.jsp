@@ -68,72 +68,39 @@
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
                     <h1>
-                        Quản lý sản phẩm
+                        Quản lý kích thước sản phẩm
                     </h1>
                     <ol class="breadcrumb">
                         <li><a href="<c:url value='/admin_home'/>"><i class="fa fa-dashboard"></i> Trang chủ</a></li>
-                        <li><a href="<c:url value='/list_product'/>"><i class="fa fa-dashboard"></i> Quản lý sản phẩm</a></li>
-                        <li class="active">Tìm kiếm sản phẩm</li>
+                        <li class="active">Quản lý kích thước sản phẩm</li>
                     </ol>
                 </section>
 
                 <!-- Main content -->
                 <section class="content">
                     <div class="row justify-content-center justify-content-xl-center">
-                        <div class="col-xl-8 d-flex content-top justify-content-between row">
-                            <div class="col-xl-2">
-                                <a class="btn btn-primary" href="<c:url value='/add_product'/>" role="button">Thêm sản phẩm</a>
-                            </div>
-                            <form action="<c:url value='/list_product'/>" method="get" class="sidebar-form col-xl-9">
-                                <div class="input-group">
-                                    <input type="text" name="search_description" class="form-control" placeholder="Tìm kiếm sản phẩm" value="${requestScope.search_description}">
-                                </div>
-                                <div class="row d-flex justify-content-start align-items-center">
-                                    <div class="col-xl-3 search_option">
-                                        Sắp Xếp Theo Giá:
-                                    </div>
-                                    <div class="input-group col-xl-2 d-flex justify-content-start align-items-center">
-                                        <label  class="search_option label" for="radio_sort1">Không</label>
-                                        <input type="radio" name = "sort_by" id="radio_sort1" value="none" ${(requestScope.sort_by == "none")?"checked":""}>
-                                    </div>
-                                    <div class="input-group col-xl-2 d-flex justify-content-start align-items-center">
-                                        <label class="search_option label" for="radio_sort2">Tăng dần</label>
-                                        <input type="radio" name = "sort_by" id="radio_sort2" value="asc" ${(requestScope.sort_by == "asc")?"checked":""}>
-                                    </div>
-                                    <div class="input-group col-xl-2 d-flex justify-content-start align-items-center">
-                                        <label class="search_option label" for="radio_sort3">Giảm dần</label>
-                                        <input type="radio" name = "sort_by" id="radio_sort3" value="desc" ${(requestScope.sort_by == "desc")?"checked":""}>
-                                    </div>
-                                    <div class="input-group-btn col-xl-2">
-                                        <button type="submit" id="search-btn" class="btn btn-flat search_option" style="background-color: #3c8dbc; color: #fff; width: 100%">Tìm Kiếm</button>
-                                    </div>
-                                </div>
-                            </form>
+                        <div class="col-xl-6 d-flex content-top justify-content-between">
+                            <a class="btn btn-primary" href="<c:url value='/admin-add-size'/>" role="button">Thêm kích thước sản phẩm</a>
                         </div>
-                        <div class="col-xl-12 ">
+                        <div class="col-xl-12">
                             <!-- table -->
-                            <table class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">ID</th>
-                                        <th scope="col">Loại Sản Phẩm</th>
-                                        <th scope="col">Tên</th>
-                                        <th scope="col">Mô Tả</th>
-                                        <th scope="col">Giá</th>
-                                        <th scope="col">Sửa</th>
-                                        <th scope="col">Xóa</th>
+                            <c:set var="sizes" value="${requestScope.sizes}" />
+                            <table class="my-table row no-gutters">
+                                <thead class="col-12">
+                                    <tr class="row">
+                                        <th class="col-2" scope="col">Mã</th>
+                                        <th class="col-6" scope="col">Tên</th>
+                                        <th class="col-2 text-center" scope="col">Sửa</th>
+                                        <th class="col-2 text-center" scope="col">Xóa</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <c:forEach items="${requestScope.products}" var="product">
-                                        <tr>
-                                            <th scope="row">${product.id}</th>
-                                            <td>${product.category.name}</td>
-                                            <td>${product.name}</td>
-                                            <td>${product.description}</td>
-                                            <td>${product.price}</td>
-                                            <td><a href="<c:url value='/update_product?id=${product.id}&category_id=${product.category.id}&name=${product.name}&description=${product.description}&price=${product.price}'/>"><i class="fa-regular fa-pen-to-square"></i></a></td>
-                                            <td><a href="#" onclick="deleteProduct(${product.id})"><i class="fa-solid fa-trash"></i></a></td>
+                                <tbody class="col-12">
+                                    <c:forEach items="${sizes}" var="size">
+                                        <tr class="row">
+                                            <th class="col-2" scope="row">${size.id}</th>
+                                            <td class="col-6">${size.name}</td>
+                                            <td class="col-2 text-center"><a href="<c:url value='/admin-update-size?id=${size.id}&name=${size.name}'/>"><i class="fa-regular fa-pen-to-square"></i></a></td>
+                                            <td class="col-2 text-center"><a href="#" onclick="deleteFunc(${size.id})"><i class="fa-solid fa-trash"></i></a></td>
                                         </tr>
                                     </c:forEach>
                                 </tbody>
@@ -145,7 +112,7 @@
                             <ul class="pagination">
                                 <c:set var="page" value="${requestScope.page}"/>
                                 <c:forEach begin="${1}" end="${requestScope.totalPages}" var="i">
-                                    <li class="page-item ${(i==page)?"active":""}"><a class="page-link" href="list_product?page=${i}&search_description=${search_description}&sort_by=${sort_by}">${i}</a></li>
+                                    <li class="page-item ${(i==page)?"active":""}"><a class="page-link" href="admin-list-size?page=${i}">${i}</a></li>
                                 </c:forEach>
                             </ul>
                         </div>
@@ -220,21 +187,29 @@
         <script src="<c:url value='/template/admin/dist/js/demo.js'/>" type="text/javascript"></script>
 
         <script type="text/javascript">
-            function deleteProduct(id) {
-                if (confirm('Bạn sẽ đồng thời xóa những ảnh thuộc sản phẩm này?')) {
-                    window.location = 'delete_product?id=' + id;
+            function deleteFunc(id) {
+                if (confirm('Bạn sẽ đồng thời xóa các sản phẩm có kích thước này!!!')) {
+                    window.location = 'admin-delete-size?id=' + id;
                 }
             }
-            
-            var added = "${requestScope.added}";
             var updated = "${requestScope.updated}";
+            var added = "${requestScope.added}";
             var deleted = "${requestScope.deleted}";
-            if (added !== ""){
-                alert(added);
-            } else if (updated !== ""){
+            var deleteError = "${requestScope.deleteError}";
+            var addError = "${requestScope.addError}";
+            var updateError = "${requestScope.updateError}";
+            if(updated !== "") {
                 alert(updated);
-            } else if (deleted !== ""){
+            } else if (added !== "") {
+                alert(added);
+            } else if (deleted !== "") {
                 alert(deleted);
+            } else if (deleteError !== "") {
+                alert(deleteError);
+            } else if (addError !== ""){
+                alert(addError)
+            } else if (updateError !== ""){
+                alert(updateError)
             }
         </script>
     </body>
