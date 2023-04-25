@@ -47,7 +47,7 @@
 
         <!-- Variable Start -->
         <c:set var="categories" value="${requestScope.categories}"/>
-        <c:set var="orders" value="${requestScope.orders}"/>
+        <c:set var="order" value="${requestScope.order}"/>
         <c:set var="user" value="${sessionScope.user}"/>
         <!-- Variable End -->
 
@@ -147,48 +147,47 @@
             <!-- Navbar End -->
         </header>
         <!-- Header End -->
-
         <!-- Content Start -->
         <section class="content">
             <div class="container">
                 <div class="row flex-column">
-                    <h1 class="col-lg-12 text-center">Danh Sách Đơn Hàng</h1>
+                    <h1 class="col-lg-12 text-center">Chi Tiết Đơn Hàng (Mã - ${order.id}) ${order.status.name}</h1>
                     <div class="col-12">
                         <table class="table table-striped table-dark">
                             <thead>
                                 <tr>
-                                    <th scope="col">Mã Hóa Đơn Hàng</th>
-                                    <th scope="col">Tên</th>
-                                    <th scope="col">Số Điện Thoại</th>
-                                    <th scope="col">Ngày Đặt</th>
-                                    <th scope="col">Tổng Tiền</th>
-                                    <th scope="col">Trạng thái</th>
+                                    <th scope="col">Tên Sản Phẩm</th>
+                                    <th scope="col">Kích Thước</th>
+                                    <th scope="col">Số Lượng</th>
+                                    <th scope="col">Giá</th>
+                                    <th scope="col">Thành Tiền</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <c:forEach var="order" items="${orders}">
-                                    <tr class="data-href" onclick="window.location = 'user_list_order_details?order_id=${order.id}'">
-                                        <th>${order.id}</th>
-                                        <th>${order.fullname}</th>
-                                        <td>${order.phoneNumber}</td>
-                                        <td>${order.orderDate}</td>
-                                        <td><fmt:formatNumber type = "number" maxFractionDigits = "3" value = "${order.totalMoney}" /> VNĐ</td>
-                                        <td>${order.status.name}</td>
+                                <c:forEach var="orderDetail" items="${order.orderDetails}">
+                                    <tr class="data-href">
+                                        <th>${orderDetail.inventory.product.name}</th>
+                                        <td>${orderDetail.inventory.size.name}</td>
+                                        <td>${orderDetail.quantity}</td>
+                                        <td><fmt:formatNumber type = "number" maxFractionDigits = "3" value = "${orderDetail.price}" /> VNĐ</td>
+                                        <td><fmt:formatNumber type = "number" maxFractionDigits = "3" value = "${(orderDetail.quantity*orderDetail.price)}" /> VNĐ</td>
                                     </tr>
                                 </c:forEach>
+                                <tr class="data-href">
+                                    <th></th>
+                                    <td></td>
+                                    <td></td>
+                                    <td>Tổng Tiền: </td>
+                                    <td><fmt:formatNumber type = "number" maxFractionDigits = "3" value = "${order.totalMoney}" /> VNĐ</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
-                    <div class="col-12">
-                        <nav>
-                            <ul class="pagination justify-content-center">
-                                <c:set var="page" value="${requestScope.page}"/>
-                                <c:forEach begin="${1}" end="${requestScope.totalPages}" var="i">
-                                    <li class="page-item ${(i==page)?"active":""}"><a class="page-link" href="user_list_order?page=${i}">${i}</a></li>
-                                    </c:forEach>
-                            </ul>
-                        </nav>
-                    </div>
+                    <c:if test="${(order.status.id) == 1}">
+                        <div class="col-12 row justify-content-end">
+                            <a href="user_cancel_order?order_id=${order.id}" class="cancel-order btn btn-primary">Hủy Đơn Hàng</a>
+                        </div>
+                    </c:if>
                 </div>
 
             </div>

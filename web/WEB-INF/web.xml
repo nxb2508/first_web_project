@@ -203,6 +203,14 @@
         <servlet-name>UserOrderList</servlet-name>
         <servlet-class>controller.user.UserOrderList</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UserListOrderDetails</servlet-name>
+        <servlet-class>controller.user.UserListOrderDetails</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UserCancelOrder</servlet-name>
+        <servlet-class>controller.user.UserCancelOrder</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ListCategory</servlet-name>
         <url-pattern>/list_category</url-pattern>
@@ -366,6 +374,14 @@
     <servlet-mapping>
         <servlet-name>UserOrderList</servlet-name>
         <url-pattern>/user_list_order</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserListOrderDetails</servlet-name>
+        <url-pattern>/user_list_order_details</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserCancelOrder</servlet-name>
+        <url-pattern>/user_cancel_order</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -99,7 +99,11 @@ public class OrderDAO extends ConnectDB {
                 order.setStatus(new StatusDAO().getStatusById(rs.getInt("status_id")));
                 order.setOrderDate(rs.getDate("order_date"));
                 order.setTotalMoney(rs.getInt("total_money"));
-                order.setOrderDetails(new OrderDetailDAO().getOrderDetailsByOrderId(order));
+                List<OrderDetailModel> listOrderDetails = new OrderDetailDAO().getOrderDetailsByOrderId(rs.getInt("id"));
+//                for(OrderDetailModel orderDetail : listOrderDetails){
+//                    orderDetail.setOrder(order);
+//                }
+                order.setOrderDetails(listOrderDetails);
             }
         } catch (SQLException e) {
         }
@@ -125,7 +129,8 @@ public class OrderDAO extends ConnectDB {
                 order.setStatus(new StatusDAO().getStatusById(rs.getInt("status_id")));
                 order.setOrderDate(rs.getDate("order_date"));
                 order.setTotalMoney(rs.getInt("total_money"));
-                order.setOrderDetails(new OrderDetailDAO().getOrderDetailsByOrderId(order));
+                List<OrderDetailModel> listOrderDetails = new OrderDetailDAO().getOrderDetailsByOrderId(rs.getInt("id"));
+                order.setOrderDetails(listOrderDetails);
                 listOrder.add(order);
             }
         } catch (SQLException e) {
@@ -142,10 +147,27 @@ public class OrderDAO extends ConnectDB {
         return listOrder;
     }
     
+    //huy dono hang
+    
+    public int cancelOrderByOrderId(int orderId){
+        int result = 0;
+        String sql = "update orders set status_id = ? where id = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, 4);
+            statement.setInt(2, orderId);
+            result = statement.executeUpdate();
+        } catch (SQLException e) {
+        }
+        return result;
+    }
+    
     public static void main(String[] args) {
         OrderModel order = new OrderDAO().getOrderById(1);
-        UserModel user = new UserDAO().getUserById(1);
-        System.out.println(new  OrderDAO().listOrderByUser(user).size());
+        System.out.println(order.getFullname());
+//        UserModel user = new UserDAO().getUserById(2);
+//        System.out.println(user.getEmail());
+//        System.out.println(new  OrderDAO().listOrderByUserId(2).size());
     }
     
 }

@@ -37,3 +37,21 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 .total-items {
     border-bottom: 1px solid #001f3f;
 }
+
+.content .data-href {
+    cursor: pointer;
+}
+
+.table-dark.table-striped tbody tr:nth-of-type(odd):hover{
+    background-color: #fff;
+    color: #232323;
+}
+
+.content .data-href:hover {
+    background-color: #fff;
+    color: #232323;
+}
+
+.cancel-order {
+    margin-right: -15px;
+}

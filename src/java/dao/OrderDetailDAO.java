@@ -35,17 +35,16 @@ public class OrderDetailDAO extends ConnectDB{
     }
     
     //lay danh sach san phan trong mot hoa don
-    public List<OrderDetailModel> getOrderDetailsByOrderId(OrderModel order){
+    public List<OrderDetailModel> getOrderDetailsByOrderId(int orderId){
         List<OrderDetailModel> orderDetails = new ArrayList<>();
         String sql = "select * from order_details where order_id = ?";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1, order.getId());
+            statement.setInt(1, orderId);
             ResultSet rs = statement.executeQuery();
             while(rs.next()){
                 OrderDetailModel orderDetail = new OrderDetailModel();
                 orderDetail.setId(rs.getInt("id"));
-                orderDetail.setOrder(order);
                 orderDetail.setInventory(new InventoryDAO().getInventoryById(rs.getInt("inventory_id")));
                 orderDetail.setPrice(rs.getInt("price"));
                 orderDetail.setQuantity(rs.getInt("quantity"));
@@ -58,7 +57,7 @@ public class OrderDetailDAO extends ConnectDB{
     
     public static void main(String[] args) {
         OrderModel order = new OrderDAO().getOrderById(1);
-        List<OrderDetailModel> orderDetails = new OrderDetailDAO().getOrderDetailsByOrderId(order);
+        List<OrderDetailModel> orderDetails = new OrderDetailDAO().getOrderDetailsByOrderId(1);
         System.out.println(orderDetails.get(1).getInventory().getProduct().getName());
     }
     
