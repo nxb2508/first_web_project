@@ -18,7 +18,7 @@ import model.StatusModel;
 public class StatusDAO extends ConnectDB{
     
     // lay toan bo status
-    public List<StatusModel> getAllStatuss() {
+    public List<StatusModel> getAllStatuses() {
         List<StatusModel> statuses = new ArrayList<>();
         String sql = "select * from statuses";
         try {

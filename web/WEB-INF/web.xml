@@ -211,6 +211,14 @@
         <servlet-name>UserCancelOrder</servlet-name>
         <servlet-class>controller.user.UserCancelOrder</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UpdateOrderStatus</servlet-name>
+        <servlet-class>controller.admin.UpdateOrderStatus</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ListOrderDetails</servlet-name>
+        <servlet-class>controller.admin.ListOrderDetails</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ListCategory</servlet-name>
         <url-pattern>/list_category</url-pattern>
@@ -382,6 +390,14 @@
     <servlet-mapping>
         <servlet-name>UserCancelOrder</servlet-name>
         <url-pattern>/user_cancel_order</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateOrderStatus</servlet-name>
+        <url-pattern>/admin-update-order-status</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ListOrderDetails</servlet-name>
+        <url-pattern>/admin-list-order-details</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

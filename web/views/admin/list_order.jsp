@@ -2,6 +2,8 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 
@@ -68,11 +70,11 @@
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
                     <h1>
-                        Quản lý sản phẩm trong kho
+                        Quản lý đơn hàng
                     </h1>
                     <ol class="breadcrumb">
                         <li><a href="<c:url value='/admin_home'/>"><i class="fa fa-dashboard"></i> Trang chủ</a></li>
-                        <li class="active">Quản lý sản phẩm trong kho</li>
+                        <li class="active">Quản lý đơn hàng</li>
                     </ol>
                 </section>
 
@@ -80,15 +82,11 @@
                 <section class="content">
                     <div class="row justify-content-center justify-content-xl-center">
                         <div class="col-xl-8 d-flex content-top justify-content-between row">
-                            <div class="col-xl-2 col-md-2">
-                                <a class="btn btn-primary" href="<c:url value='/admin-add-inventory'/>" role="button">Thêm sản phẩm trong kho</a>
-                            </div>
-
                             <!-- Tìm Kiếm  -->
-                            <form action="<c:url value='/admin-list-inventory'/>" method="get" class="sidebar-form col-xl-8 col-md-4">
+                            <form action="<c:url value='/admin-list-order'/>" method="get" class="sidebar-form col-xl-8 col-md-4">
                                 <div class="input-group row d-flex justify-content-start align-items-center">
                                     <div class="col-xl-9">
-                                        <input type="text" name="product_name" class="form-control" placeholder="Tìm kiếm sản phẩm trong kho" value="${requestScope.product_name}">
+                                        <input type="text" name="key" class="form-control" placeholder="Tìm kiếm đơn hàng" value="${requestScope.key}">
                                     </div>
                                     <div class="input-group-btn col-xl-3">
                                         <button type="submit" id="search-btn" class="btn btn-flat" style="background-color: #3c8dbc; color: #fff; width: 100%">Tìm Kiếm</button>
@@ -99,39 +97,38 @@
                         </div>
                         <div class="col-xl-12 ">
                             <!-- table -->
-                            <table class="table table-bordered inventory">
+                            <table class="table table-bordered">
                                 <thead>
                                     <tr>
-                                        <th scope="col">ID</th>
-                                        <th scope="col">Sản Phẩm</th>
-                                        <th scope="col">Kích thước</th>
-                                        <th scope="col">Số lượng còn lại</th>
-                                        <th scope="col">Cập nhật</th>
-                                        <th scope="col">Xóa</th>
+                                        <th scope="col">Mã Hóa Đơn Hàng</th>
+                                        <th scope="col">Tên</th>
+                                        <th scope="col">Số Điện Thoại</th>
+                                        <th scope="col">Ngày Đặt</th>
+                                        <th scope="col">Tổng Tiền</th>
+                                        <th scope="col">Trạng thái</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <c:forEach items="${requestScope.inventories}" var="inventory">
-                                        <tr>
-                                            <th scope="row">${inventory.id}</th>
-                                            <td><img class="thumbnail mr-3" src="/ttcs/assets/images/${inventory.product.galeries[0].thumbnail}" alt="">${inventory.product.name}</td>
-                                            <td>${inventory.size.name}</td>
-                                            <td>${inventory.quantity}</td>
-                                            <td><a href="<c:url value='/admin-update-inventory?id=${inventory.id}'/>"><i class="fa-regular fa-pen-to-square"></i></a></td>
-                                            <td><a href="#" onclick="deleteF(${inventory.id})"><i class="fa-solid fa-trash"></i></a></td>
+                                    <c:forEach var="order" items="${orders}">
+                                        <tr class="data-href" onclick="window.location = 'admin-update-order-status?order_id=${order.id}'">
+                                            <th>${order.id}</th>
+                                            <th>${order.fullname}</th>
+                                            <td>${order.phoneNumber}</td>
+                                            <td>${order.orderDate}</td>
+                                            <td><fmt:formatNumber type = "number" maxFractionDigits = "3" value = "${order.totalMoney}" /> VNĐ</td>
+                                            <td>${order.status.name}</td>
                                         </tr>
                                     </c:forEach>
                                 </tbody>
                             </table>
-
                             <!-- end table -->
                         </div><!-- /.col -->
                         <div class="col-xl-12 d-flex justify-content-center">
                             <ul class="pagination">
                                 <c:set var="page" value="${requestScope.page}"/>
                                 <c:forEach begin="${1}" end="${requestScope.totalPages}" var="i">
-                                    <li class="page-item ${(i==page)?"active":""}"><a class="page-link" href="admin-list-inventory?page=${i}&product_name=${product_name}">${i}</a></li>
-                                    </c:forEach>
+                                    <li class="page-item ${(i==page)?"active":""}"><a class="page-link" href="admin-list-order?page=${i}&key=${param.key}">${i}</a></li>
+                                </c:forEach>
                             </ul>
                         </div>
                     </div><!-- /.row -->
@@ -154,7 +151,7 @@
         <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.min.js" type="text/javascript"></script>
         <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
         <script>
-                                                $.widget.bridge('uibutton', $.ui.button);
+                                            $.widget.bridge('uibutton', $.ui.button);
         </script>
         <!-- Bootstrap 3.3.2 JS -->
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js"></script>
@@ -205,28 +202,13 @@
         <script src="<c:url value='/template/admin/dist/js/demo.js'/>" type="text/javascript"></script>
 
         <script type="text/javascript">
-            function deleteF(id) {
-                if (confirm('Xóa sản phẩm trong kho?')) {
-                    window.location = 'admin-delete-inventory?id=' + id;
-                }
-            }
-
-            var added = "${requestScope.added}";
-            var updated = "${requestScope.updated}";
-            var deleted = "${requestScope.deleted}";
-            var deleteError = "${requestScope.deleteError}";
-            var updateError = "${requestScope.updateError}";
-            if (added !== "") {
-                alert(added);
-            } else if (updated !== "") {
-                alert(updated);
-            } else if (deleted !== "") {
-                alert(deleted);
-            } else if (deleteError !== "") {
-                alert(deleteError);
-            } else if (updateError !== "") {
-                alert(updateError);
-            }
+                                            var success = "${requestScope.success}";
+                                            var error = "${requestScope.error}";
+                                            if (success !== "") {
+                                                alert(success);
+                                            } else if (error !== "") {
+                                                alert(error);
+                                            }
         </script>
     </body>
 

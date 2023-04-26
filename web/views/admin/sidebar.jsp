@@ -30,6 +30,9 @@
         <div class="sidebar-menu">
             <a href="<c:url value='/admin-list-inventory'/>">Quản lý sản phẩm trong kho</a>
         </div>
+        <div class="sidebar-menu">
+            <a href="<c:url value='/admin-list-order'/>">Quản lý đơn hàng</a>
+        </div>
     </section>
     <!-- /.sidebar -->
 </aside>

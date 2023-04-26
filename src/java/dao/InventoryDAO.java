@@ -50,7 +50,7 @@ public class InventoryDAO extends ConnectDB {
 
     //them so luong san pham vao trong kho
     public int addInventory(InventoryModel inventory) {
-        String sql = "insert into inventories (product_id, size_id, quantity, solds) values (?, ?, ?, ?)";
+        String sql = "insert into inventories (product_id, size_id, quantity) values (?, ?, ?)";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, inventory.getProduct().getId());
@@ -86,7 +86,7 @@ public class InventoryDAO extends ConnectDB {
     //tim san pham trong kho theo ten
     public List<InventoryModel> searchInventoryByName(String productName) {
         List<InventoryModel> inventories = new ArrayList<>();
-        String sql = "select i.id as id, i.product_id as product_id, i.size_id as size_id, i.quantity as quantity, i.solds as solds\n"
+        String sql = "select i.id as id, i.product_id as product_id, i.size_id as size_id, i.quantity as quantity\n"
                 + "from inventories as i\n"
                 + "join products as p\n"
                 + "on i.product_id = p.id\n"

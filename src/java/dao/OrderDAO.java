@@ -110,6 +110,7 @@ public class OrderDAO extends ConnectDB {
         return order;
     }
     
+    
     //lay toan boo order cua user
     public List<OrderModel> listOrderByUser(UserModel user){
         List<OrderModel> listOrder = new ArrayList<>();
@@ -117,6 +118,69 @@ public class OrderDAO extends ConnectDB {
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, user.getId());
+            ResultSet rs = statement.executeQuery();
+            while(rs.next()){
+                OrderModel order = new OrderModel();
+                order.setId(rs.getInt("id"));
+                order.setUser(new UserDAO().getUserById(rs.getInt("user_id")));
+                order.setFullname(rs.getString("fullname"));
+                order.setPhoneNumber(rs.getString("phone_number"));
+                order.setAddress(rs.getString("address"));
+                order.setNote(rs.getString("note"));
+                order.setStatus(new StatusDAO().getStatusById(rs.getInt("status_id")));
+                order.setOrderDate(rs.getDate("order_date"));
+                order.setTotalMoney(rs.getInt("total_money"));
+                List<OrderDetailModel> listOrderDetails = new OrderDetailDAO().getOrderDetailsByOrderId(rs.getInt("id"));
+                order.setOrderDetails(listOrderDetails);
+                listOrder.add(order);
+            }
+        } catch (SQLException e) {
+        }
+        return listOrder;
+    }
+    
+    //lay toan bo san pham
+    public List<OrderModel> getAllOrder(){
+        List<OrderModel> listOrder = new ArrayList<>();
+        String sql = "select * from orders";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            ResultSet rs = statement.executeQuery();
+            while(rs.next()){
+                OrderModel order = new OrderModel();
+                order.setId(rs.getInt("id"));
+                order.setUser(new UserDAO().getUserById(rs.getInt("user_id")));
+                order.setFullname(rs.getString("fullname"));
+                order.setPhoneNumber(rs.getString("phone_number"));
+                order.setAddress(rs.getString("address"));
+                order.setNote(rs.getString("note"));
+                order.setStatus(new StatusDAO().getStatusById(rs.getInt("status_id")));
+                order.setOrderDate(rs.getDate("order_date"));
+                order.setTotalMoney(rs.getInt("total_money"));
+                List<OrderDetailModel> listOrderDetails = new OrderDetailDAO().getOrderDetailsByOrderId(rs.getInt("id"));
+                order.setOrderDetails(listOrderDetails);
+                listOrder.add(order);
+            }
+        } catch (SQLException e) {
+        }
+        return listOrder;
+    }
+    
+    //tim kiem theo nhieu tieu chi
+    public List<OrderModel> searchOrderByKey(String key){
+        List<OrderModel> listOrder = new ArrayList<>();
+        String sql = "select o.id as id, o.user_id as user_id, "
+                + " o.fullname as fullname, o.phone_number as phone_number,"
+                + " o.address as address, o.note as note, o.status_id as status_id, o.order_date as order_date,"
+                + " o.total_money as total_money "
+                + " from orders as o"
+                + " join statuses as s"
+                + " on o.status_id = s.id"
+                + " where o.fullname COLLATE Latin1_general_CI_AI like '%"+ key +"%' COLLATE Latin1_general_CI_AI "
+                + " or o.phone_number COLLATE Latin1_general_CI_AI like '%"+ key +"%' COLLATE Latin1_general_CI_AI "
+                + " or s.name COLLATE Latin1_general_CI_AI like '%"+ key +"%' COLLATE Latin1_general_CI_AI ";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet rs = statement.executeQuery();
             while(rs.next()){
                 OrderModel order = new OrderModel();
@@ -155,6 +219,21 @@ public class OrderDAO extends ConnectDB {
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setInt(1, 4);
+            statement.setInt(2, orderId);
+            result = statement.executeUpdate();
+        } catch (SQLException e) {
+        }
+        return result;
+    }
+    
+        //cap nhat trang thai don hang
+    
+    public int updateOrderStatus(int orderId, int statusId){
+        int result = 0;
+        String sql = "update orders set status_id = ? where id = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setInt(1, statusId);
             statement.setInt(2, orderId);
             result = statement.executeUpdate();
         } catch (SQLException e) {
